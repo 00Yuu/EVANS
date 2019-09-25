@@ -26,10 +26,7 @@ class EVANSLAT1 extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['TES1', 'TES2'], 'required'],
-            [['TES1'], 'string', 'max' => 20],
-            [['TES2'], 'string', 'max' => 50],
-            [['TES1'], 'unique'],
+        
         ];
     }
 
@@ -39,6 +36,7 @@ class EVANSLAT1 extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'PK' => 'PK',
             'TES1' => 'Tes1',
             'TES2' => 'Tes2',
         ];

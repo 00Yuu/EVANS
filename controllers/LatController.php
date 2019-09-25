@@ -35,12 +35,12 @@ class LatController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => EVANSLAT1::find(),
-        ]);
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => EVANSLAT1::find(),
+        // ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            // 'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -64,11 +64,25 @@ class LatController extends Controller
      */
     public function actionCreate()
     {
+
         $model = new EVANSLAT1();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->TES1]);
-        }
+        if($model->load(Yii::$app->request->post())){
+            
+            // echo "<br><br><br><br><br><br><br><br>";
+
+            // var_dump(Yii::$app->request->post());
+            // var_dump($model);
+            
+            
+            $model->TES1 = Yii::$app->request->post('EVANSLAT1')['TES1'];
+
+            $model->PK = '3';
+
+            // var_dump($model);
+
+            $model->save();
+        }   
 
         return $this->render('create', [
             'model' => $model,
