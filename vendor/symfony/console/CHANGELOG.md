@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+4.4.0
+-----
+
+ * added `Question::setTrimmable` default to true to allow the answer to be trimmed
+ * added method `preventRedrawFasterThan()` and `forceRedrawSlowerThan()` on `ProgressBar`
+ * `Application` implements `ResetInterface`
+ * marked all dispatched event classes as `@final`
+ * added support for displaying table horizontally
+
 4.3.0
 -----
 
@@ -32,7 +41,7 @@ CHANGELOG
 
  * `OutputFormatter` throws an exception when unknown options are used
  * removed `QuestionHelper::setInputStream()/getInputStream()`
- * removed `Application::getTerminalWidth()/getTerminalHeight()` and 
+ * removed `Application::getTerminalWidth()/getTerminalHeight()` and
   `Application::setTerminalDimensions()/getTerminalDimensions()`
 * removed `ConsoleExceptionEvent`
 * removed `ConsoleEvents::EXCEPTION`

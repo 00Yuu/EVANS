@@ -150,7 +150,7 @@ class Command
      * execute() method, you set the code to execute by passing
      * a Closure to the setCode() method.
      *
-     * @return int|null null or 0 if everything went fine, or an error code
+     * @return int|void void or 0 if everything went fine, or an exit code
      *
      * @throws LogicException When this abstract method is not implemented
      *
@@ -445,14 +445,10 @@ class Command
     /**
      * Returns the command name.
      *
-     * @return string The command name
+     * @return string|null
      */
     public function getName()
     {
-        if (!$this->name) {
-            throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name.', \get_class($this)));
-        }
-
         return $this->name;
     }
 

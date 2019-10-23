@@ -34,12 +34,7 @@ class Inline
     private static $objectForMap = false;
     private static $constantSupport = false;
 
-    /**
-     * @param int         $flags
-     * @param int|null    $parsedLineNumber
-     * @param string|null $parsedFilename
-     */
-    public static function initialize($flags, $parsedLineNumber = null, $parsedFilename = null)
+    public static function initialize(int $flags, int $parsedLineNumber = null, string $parsedFilename = null)
     {
         self::$exceptionOnInvalidType = (bool) (Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE & $flags);
         self::$objectSupport = (bool) (Yaml::PARSE_OBJECT & $flags);
@@ -129,7 +124,7 @@ class Inline
                     throw new DumpException(sprintf('Unable to dump PHP resources in a YAML file ("%s").', get_resource_type($value)));
                 }
 
-                return 'null';
+                return self::dumpNull($flags);
             case $value instanceof \DateTimeInterface:
                 return $value->format('c');
             case \is_object($value):
@@ -155,11 +150,11 @@ class Inline
                     throw new DumpException('Object support when dumping a YAML file has been disabled.');
                 }
 
-                return 'null';
+                return self::dumpNull($flags);
             case \is_array($value):
                 return self::dumpArray($value, $flags);
             case null === $value:
-                return 'null';
+                return self::dumpNull($flags);
             case true === $value:
                 return 'true';
             case false === $value:
@@ -254,6 +249,15 @@ class Inline
         }
 
         return sprintf('{ %s }', implode(', ', $output));
+    }
+
+    private static function dumpNull(int $flags): string
+    {
+        if (Yaml::DUMP_NULL_AS_TILDE & $flags) {
+            return '~';
+        }
+
+        return 'null';
     }
 
     /**
@@ -670,7 +674,7 @@ class Inline
         $nextOffset += strspn($value, ' ', $nextOffset);
 
         // Is followed by a scalar and is a built-in tag
-        if ($tag && (!isset($value[$nextOffset]) || !\in_array($value[$nextOffset], ['[', '{'], true)) && ('!' === $tag[0] || 'str' === $tag || 'php/const' === $tag || 'php/object' === $tag)) {
+        if ('' !== $tag && (!isset($value[$nextOffset]) || !\in_array($value[$nextOffset], ['[', '{'], true)) && ('!' === $tag[0] || 'str' === $tag || 'php/const' === $tag || 'php/object' === $tag)) {
             // Manage in {@link self::evaluateScalar()}
             return null;
         }
@@ -678,8 +682,12 @@ class Inline
         $i = $nextOffset;
 
         // Built-in tags
-        if ($tag && '!' === $tag[0]) {
+        if ('' !== $tag && '!' === $tag[0]) {
             throw new ParseException(sprintf('The built-in tag "!%s" is not implemented.', $tag), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
+        }
+
+        if ('' !== $tag && !isset($value[$i])) {
+            throw new ParseException(sprintf('Missing value for tag "%s".', $tag), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
         }
 
         if ('' === $tag || Yaml::PARSE_CUSTOM_TAGS & $flags) {

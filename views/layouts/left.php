@@ -7,15 +7,10 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Home','icon' => 'home','url' => ['/site/index']],            
-                    ['label' => 'Form Proker','url' =>['/lat']],
-                    
-                    [
-                        'label' => 'Setup Master',
-                        'items' => [
-                            
-                        ],
-                    ],
-                    
+                    ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/lat']],
+                    ['label' => 'Proposal','icon' => 'clipboard','url' =>['/lat']],
+                    ['label' => 'LPK','icon' => 'clipboard','url' =>['/lat']],
+                    ['label' => 'LPJ','icon' => 'clipboard','url' =>['/lat']],
                     [
                         'label' => 'Some tools',
                         'icon' => 'share',
