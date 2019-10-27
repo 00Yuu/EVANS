@@ -458,7 +458,7 @@
         },
         "time": "2019-06-28T10:41:23+00:00",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "GPL-2.0+",
@@ -1456,7 +1456,7 @@
                 "dev-master": "4.x-dev"
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "psr-4": {
                 "phpDocumentor\\Reflection\\": [
