@@ -36,14 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'PERIODE',
                             'label' => 'Periode'
                         ],
-                        [
-                            'attribute' => 'START_DATE',
-                            'label' => 'Start Date'
-                        ],
-                        [
-                            'attribute' => 'END_DATE',
-                            'label' => 'End Date'
-                        ],
+                        'START_DATE:date',
+                        'END_DATE:date',
                         [
                             'format' => 'raw',
                             'header' => 'Status',

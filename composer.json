@@ -22,7 +22,8 @@
         "2amigos/yii2-ckeditor-widget": "^1.0@dev",
         "2amigos/yii2-tinymce-widget": "~1.1",
         "dmstr/yii2-adminlte-asset": "^2.1",
-        "2amigos/yii2-date-picker-widget": "~1.0"
+        "2amigos/yii2-date-picker-widget": "~1.0",
+        "marekpetras/yii2-calendarview-widget": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -41,6 +41,10 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'm' => 
+        array (
+            'marekpetras\\calendarview\\' => 25,
+        ),
         'd' => 
         array (
             'dosamigos\\tinymce\\' => 18,
@@ -153,6 +157,10 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'marekpetras\\calendarview\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/marekpetras/yii2-calendarview-widget',
         ),
         'dosamigos\\tinymce\\' => 
         array (

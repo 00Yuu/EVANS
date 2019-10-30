@@ -102,4 +102,13 @@ return array (
       '@dosamigos/datepicker' => $vendorDir . '/2amigos/yii2-date-picker-widget/src',
     ),
   ),
+  'marekpetras/yii2-calendarview-widget' => 
+  array (
+    'name' => 'marekpetras/yii2-calendarview-widget',
+    'version' => '1.0.1.0',
+    'alias' => 
+    array (
+      '@marekpetras/calendarview' => '/',
+    ),
+  ),
 );
