@@ -8,7 +8,7 @@
                 'items' => [
                     ['label' => 'Home','icon' => 'home','url' => ['/site/index']],            
                     ['label' => 'Master Tenggat Waktu','icon' => 'clipboard','url' => ['/master-tenggat-waktu']],
-                    ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/lat']],
+                    ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
                     ['label' => 'Proposal','icon' => 'clipboard','url' =>['/lat']],
                     ['label' => 'LPK','icon' => 'clipboard','url' =>['/lat']],
                     ['label' => 'LPJ','icon' => 'clipboard','url' =>['/lat']],
