@@ -6,7 +6,8 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Home','icon' => 'home','url' => ['/site/index']],            
+                    ['label' => 'Home','icon' => 'home','url' => ['/site/index']],    
+                    ['label' => 'Master Organisasi','icon' => 'clipboard','url' =>['/evans-master-jenis']],        
                     ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/lat']],
                     ['label' => 'Proposal','icon' => 'clipboard','url' =>['/lat']],
                     ['label' => 'LPK','icon' => 'clipboard','url' =>['/lat']],
