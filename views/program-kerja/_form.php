@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\datepicker\DatePicker;
-use kartik\select2\Select2;
+// use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProgramKerja */
@@ -59,16 +59,7 @@ $data = [
                     ]
                 ) ?>
 
-                    <?= $form->field($model, 'colorTags')->widget(Select2::classname(), [
-                        'data' => $data,
-                        'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
-                        'pluginOptions' => [
-                            'tags' => true,
-                            'tokenSeparators' => [',', ' '],
-                            'maximumInputLength' => 10
-                        ],
-                        ])->label('Tag Multiple');
-                    ?>
+                
 
                     <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(['maxlength' => true])->input('TUJUAN_KEGIATAN', ['placeholder' => "Tujuan Kegiatan"]) ?>
                 </div>

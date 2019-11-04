@@ -22,6 +22,10 @@ class BentukKegiatan extends \yii\db\ActiveRecord
         return 'EVANS_BENTUK_KEGIATAN_TBL';
     }
 
+    public static function primaryKey(){
+        return ['ID_PROKER', 'ID_BENTUK_KEGIATAN'];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -30,7 +34,6 @@ class BentukKegiatan extends \yii\db\ActiveRecord
         return [
             [['ID_PROKER', 'ID_BENTUK_KEGIATAN'], 'required'],
             [['ID_PROKER', 'ID_BENTUK_KEGIATAN'], 'string', 'max' => 5],
-            [['ID_BENTUK_KEGIATAN'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSMSTRBENTUKKEGIATANTBL::className(), 'targetAttribute' => ['ID_BENTUK_KEGIATAN' => 'ID_BENTUK_KEGIATAN']],
         ];
     }
 

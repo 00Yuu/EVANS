@@ -41,10 +41,9 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'k' => 
+        'm' => 
         array (
-            'kartik\\select2\\' => 15,
-            'kartik\\base\\' => 12,
+            'marekpetras\\calendarview\\' => 25,
         ),
         'd' => 
         array (
@@ -159,13 +158,9 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
-        'kartik\\select2\\' => 
+        'marekpetras\\calendarview\\' => 
         array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
-        ),
-        'kartik\\base\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
+            0 => __DIR__ . '/..' . '/marekpetras/yii2-calendarview-widget',
         ),
         'dosamigos\\tinymce\\' => 
         array (
