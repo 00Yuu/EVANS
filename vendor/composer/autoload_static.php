@@ -45,6 +45,11 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             'marekpetras\\calendarview\\' => 25,
         ),
+        'k' => 
+        array (
+            'kartik\\select2\\' => 15,
+            'kartik\\base\\' => 12,
+        ),
         'd' => 
         array (
             'dosamigos\\tinymce\\' => 18,
@@ -161,6 +166,14 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         'marekpetras\\calendarview\\' => 
         array (
             0 => __DIR__ . '/..' . '/marekpetras/yii2-calendarview-widget',
+        ),
+        'kartik\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
+        ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
         ),
         'dosamigos\\tinymce\\' => 
         array (
