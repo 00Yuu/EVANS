@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
@@ -41,9 +41,14 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'm' => 
+        array (
+            'marekpetras\\calendarview\\' => 25,
+        ),
         'd' => 
         array (
             'dosamigos\\tinymce\\' => 18,
+            'dosamigos\\datepicker\\' => 21,
             'dosamigos\\ckeditor\\' => 19,
             'dmstr\\' => 6,
         ),
@@ -153,9 +158,17 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
+        'marekpetras\\calendarview\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/marekpetras/yii2-calendarview-widget',
+        ),
         'dosamigos\\tinymce\\' => 
         array (
             0 => __DIR__ . '/..' . '/2amigos/yii2-tinymce-widget/src',
+        ),
+        'dosamigos\\datepicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-date-picker-widget/src',
         ),
         'dosamigos\\ckeditor\\' => 
         array (

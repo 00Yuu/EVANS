@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\EVANSMASTERJENISORGANISASI;
+use app\models\MasterPeriode;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * EvansMasterJenisController implements the CRUD actions for EVANSMASTERJENISORGANISASI model.
+ * MasterPeriodeController implements the CRUD actions for MasterPeriode model.
  */
-class EvansMasterJenisController extends Controller
+class MasterPeriodeController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,26 +30,20 @@ class EvansMasterJenisController extends Controller
     }
 
     /**
-     * Lists all EVANSMASTERJENISORGANISASI models.
+     * Lists all MasterPeriode models.
      * @return mixed
      */
     public function actionIndex()
     {
-       
 
-        $model = new EVANSMASTERJENISORGANISASI();
+        $model = new MasterPeriode();
 
-        if($model->load(Yii::$app->request->post()) && $model->validate()){
-            
-            $model->save();
-
-            Yii::$app->session->setFlash('success','Data Tersimpan');
-            
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => EVANSMASTERJENISORGANISASI::find(),
+            'query' => MasterPeriode::find(),
         ]);
 
         return $this->render('index', [
@@ -59,7 +53,7 @@ class EvansMasterJenisController extends Controller
     }
 
     /**
-     * Displays a single EVANSMASTERJENISORGANISASI model.
+     * Displays a single MasterPeriode model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -72,49 +66,59 @@ class EvansMasterJenisController extends Controller
     }
 
     /**
-     * Creates a new EVANSMASTERJENISORGANISASI model.
+     * Creates a new MasterPeriode model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new EVANSMASTERJENISORGANISASI();
+        // $model = new MasterPeriode();
 
-        if ($model->load(Yii::$app->request->post()) ) {
-            $model->JENIS_ORGANISASI= Yii::$app->request->post('EVANSMASTERJENISORGANISASI')['JENIS_ORGANISASI'];
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->ID_PERIODE]);
+        // }
 
-            $model->ID_JENIS= Yii::$app->request->post('EVANSMASTERJENISORGANISASI')['ID_JENIS'];
-
-            $model->save();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        // return $this->render('create', [
+        //     'model' => $model,
+        // ]);
     }
 
     /**
-     * Updates an existing EVANSMASTERJENISORGANISASI model.
+     * Updates an existing MasterPeriode model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
+        $arrayButton = Yii::$app->request->post('updateBtn');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_JENIS]);
+        foreach ($arrayButton as $key => $value) {
+            $id_periode = $key;
+        }
+        
+        $arrayStatus = Yii::$app->request->post('selectStatus');
+
+        foreach($arrayStatus as $key => $value){
+            if($key == $id_periode){
+                $statusUpdate =  $value;
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        $sql = "UPDATE EVANS_MASTER_PERIODE_TBL 
+                SET STATUS = :1 
+                WHERE ID_PERIODE = :2 ";
+
+        Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_periode])->execute();
+
+        Yii::$app->session->setFlash('success','Status Berhasil diubah');
+            
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**
-     * Deletes an existing EVANSMASTERJENISORGANISASI model.
+     * Deletes an existing MasterPeriode model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -128,15 +132,15 @@ class EvansMasterJenisController extends Controller
     }
 
     /**
-     * Finds the EVANSMASTERJENISORGANISASI model based on its primary key value.
+     * Finds the MasterPeriode model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return EVANSMASTERJENISORGANISASI the loaded model
+     * @return MasterPeriode the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = EVANSMASTERJENISORGANISASI::findOne($id)) !== null) {
+        if (($model = MasterPeriode::findOne($id)) !== null) {
             return $model;
         }
 
