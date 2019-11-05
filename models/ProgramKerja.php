@@ -43,7 +43,6 @@ class ProgramKerja extends \yii\db\ActiveRecord
             [['ID_PROKER', 'ID_RINCI', 'ID_TENGGAT_WAKTU'], 'string', 'max' => 5],
             [['BENTUK_PROKER', 'TINGKAT_KEGIATAN'], 'string', 'max' => 50],
             [['NAMA_KEGIATAN'], 'string', 'max' => 200],
-            [['START_DATE', 'END_DATE'], 'string', 'max' => 7],
             [['TEMPAT_PELAKSANAAN'], 'string', 'max' => 150],
             [['TUJUAN_KEGIATAN'], 'string', 'max' => 500],
             [['FEEDBACK'], 'string', 'max' => 4000],
