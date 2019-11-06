@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "EVANS_DAFTAR_ORGANISASI_TBL".
@@ -55,11 +56,9 @@ class MasterDaftarOrganisasi extends \yii\db\ActiveRecord
 
 
     public function dataOrganisasi(){
-        return[
-            1 => 'UKM/Organisasi',
-            2 => 'Himpunan',
-            3 => 'KPU'
-        ];
+        $sql = "SELECT * FROM EVANS_MSTR_JNS_ORGANISASI_TBL";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return ArrayHelper::map($result,'ID_JENIS','JENIS_ORGANISASI');
     }
 
     /**
@@ -78,16 +77,21 @@ class MasterDaftarOrganisasi extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getJENIS()
+    public function getMasterJenisOrganisasi()
     {
-        return $this->hasOne(EVANSMSTRJNSORGANISASITBL::className(), ['ID_JENIS' => 'ID_JENIS']);
+        return $this->hasOne(MasterJenisOrganisasi::className(), ['ID_JENIS' => 'ID_JENIS']);
+    }
+    
+    public function getMasterPengurusOrganisasi()
+    {
+        return $this->hasOne(MasterPengurusOrganisasi::className(), ['ID_ORGANISASI' => 'ID_ORGANISASI']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEVANSPENGURUSORGANISASITBLs()
-    {
-        return $this->hasMany(EVANSPENGURUSORGANISASITBL::className(), ['ID_ORGANISASI' => 'ID_ORGANISASI']);
-    }
+    // public function getEVANSPENGURUSORGANISASITBLs()
+    // {
+    //     return $this->hasMany(EVANSPENGURUSORGANISASITBL::className(), ['ID_ORGANISASI' => 'ID_ORGANISASI']);
+    // }
 }

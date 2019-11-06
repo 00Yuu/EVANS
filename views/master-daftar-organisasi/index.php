@@ -12,13 +12,24 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="master-daftar-organisasi-index">
 
-<div class="container" style="margin-left: 10%">
+<div class="container" style="margin-left: 1%">
         <div class="row">
             <div class="col-sm-6">
                 <h1 style="margin-bottom: 8%"><?= Html::encode($this->title) ?></h1>
+                <?php
+                    $form = ActiveForm::begin([
+                        'id' => 'daftar-update-form',
+                        'action' => ['master-daftar-organisasi/update'],
+                    ]);
+                 ?>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'summary' => '',
+                        'pager'        => [
+
+                            'class' => '\yii\widgets\LinkPager',
+                
+                        ],                
                         'tableOptions' => [
                             'class' => 'table table-bordered table-hover table-light',
                             'style' => 'background-color:white;'
@@ -27,14 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             
                             [
                                 'attribute' => 'ID_ORGANISASI',
-                                'label' => '#'
+                                'label' => 'id'
                             ],
                             [   
                                 'attribute' =>'NAMA_ORGANISASI',
                                 'label' => 'Nama Organisasi'
                             ],
                             [
-                                'attribute' => 'ID_JENIS',
+                                'attribute' => 'masterJenisOrganisasi.JENIS_ORGANISASI',
                                 'label' => 'Jenis Organisasi'
                             ],
                             [
@@ -57,10 +68,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $select;  
                                 }
                             ],
-                            // [   
-                            //     'attribute' =>'STATUS',
-                            //     'label' => 'Status'
-                            // ],
                             [
                                 'label' => 'Update',
                                 'format' => 'raw',
@@ -83,6 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], 
                         ],
                     ]); ?>
+                    <?php ActiveForm::end(); ?>
             </div>
 
         <div class="col-sm-6">

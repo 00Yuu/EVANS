@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
-use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MasterDaftarOrganisasi */
 
 $this->title = "List Organisasi";
-$this->params['breadcrumbs'][] = ['label' => 'Master Daftar Organisasis', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Master Daftar Organisasi', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -17,21 +17,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
-    <!-- <p>
-        ?= Html::a('Update', ['update', 'id' => $model->ID_ORGANISASI], ['class' => 'btn btn-primary']) ?>
-        ?= Html::a('Delete', ['delete', 'id' => $model->ID_ORGANISASI], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p> -->
+   
 
-    <div class="container" style="margin-left: 10%">
+    <div class="container" style="margin-left: 1%">
         <div class="row">
             <div class="col-sm-6">
                 <h1 style="margin-bottom: 8%"><?= Html::encode($this->title) ?></h1>
+                <?php
+                    $form = ActiveForm::begin([
+                        'id' => 'list-organisasi-update-form',
+                        'action' => ['master-daftar-organisasi/update-status-list-organisasi'],
+                    ]);
+                 ?>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'summary' => '',
@@ -42,17 +39,42 @@ $this->params['breadcrumbs'][] = $this->title;
                         'columns' => [
                             
                             [   
-                                'attribute' => 'ID_ORGANISASI',
+                                'attribute' => 'ID_PENGURUS',
                                 'label' => '#'
                             ],
                             [
-                                'attribute' => 'ID_ORGANISASI',
+                                'attribute' => 'JABATAN',
                                 'label' => 'Jabatan'
                             ],
                             [
-                                'attribute' => 'ID_ORGANISASI',
-                                'label' => 'Status'
-                                
+                                'format' => 'raw',
+                                'header' => 'Status',
+                                'value' => function($model, $key, $index, $column) {
+                                    $option = array();
+                                    foreach($model->dataStatus() as $key => $value){
+                                        if($key==$model->STATUS){
+                                            $option[] = '<option value="'.$key.'"Selected >'.$value.'</option>'; 
+                                        }
+                                        else{
+                                            $option[] = '<option value="'.$key.'" >'.$value.'</option>'; 
+                                        }
+                                    }
+                                    $select = '
+                                    <select class="form-control" name="selectStatus['.$model->ID_PENGURUS.']" >
+                                    '.implode('',$option).'
+                                    </select>';
+                                    return $select;  
+                                }
+                            ],
+                            [
+                                'label' => 'Update',
+                                'format' => 'raw',
+                                'value' => function($model, $key, $index, $column) {
+                                    $button = '
+                                    <input type="submit" class="btn btn-info updateBtn" value="Update" name="updateBtn['.$model->ID_PENGURUS.']">
+                                    ';
+                                    return $button;
+                                }
                             ],
                             [
                                 'class' => 'yii\grid\ActionColumn',
@@ -68,12 +90,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         ],
                         ]); ?>
+                        <?php ActiveForm::end(); ?>
                 </div>
 
         <div class="col-sm-6">
         <h4 style="margin: 10% 5% 5% 5%"><b>Input Organisasi<b></h4>
-            <?= $this->render('_form2', [
+            <?= $this->render('_formListOrganisasi', [
                 'model' => $model,
+                'id' => $id,
             ]) ?>
         </div>
         

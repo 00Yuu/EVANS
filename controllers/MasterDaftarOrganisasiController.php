@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\MasterDaftarOrganisasi;
+use app\models\MasterPengurusOrganisasi;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -39,12 +40,21 @@ class MasterDaftarOrganisasiController extends Controller
         $model = new MasterDaftarOrganisasi();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
             return $this->redirect(['index']);
         }
 
         $dataProvider = new ActiveDataProvider([
             'query' => MasterDaftarOrganisasi::find(),
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_ORGANISASI' => SORT_ASC,
+                ]
+            ]
         ]);
 
         return $this->render('index', [
@@ -61,17 +71,23 @@ class MasterDaftarOrganisasiController extends Controller
      */
     public function actionView($id)
     {  
-        $model = new MasterDaftarOrganisasi();
+        $model = new MasterPengurusOrganisasi();
         // $model = MasterDaftarOrganisasi::find()->where(['ID_JENIS' => $id])->all();
 
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            
+            // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
+
         $dataProvider = new ActiveDataProvider([
-            'query' => MasterDaftarOrganisasi::find()->where(['ID_JENIS' => $id]),
+            'query' => MasterPengurusOrganisasi::find()->where(['ID_ORGANISASI' => $id]),
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 6,
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'EFFDT' => SORT_DESC,
+                    'ID_PENGURUS' => SORT_ASC,
                 ]
             ]
         ]);
@@ -89,23 +105,25 @@ class MasterDaftarOrganisasiController extends Controller
      */
     public function actionCreate()
     {
-        $model = new MasterDaftarOrganisasi();
+        // $model = new MasterDaftarOrganisasi();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->NAMA_ORGANISASI= Yii::$app->request->post('MasterDaftarOrganisasi')['NAMA_ORGANISASI'];
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           
+        //     $model->NAMA_ORGANISASI= Yii::$app->request->post('MasterDaftarOrganisasi')['NAMA_ORGANISASI'];
 
-            $model->ID_ORGANISASI= Yii::$app->request->post('MasterDaftarOrganisasi')['ID_ORGANISASI'];
+        //     $model->ID_ORGANISASI= Yii::$app->request->post('MasterDaftarOrganisasi')['ID_ORGANISASI'];
 
-            $model->ID_JENIS= Yii::$app->request->post('MasterDaftarOrganisasi')['ID_JENIS'];
+        //     $model->ID_JENIS= Yii::$app->request->post('MasterDaftarOrganisasi')['ID_JENIS'];
 
-            $model->STATUS= Yii::$app->request->post('MasterDaftarOrganisasi')['STATUS'];
-        }
+        //     $model->STATUS= Yii::$app->request->post('MasterDaftarOrganisasi')['STATUS'];
+        // }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        // return $this->render('create', [
+        //     'model' => $model,
+        // ]);
     }
 
+   
     /**
      * Updates an existing MasterDaftarOrganisasi model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -113,7 +131,7 @@ class MasterDaftarOrganisasiController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
         $arrayButton = Yii::$app->request->post('updateBtn');
 
@@ -133,11 +151,37 @@ class MasterDaftarOrganisasiController extends Controller
                 SET STATUS = :1 
                 WHERE ID_ORGANISASI = :2";
 
-        Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_periode])->execute();
+        Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_organisasi])->execute();
 
         Yii::$app->session->setFlash('success','Status Berhasil diubah');
             
         return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionUpdateStatusListOrganisasi(){
+        $arrayButton = Yii::$app->request->post('updateBtn');
+
+        foreach ($arrayButton as $key => $value) {
+             $id_pengurus = $key;
+         }
+         
+         $arrayStatus = Yii::$app->request->post('selectStatus');
+ 
+         foreach($arrayStatus as $key => $value){
+             if($key == $id_pengurus){
+                 $statusUpdate =  $value;
+             }
+         }
+ 
+         $sql = "UPDATE EVANS_PENGURUS_ORGANISASI_TBL
+                 SET STATUS = :1 
+                 WHERE ID_PENGURUS = :2";
+ 
+         Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_pengurus])->execute();
+ 
+         Yii::$app->session->setFlash('success','Status Berhasil diubah');
+             
+         return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**
