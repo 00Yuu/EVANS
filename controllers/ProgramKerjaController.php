@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\ProgramKerja;
+use app\models\BentukKegiatan;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -64,14 +65,26 @@ class ProgramKerjaController extends Controller
      */
     public function actionCreate()
     {
+        $row = array();
         $model = new ProgramKerja();
+        $model2 = new BentukKegiatan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_PROKER]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            
+            $value = $model->getSeqValue()['LPAD(EVANS_PROGRAM_KERJA_SEQ.CURRVAL,5,0)'];
+            foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
+                $model2 = new BentukKegiatan();
+                $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
+                $model2->ID_PROKER = $value;
+                $model2->save();                
+            }
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'row' => $row
         ]);
     }
 
@@ -86,12 +99,33 @@ class ProgramKerjaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_PROKER]);
+        $row = array();
+        $data = $model->getCurrentKegiatan($id);
+
+        foreach($data as $key => $val){
+            $row[] = $key;
         }
+
+        if ($model->load(Yii::$app->request->post())) {
+            // $model->save();
+            $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id);
+            
+            $model->deleteBentukKegiatan($id);
+            foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
+                $model2 = new BentukKegiatan();
+                $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
+                $model2->ID_PROKER = $id;
+                $model2->save();
+            }
+            return $this->redirect(['index']);
+        }
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->ID_PROKER]);
+        // }
 
         return $this->render('update', [
             'model' => $model,
+            'row' => $row            
         ]);
     }
 

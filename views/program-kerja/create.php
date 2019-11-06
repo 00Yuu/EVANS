@@ -11,8 +11,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="program-kerja-create">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="container">
+        <h4><b>Program Kerja</b></h4>
+        <?= $this->render('_form', [
+            'model' => $model,
+            'row' => $row
+        ]) ?>
+    </div>
 
 </div>

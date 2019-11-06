@@ -9,32 +9,22 @@ use kartik\select2\Select2;
 /* @var $model app\models\ProgramKerja */
 /* @var $form yii\widgets\ActiveForm */
 
-$data = [
-    "red" => "red",
-    "green" => "green",
-    "blue" => "blue",
-    "orange" => "orange",
-    "white" => "white",
-    "black" => "black",
-    "purple" => "purple",
-    "cyan" => "cyan",
-    "teal" => "teal"
-];
+$data = $model->getBentukKegiatan();
+
 ?>
 
 <div class="program-kerja-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <div class="container">
-
-        <h4><b>Program Kerja</b></h4>
         <div class="card" style="background-color: white;padding: 3% 5% 3% 5%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
             <?= $form->field($model, 'ID_PROKER')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
 
-            <!-- <?= $form->field($model, 'ID_RINCI')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'ID_RINCI')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
 
-            <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
+
+            <?= $form->field($model, 'STATUS_DRAFT')->textInput(['maxlength' => true])->hiddenInput(['value' => 0])->label(false) ?>
 
             <?= $form->field($model, 'BENTUK_PROKER')->dropDownList(
                     [
@@ -59,18 +49,20 @@ $data = [
                     ]
                 ) ?>
 
-                    <?= $form->field($model, 'colorTags')->widget(Select2::classname(), [
+                <label class="control-label">Bentuk Kegiatan</label>
+                <?= Select2::widget([
+                        'name' => 'BentukKegiatan[ID_BENTUK_KEGIATAN]',
+                        'value' => $row,
                         'data' => $data,
-                        'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+                        'options' => ['placeholder' => 'Bentuk Kegiatan', 'multiple' => true],
                         'pluginOptions' => [
                             'tags' => true,
-                            'tokenSeparators' => [',', ' '],
                             'maximumInputLength' => 10
                         ],
-                        ])->label('Tag Multiple');
-                    ?>
+                    ]); ?>
 
-                    <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(['maxlength' => true])->input('TUJUAN_KEGIATAN', ['placeholder' => "Tujuan Kegiatan"]) ?>
+                <div style="margin-top: 3%"></div>
+                <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(['maxlength' => true])->input('TUJUAN_KEGIATAN', ['placeholder' => "Tujuan Kegiatan"]) ?>
                 </div>
                 <div class="col-sm-6">
                     
@@ -118,12 +110,27 @@ $data = [
 
             <?= $form->field($model, 'STATUS_DRAFT')->textInput(['maxlength' => true]) ?> -->
         </div>
-    </div>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
-
+        <div class="form-group" style="float: right;margin-top: 4%">
+            <?= Html::a('Back', 
+                [
+                    'index'
+                ]
+                ,
+                [
+                    'class' => 'btn btn-primary',
+                    'style' => 'width: 100px'
+                ]) ?>
+            <?= Html::Button('Save', 
+                [
+                    'class' => 'btn btn-primary',
+                    'style' => 'width: 100px'
+                ]) ?>
+            <?= Html::submitButton('Submit', 
+                [
+                    'class' => 'btn btn-primary',
+                    'style' => 'width: 100px'
+                ]) ?>
+        </div>    
     <?php ActiveForm::end(); ?>
 
 </div>

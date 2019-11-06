@@ -17,30 +17,54 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create', ['create'], ['class' => 'btn btn-primary']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'summary' => '',
+        'tableOptions' => ['class' => 'table table-bordered'],
+        'options' => ['style' => 'background-color: white'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'ID_PROKER',
-            'ID_RINCI',
-            'ID_TENGGAT_WAKTU',
-            'BENTUK_PROKER',
-            'NAMA_KEGIATAN',
-            //'TINGKAT_KEGIATAN',
-            //'DANA',
-            //'START_DATE',
-            //'END_DATE',
-            //'TEMPAT_PELAKSANAAN',
-            //'JUMLAH_PESERTA',
-            //'TUJUAN_KEGIATAN',
-            //'FEEDBACK',
-            //'STATUS_DRAFT',
+            [
+                'attribute' => 'NAMA_KEGIATAN',
+                'label' => 'Nama Program Kerja'
+            ],
+            [
+                'attribute' => 'BENTUK_PROKER',
+                'label' => 'Bentuk Program Kerja'
+            ],
+            [
+                'attribute' => 'TINGKAT_KEGIATAN',
+                'label' => 'Tingkat Kegiatan'
+            ],
+            [
+                'attribute' => 'DANA',
+                'label' => 'Dana'
+            ],
+            [
+                'attribute' => 'START_DATE',
+                'label' => 'Start Date'
+            ],
+            [
+                'attribute' => 'TEMPAT_PELAKSANAAN',
+                'label' => 'Tempat Pelaksanaan'
+            ],
+            [
+                'attribute' => 'JUMLAH_PESERTA',
+                'label' => 'Jumlah Peserta'
+            ],
+            [
+                
+                'label' => 'Status Proker'
+            ],
+            [
+                'header' => 'Action',
+                'content' => function($model) {
+                    return Html::a('Detail', ['update', 'id' => $model->ID_PROKER]);
+                }  
+],
 
-            ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
-
-
+    ]); 
+    ?>
 </div>
