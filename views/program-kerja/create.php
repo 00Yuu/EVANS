@@ -6,15 +6,17 @@ use yii\helpers\Html;
 /* @var $model app\models\ProgramKerja */
 
 $this->title = 'Create Program Kerja';
-$this->params['breadcrumbs'][] = ['label' => 'Program Kerjas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Program Kerja', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="program-kerja-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="container">
+        <h4><b>Program Kerja</b></h4>
+        <?= $this->render('_form', [
+            'model' => $model,
+            'row' => $row
+        ]) ?>
+    </div>
 
 </div>

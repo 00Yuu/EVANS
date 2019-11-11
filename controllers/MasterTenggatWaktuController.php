@@ -35,20 +35,12 @@ class MasterTenggatWaktuController extends Controller
      */
     public function actionIndex()
     {
-        $model = new MasterTenggatWaktu();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
-            return $this->redirect(['index']);
-        }
-
         $dataProvider = new ActiveDataProvider([
             'query' => MasterTenggatWaktu::find(),
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'model' => $model,
+            'dataProvider' => $dataProvider
         ]);
     }
 
@@ -72,16 +64,15 @@ class MasterTenggatWaktuController extends Controller
      */
     public function actionCreate()
     {
-        // $model = new MasterTenggatWaktu();
+        $model = new MasterTenggatWaktu();
 
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
-        //     return $this->redirect(['index']);
-        // }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
 
-        // return $this->render('create', [
-        //     'model' => $model,
-        // ]);
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -96,7 +87,7 @@ class MasterTenggatWaktuController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
