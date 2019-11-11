@@ -15,6 +15,8 @@ use dosamigos\datepicker\DatePicker;
     <div class="card" style="background-color: white;padding: 5% 5% 10% 5%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);margin-left: 5%">
         <?= $form->field($model, 'ID_PERIODE')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
 
+        <?= $form->field($model, 'PERIODE')->textInput(['maxlength' => true, 'placeholder' => "Periode"]) ?>
+
         <?= $form->field($model, 'START_DATE')->widget(
             DatePicker::className(), [
             'clientOptions' => [
@@ -36,8 +38,6 @@ use dosamigos\datepicker\DatePicker;
                 'placeholder' => 'End Date'
             ]
         ]);?>
-
-        <?= $form->field($model, 'PERIODE')->textInput(['maxlength' => true, 'placeholder' => "Periode"]) ?>
 
         <?= $form->field($model, 'STATUS')->textInput(['maxlength' => true])->dropDownList(
             ['0' => 'Tidak Aktif', '1' => 'Aktif'])->label('Status')
