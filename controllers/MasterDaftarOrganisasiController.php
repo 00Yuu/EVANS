@@ -5,10 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\MasterDaftarOrganisasi;
 use app\models\MasterPengurusOrganisasi;
+use app\models\MasterRinciOrganisasi;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+
 
 /**
  * MasterDaftarOrganisasiController implements the CRUD actions for MasterDaftarOrganisasi model.
@@ -63,12 +66,6 @@ class MasterDaftarOrganisasiController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single MasterDaftarOrganisasi model.
-     * @param string $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {  
         $model = new MasterPengurusOrganisasi();
@@ -97,6 +94,30 @@ class MasterDaftarOrganisasiController extends Controller
             'id' => $id,
         ]);
     }
+
+    public function actionRinci($id,$id_org){
+        $modelRinci = new MasterRinciOrganisasi();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => MasterRinciOrganisasi::find()->where(['ID_PENGURUS' => $id]),
+            'pagination' => [
+                'pageSize' => 1,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_RINCI' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        return $this->render('rinci', [
+            'dataProvider' => $dataProvider,
+            'modelRinci' => $modelRinci,
+            'id' => $id,
+            'id_org' => $id_org,
+        ]);
+    }
+
 
     /**
      * Creates a new MasterDaftarOrganisasi model.

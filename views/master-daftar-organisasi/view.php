@@ -81,8 +81,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'template' => '{view}',
                                 'header' => 'Detail',
                                 'buttons' => [
-                                    'view' => function($url, $model, $key){
-                                        return Html::a('Detail',$url, ['alt' => 'detail']);
+                                    'view' => function($url, $model,$key) use($id){
+                                        return Html::a('Detail',['master-daftar-organisasi/rinci', 'id' => $key, 'id_org' => $id], ['alt' => 'detail']);
                                     },
                                     
                                 ]
