@@ -129,6 +129,20 @@ class ProgramKerjaController extends Controller
         ]);
     }
 
+    public function actionCalendar(){
+        $dataProvider = new ActiveDataProvider([
+            'query' => ProgramKerja::find(),
+            'pagination' => ['pageSize' => 31],
+            'sort'=> ['defaultOrder' => ['START_DATE'=>SORT_DESC]]
+        ]);
+
+        return $this->render('calendar', [
+            'dataProvider' => $dataProvider
+        ]);
+
+        
+    }
+
     /**
      * Deletes an existing ProgramKerja model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

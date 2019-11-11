@@ -8,7 +8,6 @@
                 'items' => [
                     ['label' => 'Home','icon' => 'home','url' => ['/site/index']],    
                     ['label' => 'Master Organisasi','icon' => 'clipboard','url' =>['/master-daftar-organisasi']],        
-                    ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/lat']],
                     ['label' => 'Home','icon' => 'home','url' => ['/site/index']],            
                     ['label' => 'Master Tenggat Waktu','icon' => 'clipboard','url' => ['/master-tenggat-waktu']],
                     ['label' => 'Master Periode','icon' => 'clipboard','url' => ['/master-periode']],
