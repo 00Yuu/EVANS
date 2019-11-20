@@ -89,7 +89,7 @@ class ProgramKerja extends \yii\db\ActiveRecord
         return ArrayHelper::map($BentukKegiatan, 'ID_BENTUK_KEGIATAN','');
     }
 
-    public function updateProker($data, $id){
+    public function updateProker($data, $id, $_type){
         $bentukProker = $data['BENTUK_PROKER'];
         $nama = $data['NAMA_KEGIATAN'];
         $tingkat = $data['TINGKAT_KEGIATAN'];
@@ -99,6 +99,13 @@ class ProgramKerja extends \yii\db\ActiveRecord
         $tempat = $data['TEMPAT_PELAKSANAAN'];
         $jumlah = $data['JUMLAH_PESERTA'];
         $tujuan = $data['TUJUAN_KEGIATAN'];
+
+        if($_type==='save'){
+            $draft = '1';
+        }
+        else{
+            $draft = '0';
+        }
 
         $sql = "UPDATE EVANS_PROGRAM_KERJA_TBL 
                 set 
@@ -110,7 +117,8 @@ class ProgramKerja extends \yii\db\ActiveRecord
                 END_DATE = '$endDate',
                 TEMPAT_PELAKSANAAN = '$tempat',
                 JUMLAH_PESERTA = '$jumlah',
-                TUJUAN_KEGIATAN = '$tujuan'
+                TUJUAN_KEGIATAN = '$tujuan',
+                STATUS_DRAFT = '$draft'
                 WHERE ID_PROKER = '$id'";
 
         Yii::$app->db->createCommand($sql)->execute();
