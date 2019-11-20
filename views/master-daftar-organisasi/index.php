@@ -14,8 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container" style="margin-left: 1%">
         <div class="row">
-            <div class="col-sm-6">
-                <h1 style="margin-bottom: 8%"><?= Html::encode($this->title) ?></h1>
+            <div class="col-sm-7">
+                <h1 style="margin-bottom: 2%"><?= Html::encode($this->title) ?></h1>
                 <?php
                     $form = ActiveForm::begin([
                         'id' => 'daftar-update-form',
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php ActiveForm::end(); ?>
             </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-5">
         <h4 style="margin: 10% 5% 5% 5%"><b>Input Organisasi<b></h4>
             <?= $this->render('_form', [
                 'model' => $model,
