@@ -130,14 +130,18 @@ class ProgramKerjaController extends Controller
     }
 
     public function actionCalendar(){
-        $dataProvider = new ActiveDataProvider([
-            'query' => ProgramKerja::find(),
-            'pagination' => ['pageSize' => 31],
-            'sort'=> ['defaultOrder' => ['START_DATE'=>SORT_DESC]]
-        ]);
+        $events = ProgramKerja::find()->all();
+
+        foreach($events as $event1){
+            $event = new \yii2fullcalendar\models\Event();
+            $event->id = $event1->ID_PROKER;
+            $event->title = $event1->NAMA_KEGIATAN;
+            $event->start = $event1->START_DATE;
+            $events[] = $event;
+        }
 
         return $this->render('calendar', [
-            'dataProvider' => $dataProvider
+            'events' => $events
         ]);
 
         

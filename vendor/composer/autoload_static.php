@@ -26,12 +26,14 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         'y' => 
         array (
             'yii\\swiftmailer\\' => 16,
+            'yii\\jui\\' => 8,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
+            'yii2fullcalendar\\' => 17,
         ),
         'r' => 
         array (
@@ -41,10 +43,6 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'm' => 
-        array (
-            'marekpetras\\calendarview\\' => 25,
-        ),
         'k' => 
         array (
             'kartik\\select2\\' => 15,
@@ -52,9 +50,7 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         ),
         'd' => 
         array (
-            'dosamigos\\tinymce\\' => 18,
             'dosamigos\\datepicker\\' => 21,
-            'dosamigos\\ckeditor\\' => 19,
             'dmstr\\' => 6,
         ),
         'c' => 
@@ -90,6 +86,7 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Prophecy\\' => 9,
             'PhpOffice\\PhpWord\\' => 18,
@@ -129,6 +126,10 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer/src',
         ),
+        'yii\\jui\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-jui/src',
+        ),
         'yii\\gii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-gii/src',
@@ -153,6 +154,10 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
+        'yii2fullcalendar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/philippfrenzel/yii2fullcalendar',
+        ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (
             0 => __DIR__ . '/..' . '/rmrevin/yii2-fontawesome',
@@ -163,10 +168,6 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
-        'marekpetras\\calendarview\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/marekpetras/yii2-calendarview-widget',
-        ),
         'kartik\\select2\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
@@ -175,17 +176,9 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
         ),
-        'dosamigos\\tinymce\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/2amigos/yii2-tinymce-widget/src',
-        ),
         'dosamigos\\datepicker\\' => 
         array (
             0 => __DIR__ . '/..' . '/2amigos/yii2-date-picker-widget/src',
-        ),
-        'dosamigos\\ckeditor\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/2amigos/yii2-ckeditor-widget/src',
         ),
         'dmstr\\' => 
         array (
@@ -266,6 +259,10 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
         'Psr\\Container\\' => 
         array (

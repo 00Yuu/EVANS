@@ -89,13 +89,13 @@ class Inline
                     $result = self::parseScalar($value, $flags, null, $i, null === $tag, $references);
             }
 
-            if (null !== $tag && '' !== $tag) {
-                return new TaggedValue($tag, $result);
-            }
-
             // some comments are allowed at the end
             if (preg_replace('/\s+#.*$/A', '', substr($value, $i))) {
                 throw new ParseException(sprintf('Unexpected characters near "%s".', substr($value, $i)), self::$parsedLineNumber + 1, $value, self::$parsedFilename);
+            }
+
+            if (null !== $tag && '' !== $tag) {
+                return new TaggedValue($tag, $result);
             }
 
             return $result;
@@ -274,7 +274,7 @@ class Inline
             $output = self::parseQuotedScalar($scalar, $i);
 
             if (null !== $delimiters) {
-                $tmp = ltrim(substr($scalar, $i), ' ');
+                $tmp = ltrim(substr($scalar, $i), " \n");
                 if ('' === $tmp) {
                     throw new ParseException(sprintf('Unexpected end of line, expected one of "%s".', implode('', $delimiters)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                 }
@@ -419,6 +419,7 @@ class Inline
             switch ($mapping[$i]) {
                 case ' ':
                 case ',':
+                case "\n":
                     ++$i;
                     continue 2;
                 case '}':
@@ -450,7 +451,7 @@ class Inline
                 }
             }
 
-            if (!$isKeyQuoted && (!isset($mapping[$i + 1]) || !\in_array($mapping[$i + 1], [' ', ',', '[', ']', '{', '}'], true))) {
+            if (!$isKeyQuoted && (!isset($mapping[$i + 1]) || !\in_array($mapping[$i + 1], [' ', ',', '[', ']', '{', '}', "\n"], true))) {
                 throw new ParseException('Colons must be followed by a space or an indication character (i.e. " ", ",", "[", "]", "{", "}").', self::$parsedLineNumber + 1, $mapping);
             }
 
@@ -459,7 +460,7 @@ class Inline
             }
 
             while ($i < $len) {
-                if (':' === $mapping[$i] || ' ' === $mapping[$i]) {
+                if (':' === $mapping[$i] || ' ' === $mapping[$i] || "\n" === $mapping[$i]) {
                     ++$i;
 
                     continue;
@@ -508,7 +509,7 @@ class Inline
                         }
                         break;
                     default:
-                        $value = self::parseScalar($mapping, $flags, [',', '}'], $i, null === $tag, $references);
+                        $value = self::parseScalar($mapping, $flags, [',', '}', "\n"], $i, null === $tag, $references);
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
