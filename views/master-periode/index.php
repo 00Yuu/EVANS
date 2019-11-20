@@ -28,8 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'summary' => '',
-                    'tableOptions' => ['class' => 'table table-bordered'],
-                    'options' => ['style' => 'background-color: white'],
+                    'tableOptions' => [
+                        'class' => 'table table-bordered table-hover table-light',
+                        'style' => 'background-color:white;'
+                    ],
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
