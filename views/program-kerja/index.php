@@ -56,8 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Jumlah Peserta'
             ],
             [
-                
-                'label' => 'Status Proker'
+                'label' => 'Status Proker',
+                'value' => function ($model){
+                    return $model->showStatus($model->STATUS_DRAFT);
+                }
             ],
             [
                 'header' => 'Action',

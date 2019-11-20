@@ -10,6 +10,15 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 
 $data = $model->getBentukKegiatan();
+if($model->STATUS_DRAFT === '1' || $model->STATUS_DRAFT === null){
+    $disable = '';
+    $draft = true;
+}
+else{
+    $disable = 'disabled';
+    $draft = false;
+}
+
 
 ?>
 
@@ -18,25 +27,32 @@ $data = $model->getBentukKegiatan();
     <?php $form = ActiveForm::begin(); ?>
 
         <div class="card" style="background-color: white;padding: 3% 5% 3% 5%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
-            <?= $form->field($model, 'ID_PROKER')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
+            <?= $form->field($model, 'ID_PROKER')->hiddenInput(['value' => 99])->label(false) ?>
 
-            <?= $form->field($model, 'ID_RINCI')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
+            <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => 99])->label(false) ?>
 
-            <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
-
-            <?= $form->field($model, 'STATUS_DRAFT')->textInput(['maxlength' => true])->hiddenInput(['value' => 0])->label(false) ?>
+            <!-- <?= $form->field($model, 'ID_TENGGAT_WAKTU')->hiddenInput(['value' => 99])->label(false) ?> -->
 
             <?= $form->field($model, 'BENTUK_PROKER')->dropDownList(
                     [
                         'Program Rutin' => 'Program Rutin',
                         'Program Unggulan' => 'Program Unggulan',
                         'Program Insidental' => 'Program Insidental'
+                    ],
+                    [
+                        "$disable" => "$disable"
                     ]
                 )->label('Bentuk Program Kerja') ?>
 
             <div class="row">
                 <div class="col-sm-6">
-                    <?= $form->field($model, 'NAMA_KEGIATAN')->textInput(['maxlength' => true])->input('BENTUK_PROKER', ['placeholder' => "Nama Kegiatan"]) ?>
+                    <?= $form->field($model, 'NAMA_KEGIATAN')->textInput(
+                        [
+                            'maxlength' => true,
+                            'placeholder' => "Nama Kegiatan",
+                            "$disable" => "$disable"
+                        ]
+                    )?>
 
                     <?= $form->field($model, 'TINGKAT_KEGIATAN')->dropDownList(
                     [
@@ -46,6 +62,9 @@ $data = $model->getBentukKegiatan();
                         'Nasional' => 'Nasional',
                         'Regional' => 'Regional',
                         'Internasional' => 'Internasional'
+                    ],
+                    [
+                        "$disable" => "$disable"
                     ]
                 ) ?>
 
@@ -54,18 +73,48 @@ $data = $model->getBentukKegiatan();
                         'name' => 'BentukKegiatan[ID_BENTUK_KEGIATAN]',
                         'value' => $row,
                         'data' => $data,
-                        'options' => ['placeholder' => 'Bentuk Kegiatan', 'multiple' => true],
+                        'options' => ['placeholder' => 'Bentuk Kegiatan', 'multiple' => true,"$disable" => "$disable"],
                         'pluginOptions' => [
                             'tags' => true,
                             'maximumInputLength' => 10
                         ],
-                    ]); ?>
+                    ]
+                    ); ?>
 
                 <div style="margin-top: 3%"></div>
-                <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(['maxlength' => true])->input('TUJUAN_KEGIATAN', ['placeholder' => "Tujuan Kegiatan"]) ?>
+                <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(
+                    [
+                        'maxlength' => true,
+                        "$disable" => "$disable"
+                    ]
+                    ) ?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6">           
+
+                    <?= $form->field($model, 'DANA')->textInput(
+                        [
+                            'maxlength' => true, 
+                            'placeholder' => "Dana",
+                            "$disable" => "$disable"
+                        ]
+                        )?>
                     
+                    <?= $form->field($model, 'TEMPAT_PELAKSANAAN')->textInput(
+                        [
+                            'maxlength' => true,
+                            'placeholder' => "Tempat Pelaksanaan",
+                            "$disable" => "$disable"
+                        ]
+                        )?>
+
+                    <?= $form->field($model, 'JUMLAH_PESERTA')->textInput(
+                        [
+                            'maxlength' => true,
+                            'placeholder' => "Jumlah Peserta",
+                            "$disable" => "$disable"
+                        ]
+                        )?>
+
                     <div class="row">
                         <div class="col-sm-5" style="padding-right: 0">
                         <?= $form->field($model, 'START_DATE')->widget(
@@ -75,7 +124,8 @@ $data = $model->getBentukKegiatan();
                                 'format' => 'dd-M-yyyy',
                             ],
                             'options' => [
-                                'placeholder' => 'Start Date'
+                                'placeholder' => 'Start Date',
+                                "$disable" => "$disable"
                             ]
                         ]);?>
                         </div>
@@ -92,26 +142,21 @@ $data = $model->getBentukKegiatan();
                                 'format' => 'dd-M-yyyy',
                             ],
                             'options' => [
-                                'placeholder' => 'End Date'
+                                'placeholder' => 'End Date',
+                                "$disable" => "$disable"
                             ]
                         ]);?>
                         </div>
                     </div>
-
-                    <?= $form->field($model, 'DANA')->textInput(['maxlength' => true])->input('DANA', ['placeholder' => "Dana"]) ?>
-                    
-                    <?= $form->field($model, 'TEMPAT_PELAKSANAAN')->textInput(['maxlength' => true])->input('TEMPAT_PELAKSANAAN', ['placeholder' => "Tempat Pelaksanaan"]) ?>
-
-                    <?= $form->field($model, 'JUMLAH_PESERTA')->textInput(['maxlength' => true])->input('JUMLAH_PESERTA', ['placeholder' => "Jumlah Peserta"])->label('Target Jumlah Peserta') ?>
                 </div>
             </div>
-<!-- 
-            <?= $form->field($model, 'FEEDBACK')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'STATUS_DRAFT')->textInput(['maxlength' => true]) ?> -->
+            <!-- <?= $form->field($model, 'FEEDBACK')->textInput(['maxlength' => true]) ?> -->
+
         </div>
+
         <div class="form-group" style="float: right;margin-top: 4%">
-            <?= Html::a('Back', 
+            <?=Html::a('Back', 
                 [
                     'index'
                 ]
@@ -120,16 +165,28 @@ $data = $model->getBentukKegiatan();
                     'class' => 'btn btn-primary',
                     'style' => 'width: 100px'
                 ]) ?>
-            <?= Html::Button('Save', 
+            <?php 
+                if($draft){
+                    echo Html::submitButton('Save', 
+                    [
+                        'name' => 'submit1',
+                        'class' => 'btn btn-primary',
+                        'style' => 'width: 100px',
+                        'value' => 'save'
+                    ]);
+                }
+            ?>
+            <?php 
+                if($draft){
+                echo Html::submitButton('Submit', 
                 [
+                    'name' => 'submit1',
                     'class' => 'btn btn-primary',
-                    'style' => 'width: 100px'
-                ]) ?>
-            <?= Html::submitButton('Submit', 
-                [
-                    'class' => 'btn btn-primary',
-                    'style' => 'width: 100px'
-                ]) ?>
+                    'style' => 'width: 100px',
+                    'value' => 'submit'
+                ]);
+            }?>
+
         </div>    
     <?php ActiveForm::end(); ?>
 

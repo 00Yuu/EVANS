@@ -70,6 +70,15 @@ class ProgramKerjaController extends Controller
         $model2 = new BentukKegiatan();
 
         if ($model->load(Yii::$app->request->post())) {
+            if(Yii::$app->request->post('submit1')==='save'){
+                $model->STATUS_DRAFT = '1';
+            }
+            else{
+                $model->STATUS_DRAFT = '0'; 
+            }
+            $idTenggatWaktu = $model->getIDTenggatWaktu('Program Kerja');
+            
+            $model->ID_TENGGAT_WAKTU = $idTenggatWaktu['ID_TENGGAT_WAKTU'];
             $model->save();
             
             $value = $model->getSeqValue()['LPAD(EVANS_PROGRAM_KERJA_SEQ.CURRVAL,5,0)'];
