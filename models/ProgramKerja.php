@@ -125,4 +125,18 @@ class ProgramKerja extends \yii\db\ActiveRecord
     public function deleteBentukKegiatan($id){
         Yii::$app->db->createCommand("DELETE FROM EVANS_BENTUK_KEGIATAN_TBL WHERE ID_PROKER = '$id'")->execute();
     }
+
+    public function showStatus($status){
+        if($status==='1'){
+            return 'Draft';
+        }
+        else{
+            return 'Waiting For Approval';
+        }
+    }
+
+    public function getIDTenggatWaktu($alur){
+        $value = Yii::$app->db->createCommand("SELECT ID_TENGGAT_WAKTU FROM EVANS_MASTER_TENGGAT_WAKTU_TBL WHERE JNS_ALUR='$alur'")->queryOne();
+        return $value;
+    }
 }
