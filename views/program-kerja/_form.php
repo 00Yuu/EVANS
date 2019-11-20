@@ -95,6 +95,7 @@ else{
                         [
                             'maxlength' => true, 
                             'placeholder' => "Dana",
+                            'type' => 'number',
                             "$disable" => "$disable"
                         ]
                         )?>
@@ -111,6 +112,7 @@ else{
                         [
                             'maxlength' => true,
                             'placeholder' => "Jumlah Peserta",
+                            'type' => 'number',
                             "$disable" => "$disable"
                         ]
                         )?>

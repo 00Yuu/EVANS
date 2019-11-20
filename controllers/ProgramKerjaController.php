@@ -117,7 +117,12 @@ class ProgramKerjaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // $model->save();
-            $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id);
+            if(Yii::$app->request->post('submit1')==='save'){
+                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'save');
+            }
+            else{
+                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'submit');
+            }
             
             $model->deleteBentukKegiatan($id);
             foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
