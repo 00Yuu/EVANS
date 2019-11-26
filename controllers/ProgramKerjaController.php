@@ -144,21 +144,33 @@ class ProgramKerjaController extends Controller
     }
 
     public function actionCalendar(){
-        $events = ProgramKerja::find()->all();
+        $events = ProgramKerja::find()->where(['STATUS_DRAFT' => '0'])->all();
 
         foreach($events as $event1){
             $event = new \yii2fullcalendar\models\Event();
             $event->id = $event1->ID_PROKER;
             $event->title = $event1->NAMA_KEGIATAN;
             $event->start = $event1->START_DATE;
+            $event->end = $event1->END_DATE;
             $events[] = $event;
         }
+
+        // $newevent = new \yii2fullcalendar\models\Event();
+
+        // var_dump($newevent);
 
         return $this->render('calendar', [
             'events' => $events
         ]);
 
-        
+    }
+
+    public function actionModalCalendar($id){
+        $model = ProgramKerja::find()->where(['ID_PROKER' => $id])->one();
+      
+        return $this->renderAjax('_detail_proker', [
+            'model' => $model,
+        ]);   
     }
 
     /**

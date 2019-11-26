@@ -50,7 +50,7 @@ use yii\helpers\Url;
                     'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }")
                 ],
                 'ajax' => [
-                    'url' => Url::to(['personal-data/nim-value']),
+                    'url' => Url::to(['personal-data/nim-mahasiswa']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(params) { return {q:params.term}; }')
                 ],
