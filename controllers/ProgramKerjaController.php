@@ -152,7 +152,14 @@ class ProgramKerjaController extends Controller
 
         $events = ProgramKerja::find()->where(['STATUS_DRAFT' => '0'])->all();
 
+        $search_date = null;
+        
+        var_dump(Yii::$app->request->post());
 
+        if(Yii::$app->request->post()){
+            echo "aa";
+
+        }
 
         foreach($events as $event1){
             $event = new \yii2fullcalendar\models\Event();
@@ -163,11 +170,8 @@ class ProgramKerjaController extends Controller
             $events[] = $event;
         }
 
-        // $newevent = new \yii2fullcalendar\models\Event();
-
-        // var_dump($newevent);
-
         return $this->render('calendar', [
+            'search_date' => $search_date,            
             'events' => $events,
             'model' => $model,
             'modelProker' => $modelProker,
