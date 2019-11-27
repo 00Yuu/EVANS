@@ -15,28 +15,12 @@ use yii\widgets\DetailView;
         'attributes' => [
             'masterPengurusOrganisasi.JABATAN',
             'EMPLID',
-            [
-                'label' => 'Nama',
-                'value' => '',
-            ],
-            [
-                'label' => 'Email',
-                'value' => '',
-            ],
-            [
-                'label' => 'Phone',
-                'value' => '',
-            ],
-            [
-                'label' => 'Angkatan',
-                'value' => '',
-            ],
-            [
-                'label' => 'Prodi',
-                'value' => '',
-            ],
+            'personalData.NAMA',
+            'personalData.EMAIL',
+            'personalData.PHONE',
+            'personalData.ANGKATAN',
+            'personalData.PRODI',
             'masterPeriode.PERIODE',
-
         ],
     ]);
 

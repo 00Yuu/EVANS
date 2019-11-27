@@ -591,41 +591,58 @@ class Crawler implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the node value of the first node of the list.
+     * Returns the text of the first node of the list.
      *
-     * @param mixed $default When provided and the current node is empty, this value is returned and no exception is thrown
+     * Pass true as the second argument to normalize whitespaces.
+     *
+     * @param string|null $default             When not null: the value to return when the current node is empty
+     * @param bool        $normalizeWhitespace Whether whitespaces should be trimmed and normalized to single spaces
      *
      * @return string The node value
      *
      * @throws \InvalidArgumentException When current node is empty
      */
-    public function text(/* $default = null */)
+    public function text(/* string $default = null, bool $normalizeWhitespace = true */)
     {
         if (!$this->nodes) {
-            if (0 < \func_num_args()) {
-                return func_get_arg(0);
+            if (0 < \func_num_args() && null !== func_get_arg(0)) {
+                return (string) func_get_arg(0);
             }
 
             throw new \InvalidArgumentException('The current node list is empty.');
         }
 
-        return $this->getNode(0)->nodeValue;
+        $text = $this->getNode(0)->nodeValue;
+
+        if (\func_num_args() <= 1) {
+            if (trim(preg_replace('/(?:\s{2,}+|[^\S ])/', ' ', $text)) !== $text) {
+                @trigger_error(sprintf('"%s()" will normalize whitespaces by default in Symfony 5.0, set the second "$normalizeWhitespace" argument to false to retrieve the non-normalized version of the text.', __METHOD__), E_USER_DEPRECATED);
+            }
+
+            return $text;
+        }
+
+        if (\func_num_args() > 1 && func_get_arg(1)) {
+            return trim(preg_replace('/(?:\s{2,}+|[^\S ])/', ' ', $text));
+        }
+
+        return $text;
     }
 
     /**
      * Returns the first node of the list as HTML.
      *
-     * @param mixed $default When provided and the current node is empty, this value is returned and no exception is thrown
+     * @param string|null $default When not null: the value to return when the current node is empty
      *
      * @return string The node html
      *
      * @throws \InvalidArgumentException When current node is empty
      */
-    public function html(/* $default = null */)
+    public function html(/* string $default = null */)
     {
         if (!$this->nodes) {
-            if (0 < \func_num_args()) {
-                return func_get_arg(0);
+            if (0 < \func_num_args() && null !== func_get_arg(0)) {
+                return (string) func_get_arg(0);
             }
 
             throw new \InvalidArgumentException('The current node list is empty.');

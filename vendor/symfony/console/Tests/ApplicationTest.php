@@ -75,6 +75,8 @@ class ApplicationTest extends TestCase
         require_once self::$fixturesPath.'/FooWithoutAliasCommand.php';
         require_once self::$fixturesPath.'/TestAmbiguousCommandRegistering.php';
         require_once self::$fixturesPath.'/TestAmbiguousCommandRegistering2.php';
+        require_once self::$fixturesPath.'/FooHiddenCommand.php';
+        require_once self::$fixturesPath.'/BarHiddenCommand.php';
     }
 
     protected function normalizeLineBreaks($text)
@@ -440,6 +442,16 @@ class ApplicationTest extends TestCase
         ];
     }
 
+    public function testFindWithAmbiguousAbbreviationsFindsCommandIfAlternativesAreHidden()
+    {
+        $application = new Application();
+
+        $application->add(new \FooCommand());
+        $application->add(new \FooHiddenCommand());
+
+        $this->assertInstanceOf('FooCommand', $application->find('foo:'));
+    }
+
     public function testFindCommandEqualNamespace()
     {
         $application = new Application();
@@ -567,7 +579,7 @@ class ApplicationTest extends TestCase
 
         // Subnamespace + plural
         try {
-            $a = $application->find('foo3:');
+            $application->find('foo3:');
             $this->fail('->find() should throw an Symfony\Component\Console\Exception\CommandNotFoundException if a command is ambiguous because of a subnamespace, with alternatives');
         } catch (\Exception $e) {
             $this->assertInstanceOf('Symfony\Component\Console\Exception\CommandNotFoundException', $e);
@@ -664,6 +676,7 @@ class ApplicationTest extends TestCase
         $application->add(new \Foo1Command());
         $application->add(new \Foo2Command());
         $application->add(new \Foo3Command());
+        $application->add(new \FooHiddenCommand());
 
         $expectedAlternatives = [
             'afoobar',
@@ -704,6 +717,39 @@ class ApplicationTest extends TestCase
         $application->add(new \FooCommand());
         $application->add(new \Foo4Command());
         $application->find('foo::bar');
+    }
+
+    public function testFindHiddenWithExactName()
+    {
+        $application = new Application();
+        $application->add(new \FooHiddenCommand());
+
+        $this->assertInstanceOf('FooHiddenCommand', $application->find('foo:hidden'));
+        $this->assertInstanceOf('FooHiddenCommand', $application->find('afoohidden'));
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Command "%s:hidden" is hidden, finding it using an abbreviation is deprecated since Symfony 4.4, use its full name instead.
+     * @dataProvider provideAbbreviationsForHiddenCommands
+     */
+    public function testFindHiddenWithAbbreviatedName($name)
+    {
+        $application = new Application();
+
+        $application->add(new \FooHiddenCommand());
+        $application->add(new \BarHiddenCommand());
+
+        $application->find($name);
+    }
+
+    public function provideAbbreviationsForHiddenCommands()
+    {
+        return [
+            ['foo:hidde'],
+            ['afoohidd'],
+            ['bar:hidde'],
+        ];
     }
 
     public function testSetCatchExceptions()
@@ -1609,23 +1655,6 @@ class ApplicationTest extends TestCase
         $this->assertStringContainsString('The foo:bar command', $tester->getDisplay());
     }
 
-    /**
-     * @requires function posix_isatty
-     */
-    public function testCanCheckIfTerminalIsInteractive()
-    {
-        $application = new CustomDefaultCommandApplication();
-        $application->setAutoExit(false);
-
-        $tester = new ApplicationTester($application);
-        $tester->run(['command' => 'help']);
-
-        $this->assertFalse($tester->getInput()->hasParameterOption(['--no-interaction', '-n']));
-
-        $inputStream = $tester->getInput()->getStream();
-        $this->assertEquals($tester->getInput()->isInteractive(), @posix_isatty($inputStream));
-    }
-
     public function testRunLazyCommandService()
     {
         $container = new ContainerBuilder();
@@ -1791,9 +1820,11 @@ class CustomDefaultCommandApplication extends Application
 
 class LazyCommand extends Command
 {
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('lazy-command called');
+
+        return 0;
     }
 }
 

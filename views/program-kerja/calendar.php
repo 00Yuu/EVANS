@@ -1,53 +1,52 @@
 <?php
-use marekpetras\calendarview\CalendarView;
-
-
+use yii\bootstrap\Modal;
+use yii\web\JsExpression;
+use yii\helpers\Url;
 $this->title = '';
+// var_dump($events);
 ?>
 
 <div class="calendar-view">
-<?=
 
-    CalendarView::widget(
-        [
-            // mandatory
-            'dataProvider'  => $dataProvider,
-            'dateField'     => 'START_DATE',
-            'valueField'    => 'BENTUK_PROKER',
+<div class="">
 
+</div>
 
-            // optional params with their defaults
-            'unixTimestamp' => false, // indicate whether you use unix timestamp instead of a date/datetime format in the data provider
-            'weekStart' => 1, // date('w') // which day to display first in the calendar
-            'title'     => '',
+<?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+      'events'=> $events,
+      'clientOptions' => [
+        'displayEventTime' => false,
+        "eventBackgroundColor" =>  '#d1d6de',
+        "eventBorderColor" =>  'black',
+        "eventTextColor" =>  'black',
+        'editable' => false,
+        'draggable' => false,
+      ],
+      'eventClick' => "function(calEvent, jsEvent, view) {
 
-            'views'     => [
-                'calendar' => '@vendor/marekpetras/yii2-calendarview-widget/views/calendar',
-                'month' => '@vendor/marekpetras/yii2-calendarview-widget/views/month',
-                'day' => '@vendor/marekpetras/yii2-calendarview-widget/views/day',
-            ],
-
-            'startYear' => date('Y') - 1,
-            'endYear' => date('Y') + 1,
-
-            'link' => false,
-            /* alternates to link , is called on every models valueField, used in Html::a( valueField , link )
-            'link' => 'site/view',
-            'link' => function($model,$calendar){
-                return ['calendar/view','id'=>$model->id];
-            },
-            */
-
-            'dayRender' => false,
-            /* alternate to dayRender
-            'dayRender' => function($model,$calendar) {
-                return '<p>'.$model->id.'</p>';
-            },
-            */
-
-        ]
-    );
-
+        $.get('".Url::to(['program-kerja/modal-calendar'])."', {id: calEvent.id }, function(data) {
+          var viewModal = $('#modal');
+          viewModal.modal('show').find('#modalContent').html(data);
+        })
+      }",
+    ));
 ?>
 
 </div>
+
+<?php
+    Modal::begin([
+        'header' => 'Detail Kegiatan',
+        'headerOptions' => [
+            'class' => 'bg-primary',
+        ],
+        'id' => 'modal',
+        'size' => 'modal-md',
+        'closeButton' => [
+            'style' => 'color : #fff; opacity: 1;' 
+        ]
+        
+    ]);
+    echo "<div id='modalContent'></div>";
+    Modal::end();
+?>
