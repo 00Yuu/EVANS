@@ -2,15 +2,61 @@
 use yii\bootstrap\Modal;
 use yii\web\JsExpression;
 use yii\helpers\Url;
-$this->title = '';
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
+
+$this->title = 'Calendar Proker';
 // var_dump($events);
 ?>
 
 <div class="calendar-view">
 
-<div class="">
+  <div class="search-calendar">
 
-</div>
+    <?php $form = ActiveForm::begin([
+        'method' => 'get',
+    ]); ?>
+
+    <div class="row" >
+      <div class="col-sm-3">
+          <?= $form->field($model, 'bulan')->dropDownList($modelProker->dataBulan(),
+              [
+                  'prompt' => 'Pilih Bulan',
+                  'class' => 'form-control',
+                  'style' => 'width:100%',
+              ])->label('Month') 
+          ?>
+      </div>
+
+      <div class="col-sm-3">
+          <?= $form->field($model, 'tahun')->dropDownList($modelProker->dataTahun(),
+              [
+                  'prompt' => 'Pilih Tahun',
+                  'class' => 'form-control',
+                  'style' => 'width:100%'
+              ])->label('Year')  ?>
+      </div>
+
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label>&nbsp</label>
+          <?=
+            Html::submitButton('Search', 
+            [
+                'class' => 'btn btn-primary',
+                'style' => '',
+            ]);
+          ?>
+        </div>
+        
+
+      </div>
+
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+  </div>
 
 <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
       'events'=> $events,
@@ -21,6 +67,7 @@ $this->title = '';
         "eventTextColor" =>  'black',
         'editable' => false,
         'draggable' => false,
+        'defaultDate' => '08-08-2019' // untuk search date
       ],
       'eventClick' => "function(calEvent, jsEvent, view) {
 

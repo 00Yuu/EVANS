@@ -147,4 +147,33 @@ class ProgramKerja extends \yii\db\ActiveRecord
         $value = Yii::$app->db->createCommand("SELECT ID_TENGGAT_WAKTU FROM EVANS_MASTER_TENGGAT_WAKTU_TBL WHERE JNS_ALUR='$alur'")->queryOne();
         return $value;
     }
+
+    public function dataBulan(){
+        $array = [
+            '01' => 'Januari',
+            '02' => 'Febuari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+        return $array;
+    }
+
+    public function dataTahun(){
+        $sql = "SELECT DISTINCT SUBSTR(TO_CHAR(START_DATE,'dd/mm/yyyy'),7,4 ) as year 
+                FROM EVANS_PROGRAM_KERJA_TBL 
+                ORDER BY 1";
+
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return ArrayHelper::map($result, 'YEAR','YEAR');
+    }
+
+   
 }

@@ -144,7 +144,15 @@ class ProgramKerjaController extends Controller
     }
 
     public function actionCalendar(){
+        $model = new \yii\base\DynamicModel([
+            'bulan', 'tahun'
+        ]);
+
+        $modelProker = new ProgramKerja();
+
         $events = ProgramKerja::find()->where(['STATUS_DRAFT' => '0'])->all();
+
+
 
         foreach($events as $event1){
             $event = new \yii2fullcalendar\models\Event();
@@ -160,7 +168,9 @@ class ProgramKerjaController extends Controller
         // var_dump($newevent);
 
         return $this->render('calendar', [
-            'events' => $events
+            'events' => $events,
+            'model' => $model,
+            'modelProker' => $modelProker,
         ]);
 
     }
