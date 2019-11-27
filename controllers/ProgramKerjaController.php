@@ -70,6 +70,15 @@ class ProgramKerjaController extends Controller
         $model2 = new BentukKegiatan();
 
         if ($model->load(Yii::$app->request->post())) {
+            if(Yii::$app->request->post('submit1')==='save'){
+                $model->STATUS_DRAFT = '1';
+            }
+            else{
+                $model->STATUS_DRAFT = '0'; 
+            }
+            $idTenggatWaktu = $model->getIDTenggatWaktu('Program Kerja');
+            
+            $model->ID_TENGGAT_WAKTU = $idTenggatWaktu['ID_TENGGAT_WAKTU'];
             $model->save();
             
             $value = $model->getSeqValue()['LPAD(EVANS_PROGRAM_KERJA_SEQ.CURRVAL,5,0)'];
@@ -108,7 +117,12 @@ class ProgramKerjaController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // $model->save();
-            $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id);
+            if(Yii::$app->request->post('submit1')==='save'){
+                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'save');
+            }
+            else{
+                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'submit');
+            }
             
             $model->deleteBentukKegiatan($id);
             foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
@@ -127,6 +141,20 @@ class ProgramKerjaController extends Controller
             'model' => $model,
             'row' => $row            
         ]);
+    }
+
+    public function actionCalendar(){
+        $dataProvider = new ActiveDataProvider([
+            'query' => ProgramKerja::find(),
+            'pagination' => ['pageSize' => 31],
+            'sort'=> ['defaultOrder' => ['START_DATE'=>SORT_DESC]]
+        ]);
+
+        return $this->render('calendar', [
+            'dataProvider' => $dataProvider
+        ]);
+
+        
     }
 
     /**

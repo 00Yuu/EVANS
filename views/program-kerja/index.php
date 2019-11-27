@@ -15,6 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create', ['create'], ['class' => 'btn btn-primary']) ?>
+
+        <?= Html::a('Calendar', ['calendar'], ['class' => 'btn btn-success pull-right']) ?>
     </p>
 
     <?= GridView::widget([
@@ -54,8 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Jumlah Peserta'
             ],
             [
-                
-                'label' => 'Status Proker'
+                'label' => 'Status Proker',
+                'value' => function ($model){
+                    return $model->showStatus($model->STATUS_DRAFT);
+                }
             ],
             [
                 'header' => 'Action',

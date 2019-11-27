@@ -28,8 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'summary' => '',
-                    'tableOptions' => ['class' => 'table table-bordered'],
-                    'options' => ['style' => 'background-color: white'],
+                    'tableOptions' => [
+                        'class' => 'table table-bordered table-hover table-light',
+                        'style' => 'background-color:white;'
+                    ],
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
@@ -76,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <!-- </div> -->
             </div>
             <div class="col-sm-6">
-            <h4 style="margin: 10% 5% 5% 5%"><b>Input Alur<b></h4>
+            <h4 style="margin: 10% 5% 5% 5%"><b>Input Periode<b></h4>
                 <?= $this->render('_form', [
                     'model' => $model,
                 ]) ?>
