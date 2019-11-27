@@ -19,29 +19,40 @@ use yii\helpers\Html;
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-
-                
-                <!-- User Account: style can be found in dropdown.less -->
-
-                <li class="dropdown user user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        
-                        <span >Insert Name here</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header">
-                            <p>
-                                Insert name here
-                            </p>
-                            <button> Log Out </button>
-                        </li>
-                        
-                    </ul>
+                <li class="user user-menu">
+                    <?php
+                        $session = Yii::$app->session;
+                        if($session->has('email')){
+                            $nama = $session->get('nama');
+                            $jabatan = $session->get('jabatan');
+                            echo Html::a("<span><i class='fa fa-user'></i>&nbsp; Log out</span>", 
+                            ['site/logout-user'], 
+                            ['class' => 'nav-link']);
+                            
+                        }
+                        else{
+                            echo Html::a("<span><i class='fa fa-user'></i>&nbsp; Log in</span>", 
+                            /*login sso : dummy, login-user : pake sso*/
+                            ['site/login-sso'], 
+                            // ['site/login-user'], 
+                            ['class' => 'nav-link']);
+                        }
+                    ?>
                 </li>
-
-                <!-- User Account: style can be found in dropdown.less -->
-                
+                <?php
+                    if($session->has('email')){
+                        echo 
+                        "
+                        <li class='user user-menu'>
+                        <a class='nav-link'>"
+                            .$jabatan.
+                        "</a>
+                        </li>"
+                        ;
+                    }
+                    
+                    
+                ?> 
             </ul>
         </div>
     </nav>

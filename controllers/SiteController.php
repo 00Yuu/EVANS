@@ -94,6 +94,136 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    
+    public function actionLoginSso(){
+        
+        $email_user = '';
+        if(isset($_POST['jabatan'])){
+            $jabatan = Yii::$app->request->post()['jabatan'];
+            if($jabatan == 'Admin'){
+                $email_user = 'yudhistira@umn.ac.id';
+            }
+            else if($jabatan == 'DEM Sekretaris'){
+                $email_user = 'felicia.tanata@student.umn.ac.id';
+            }
+            else if($jabatan == 'DEM Ketua'){
+                $email_user = "gideon.k.f.h..hutapea@student.umn.ac.id";
+            }
+            else if($jabatan == 'DEM Board 1'){
+                $email_user = 'galang.rizky.pradipta@student.umn.ac.id';
+            }
+            else if($jabatan == 'DEM Board 2'){
+                $email_user = 'neville.budiman@student.umn.ac.id';
+            }
+            else if($jabatan == 'DEM Board 3'){
+                $email_user = 'gregorius.dennis@umn.ac.id';
+            }
+            else if($jabatan == 'Kaprodi TI'){
+                $email_user = 'seng.hansun@student.umn.ac.id';
+            }
+            else if($jabatan == 'Sekretaris Rektor'){
+                $email_user = 'bella.surya@student.umn.ac.id';
+            }
+            else if($jabatan == 'BAAK'){
+                $email_user = 'phili.stanlee@student.umn.ac.id';
+            }
+            else if($jabatan == 'Pelapor'){
+                $email_user = 'mesi.sucitra.dewi@student.umn.ac.id';
+            }
+            else if($jabatan == 'Telapor'){
+                $email_user = 'efraim.yahya.wijaya@student.umn.ac.id';
+            }
+            else if($jabatan == 'Student Councel'){
+                $email_user = 'benedictus.betavian.usdinoari@student.umn.ac.id';
+            }
+
+            //query ambil namanya dan emplid
+            $sql = "SELECT DESKRIPSI
+            FROM EVANS_PERSONAL_DATA_VIEW
+            WHERE EMAIL = '$email_user'
+            ";
+
+            $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+            $deskripsi = $result['DESKRIPSI'];
+
+            if($deskripsi === 'MAHASISWA'){
+                $session = Yii::$app->session;
+
+                if($session->isActive){
+
+                }else{
+                    $session->open();
+                }
+                $session->set('email', $email_user);
+                return $this->redirect(Yii::$app->homeUrl);
+            }
+            else{
+
+            }
+
+            // $emplid_user = $result['EMPLID'];
+
+            //query ambil jabatannya, jika tidak ada maka di set member
+
+            // $sql = "SELECT jh.EMPLID, NAMA_JABATAN, jh.EFFDT, EMAIL_ADDR
+            //         FROM  DEM_MASTER_JABATAN_TBL mj, DEM_JABATAN_HISTORY_TBL jh ,DEM_PERSONAL_DATA pd,  (select id_jabatan, max(effdt) effdt from DEM_JABATAN_HISTORY_TBL where status = '1' group by id_jabatan ) jhh
+            //         where mj.ID_JABATAN = jh.ID_JABATAN
+            //         and pd.EMPLID = jh.EMPLID
+            //         and STATUS = '1' AND TO_CHAR(sysdate,'yyyymmdd') > TO_CHAR(jh.EFFDT,'yyyymmdd')
+            //         and jh.effdt = jhh.effdt
+            //         and jh.id_jabatan = jhh.id_jabatan
+            //         and jh.emplid = '$emplid_user'
+            //         ";
+
+            // $list_jabatan = Yii::$app->db->createCommand($sql)->queryOne();
+            // var_dump($list_jabatan);
+            //jika jabatan nya tidak ada di master struktur hirarki, maka akan menjadi member
+            // if($list_jabatan == false){
+            //     $jabatan_user = 'Member';
+            // }
+            // else{
+            //     $jabatan_user = $list_jabatan['NAMA_JABATAN'];
+            // }
+
+            // $session = Yii::$app->session;
+
+            // if($session->isActive){
+
+            // }else{
+            //     $session->open();
+            // }
+
+            // $session->set('email', $email_user);
+
+            // $session->set('nama', $nama_user);
+
+            // $session->set('emplid', $emplid_user);
+
+            // $session->set('jabatan', $jabatan_user);
+
+            // return $this->redirect(Yii::$app->homeUrl);
+        }
+
+        return $this->render('sso');
+
+        
+    }
+
+    public function actionLogoutUser()
+    {   
+        // CasWrapper::logout(Url::base(true));
+
+        $session = Yii::$app->session;
+
+        // destroys all data registered to a session.
+        $session->destroy();
+
+        $session->close();
+
+        return $this->redirect(Yii::$app->homeUrl);
+
+    }
 
     /**
      * Logout action.
