@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Proposal;
+use app\models\HalamanPengesahanProposal;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -71,6 +72,68 @@ class MonitoringProposalController extends Controller
         }
 
         return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionJudul(){
+        $model = new Proposal();
+
+        return $this->render('halamanjudul', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPengesahan(){
+        $model = new HalamanPengesahanProposal();
+
+        return $this->render('pengesahan', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPengantar(){
+        $model = new Proposal();
+
+        return $this->render('katapengantar', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionBab1(){
+        $model = new Proposal();
+
+        return $this->render('bab1', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionBab2(){
+        $model = new Proposal();
+
+        return $this->render('bab2', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionBab3(){
+        $model = new Proposal();
+
+        return $this->render('bab3', [
+            'model' => $model,
+        ]);
+    }
+    public function actionBab5(){
+        $model = new Proposal();
+
+        return $this->render('bab5', [
+            'model' => $model,
+        ]);
+    }
+    public function actionLampiran(){
+        $model = new Proposal();
+
+        return $this->render('lampiran', [
             'model' => $model,
         ]);
     }
