@@ -167,6 +167,12 @@ class InlineTest extends TestCase
         Inline::parse('{ foo: bar } bar');
     }
 
+    public function testParseInvalidTaggedSequenceShouldThrowException()
+    {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        Inline::parse('!foo { bar: baz } qux', Yaml::PARSE_CUSTOM_TAGS);
+    }
+
     public function testParseScalarWithCorrectlyQuotedStringShouldReturnString()
     {
         $value = "'don''t do somthin'' like that'";
@@ -711,7 +717,7 @@ class InlineTest extends TestCase
     public function testUnfinishedInlineMap()
     {
         $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
-        $this->expectExceptionMessage('Unexpected end of line, expected one of ",}" at line 1 (near "{abc: \'def\'").');
+        $this->expectExceptionMessage("Unexpected end of line, expected one of \",}\n\" at line 1 (near \"{abc: 'def'\").");
         Inline::parse("{abc: 'def'");
     }
 }

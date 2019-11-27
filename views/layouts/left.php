@@ -7,13 +7,12 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Home','icon' => 'home','url' => ['/site/index']],    
-                    ['label' => 'Master Organisasi','icon' => 'clipboard','url' =>['/master-daftar-organisasi']],        
-                    ['label' => 'Home','icon' => 'home','url' => ['/site/index']],            
+                    ['label' => 'Master Organisasi','icon' => 'clipboard','url' =>['/master-daftar-organisasi']],                  
                     ['label' => 'Master Tenggat Waktu','icon' => 'clipboard','url' => ['/master-tenggat-waktu']],
                     ['label' => 'Master Periode','icon' => 'clipboard','url' => ['/master-periode']],
                     ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
                     ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
-                    ['label' => 'LPK','icon' => 'clipboard','url' =>['/lat']],
+                    ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],
                     ['label' => 'LPJ','icon' => 'clipboard','url' =>['/lat']],
                     [
                         'label' => 'Some tools',

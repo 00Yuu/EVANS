@@ -1,53 +1,100 @@
 <?php
-use marekpetras\calendarview\CalendarView;
+use yii\bootstrap\Modal;
+use yii\web\JsExpression;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
+$this->title = 'Calendar Proker';
+// var_dump($events);
 
-$this->title = '';
 ?>
 
 <div class="calendar-view">
-<?=
 
-    CalendarView::widget(
-        [
-            // mandatory
-            'dataProvider'  => $dataProvider,
-            'dateField'     => 'START_DATE',
-            'valueField'    => 'BENTUK_PROKER',
+  <div class="search-calendar">
 
+    <?php $form = ActiveForm::begin([
+        
+    ]); ?>
 
-            // optional params with their defaults
-            'unixTimestamp' => false, // indicate whether you use unix timestamp instead of a date/datetime format in the data provider
-            'weekStart' => 1, // date('w') // which day to display first in the calendar
-            'title'     => '',
+    <div class="row" >
+      <div class="col-sm-3">
+          <?= $form->field($model, 'bulan')->dropDownList($modelProker->dataBulan(),
+              [
+                  'prompt' => 'Pilih Bulan',
+                  'class' => 'form-control',
+                  'style' => 'width:100%',
+              ])->label('Month') 
+          ?>
+      </div>
 
-            'views'     => [
-                'calendar' => '@vendor/marekpetras/yii2-calendarview-widget/views/calendar',
-                'month' => '@vendor/marekpetras/yii2-calendarview-widget/views/month',
-                'day' => '@vendor/marekpetras/yii2-calendarview-widget/views/day',
-            ],
+      <div class="col-sm-3">
+          <?= $form->field($model, 'tahun')->dropDownList($modelProker->dataTahun(),
+              [
+                  'prompt' => 'Pilih Tahun',
+                  'class' => 'form-control',
+                  'style' => 'width:100%'
+              ])->label('Year')  ?>
+      </div>
 
-            'startYear' => date('Y') - 1,
-            'endYear' => date('Y') + 1,
+      <div class="col-sm-3">
+   
+          <?=
+            Html::submitButton('Search', 
+            [
+                'class' => 'btn btn-primary',
+                'style' => 'margin-top:9%;',
+            ]);
+          ?>
+      </div>
 
-            'link' => false,
-            /* alternates to link , is called on every models valueField, used in Html::a( valueField , link )
-            'link' => 'site/view',
-            'link' => function($model,$calendar){
-                return ['calendar/view','id'=>$model->id];
-            },
-            */
+    </div>
 
-            'dayRender' => false,
-            /* alternate to dayRender
-            'dayRender' => function($model,$calendar) {
-                return '<p>'.$model->id.'</p>';
-            },
-            */
+    <?php ActiveForm::end(); ?>
 
-        ]
-    );
+  </div>
 
-?>
+  <?php
+  $date = date('m-d-Y');
+  ?>
+
+  <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+      'events'=> $events,
+      'clientOptions' => [
+        'displayEventTime' => false,
+        "eventBackgroundColor" =>  '#d1d6de',
+        "eventBorderColor" =>  'black',
+        "eventTextColor" =>  'black',
+        'editable' => false,
+        'draggable' => false,
+        'defaultDate' => "$date" // untuk search date
+      ],
+      'eventClick' => "function(calEvent, jsEvent, view) {
+
+        $.get('".Url::to(['program-kerja/modal-calendar'])."', {id: calEvent.id }, function(data) {
+          var viewModal = $('#modal');
+          viewModal.modal('show').find('#modalContent').html(data);
+        })
+      }",
+    ));
+  ?>
 
 </div>
+
+<?php
+    Modal::begin([
+        'header' => 'Detail Kegiatan',
+        'headerOptions' => [
+            'class' => 'bg-primary',
+        ],
+        'id' => 'modal',
+        'size' => 'modal-md',
+        'closeButton' => [
+            'style' => 'color : #fff; opacity: 1;' 
+        ]
+        
+    ]);
+    echo "<div id='modalContent'></div>";
+    Modal::end();
+?>

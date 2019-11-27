@@ -88,7 +88,7 @@ EOF
         $flags = $input->getOption('parse-tags') ? Yaml::PARSE_CUSTOM_TAGS : 0;
 
         if (['-'] === $filenames) {
-            return $this->display($io, [$this->validate($this->getStdin(), $flags)]);
+            return $this->display($io, [$this->validate(file_get_contents('php://stdin'), $flags)]);
         }
 
         // @deprecated to be removed in 5.0
@@ -96,7 +96,7 @@ EOF
             if (0 === ftell(STDIN)) {
                 @trigger_error('Piping content from STDIN to the "lint:yaml" command without passing the dash symbol "-" as argument is deprecated since Symfony 4.4.', E_USER_DEPRECATED);
 
-                return $this->display($io, [$this->validate($this->getStdin(), $flags)]);
+                return $this->display($io, [$this->validate(file_get_contents('php://stdin'), $flags)]);
             }
 
             throw new RuntimeException('Please provide a filename or pipe file content to STDIN.');
@@ -137,7 +137,7 @@ EOF
         return ['file' => $file, 'valid' => true];
     }
 
-    private function display(SymfonyStyle $io, array $files)
+    private function display(SymfonyStyle $io, array $files): int
     {
         switch ($this->format) {
             case 'txt':
@@ -149,7 +149,7 @@ EOF
         }
     }
 
-    private function displayTxt(SymfonyStyle $io, array $filesInfo)
+    private function displayTxt(SymfonyStyle $io, array $filesInfo): int
     {
         $countFiles = \count($filesInfo);
         $erroredFiles = 0;
@@ -178,7 +178,7 @@ EOF
         return min($erroredFiles, 1);
     }
 
-    private function displayJson(SymfonyStyle $io, array $filesInfo)
+    private function displayJson(SymfonyStyle $io, array $filesInfo): int
     {
         $errors = 0;
 
@@ -198,7 +198,7 @@ EOF
         return min($errors, 1);
     }
 
-    private function getFiles(string $fileOrDirectory)
+    private function getFiles(string $fileOrDirectory): iterable
     {
         if (is_file($fileOrDirectory)) {
             yield new \SplFileInfo($fileOrDirectory);
@@ -215,17 +215,7 @@ EOF
         }
     }
 
-    private function getStdin(): string
-    {
-        $yaml = '';
-        while (!feof(STDIN)) {
-            $yaml .= fread(STDIN, 1024);
-        }
-
-        return $yaml;
-    }
-
-    private function getParser()
+    private function getParser(): Parser
     {
         if (!$this->parser) {
             $this->parser = new Parser();
@@ -234,7 +224,7 @@ EOF
         return $this->parser;
     }
 
-    private function getDirectoryIterator(string $directory)
+    private function getDirectoryIterator(string $directory): iterable
     {
         $default = function ($directory) {
             return new \RecursiveIteratorIterator(
@@ -250,7 +240,7 @@ EOF
         return $default($directory);
     }
 
-    private function isReadable(string $fileOrDirectory)
+    private function isReadable(string $fileOrDirectory): bool
     {
         $default = function ($fileOrDirectory) {
             return is_readable($fileOrDirectory);

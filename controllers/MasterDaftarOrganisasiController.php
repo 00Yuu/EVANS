@@ -161,7 +161,7 @@ class MasterDaftarOrganisasiController extends Controller
         }
         
         $arrayStatus = Yii::$app->request->post('selectStatus');
-
+        
         foreach($arrayStatus as $key => $value){
             if($key == $id_organisasi){
                 $statusUpdate =  $value;

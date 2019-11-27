@@ -86,4 +86,8 @@ class MasterRinciOrganisasi extends \yii\db\ActiveRecord
     {
         return $this->hasOne(MasterPengurusOrganisasi::className(), ['ID_PENGURUS' => 'ID_PENGURUS']);
     }
+
+    public function getPersonalData(){
+        return $this->hasOne(PersonalData::className(), ['EMPLID' => 'EMPLID']);
+    }
 }

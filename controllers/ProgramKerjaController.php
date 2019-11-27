@@ -144,17 +144,47 @@ class ProgramKerjaController extends Controller
     }
 
     public function actionCalendar(){
-        $dataProvider = new ActiveDataProvider([
-            'query' => ProgramKerja::find(),
-            'pagination' => ['pageSize' => 31],
-            'sort'=> ['defaultOrder' => ['START_DATE'=>SORT_DESC]]
+        $model = new \yii\base\DynamicModel([
+            'bulan', 'tahun'
         ]);
+
+        $modelProker = new ProgramKerja();
+
+        $events = ProgramKerja::find()->where(['STATUS_DRAFT' => '0'])->all();
+
+        $search_date = null;
+        
+        var_dump(Yii::$app->request->post());
+
+        if(Yii::$app->request->post()){
+            echo "aa";
+
+        }
+
+        foreach($events as $event1){
+            $event = new \yii2fullcalendar\models\Event();
+            $event->id = $event1->ID_PROKER;
+            $event->title = $event1->NAMA_KEGIATAN;
+            $event->start = $event1->START_DATE;
+            $event->end = $event1->END_DATE;
+            $events[] = $event;
+        }
 
         return $this->render('calendar', [
-            'dataProvider' => $dataProvider
+            'search_date' => $search_date,            
+            'events' => $events,
+            'model' => $model,
+            'modelProker' => $modelProker,
         ]);
 
-        
+    }
+
+    public function actionModalCalendar($id){
+        $model = ProgramKerja::find()->where(['ID_PROKER' => $id])->one();
+      
+        return $this->renderAjax('_detail_proker', [
+            'model' => $model,
+        ]);   
     }
 
     /**

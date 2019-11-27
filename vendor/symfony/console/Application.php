@@ -42,9 +42,8 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Debug\ErrorHandler as LegacyErrorHandler;
-use Symfony\Component\Debug\Exception\FatalThrowableError as LegacyFatalThrowableError;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\ErrorHandler\ErrorHandler;
-use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Contracts\Service\ResetInterface;
@@ -127,14 +126,11 @@ class Application implements ResetInterface
             $output = new ConsoleOutput();
         }
 
-        $renderException = function ($e) use ($output) {
-            if (!$e instanceof \Exception) {
-                $e = class_exists(FatalThrowableError::class) ? new FatalThrowableError($e) : (class_exists(LegacyFatalThrowableError::class) ? new LegacyFatalThrowableError($e) : new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine()));
-            }
+        $renderException = function (\Throwable $e) use ($output) {
             if ($output instanceof ConsoleOutputInterface) {
-                $this->renderException($e, $output->getErrorOutput());
+                $this->renderThrowable($e, $output->getErrorOutput());
             } else {
-                $this->renderException($e, $output);
+                $this->renderThrowable($e, $output);
             }
         };
         if ($phpHandler = set_exception_handler($renderException)) {
@@ -557,6 +553,10 @@ class Application implements ResetInterface
     {
         $namespaces = [];
         foreach ($this->all() as $command) {
+            if ($command->isHidden()) {
+                continue;
+            }
+
             $namespaces = array_merge($namespaces, $this->extractAllNamespaces($command->getName()));
 
             foreach ($command->getAliases() as $alias) {
@@ -654,6 +654,11 @@ class Application implements ResetInterface
             $message = sprintf('Command "%s" is not defined.', $name);
 
             if ($alternatives = $this->findAlternatives($name, $allCommands)) {
+                // remove hidden commands
+                $alternatives = array_filter($alternatives, function ($name) {
+                    return !$this->get($name)->isHidden();
+                });
+
                 if (1 == \count($alternatives)) {
                     $message .= "\n\nDid you mean this?\n    ";
                 } else {
@@ -662,7 +667,7 @@ class Application implements ResetInterface
                 $message .= implode("\n    ", $alternatives);
             }
 
-            throw new CommandNotFoundException($message, $alternatives);
+            throw new CommandNotFoundException($message, array_values($alternatives));
         }
 
         // filter out aliases for commands which are already on the list
@@ -683,20 +688,36 @@ class Application implements ResetInterface
             foreach ($abbrevs as $abbrev) {
                 $maxLen = max(Helper::strlen($abbrev), $maxLen);
             }
-            $abbrevs = array_map(function ($cmd) use ($commandList, $usableWidth, $maxLen) {
+            $abbrevs = array_map(function ($cmd) use ($commandList, $usableWidth, $maxLen, &$commands) {
                 if (!$commandList[$cmd] instanceof Command) {
-                    return $cmd;
+                    $commandList[$cmd] = $this->commandLoader->get($cmd);
                 }
+
+                if ($commandList[$cmd]->isHidden()) {
+                    unset($commands[array_search($cmd, $commands)]);
+
+                    return false;
+                }
+
                 $abbrev = str_pad($cmd, $maxLen, ' ').' '.$commandList[$cmd]->getDescription();
 
                 return Helper::strlen($abbrev) > $usableWidth ? Helper::substr($abbrev, 0, $usableWidth - 3).'...' : $abbrev;
             }, array_values($commands));
-            $suggestions = $this->getAbbreviationSuggestions($abbrevs);
 
-            throw new CommandNotFoundException(sprintf("Command \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $name, $suggestions), array_values($commands));
+            if (\count($commands) > 1) {
+                $suggestions = $this->getAbbreviationSuggestions(array_filter($abbrevs));
+
+                throw new CommandNotFoundException(sprintf("Command \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $name, $suggestions), array_values($commands));
+            }
         }
 
-        return $this->get(reset($commands));
+        $command = $this->get(reset($commands));
+
+        if ($command->isHidden()) {
+            @trigger_error(sprintf('Command "%s" is hidden, finding it using an abbreviation is deprecated since Symfony 4.4, use its full name instead.', $command->getName()), E_USER_DEPRECATED);
+        }
+
+        return $command;
     }
 
     /**
@@ -767,20 +788,77 @@ class Application implements ResetInterface
 
     /**
      * Renders a caught exception.
+     *
+     * @deprecated since Symfony 4.4, use "renderThrowable()" instead
      */
     public function renderException(\Exception $e, OutputInterface $output)
     {
+        @trigger_error(sprintf('The "%s::renderException()" method is deprecated since Symfony 4.4, use "renderThrowable()" instead.', __CLASS__), E_USER_DEPRECATED);
+
         $output->writeln('', OutputInterface::VERBOSITY_QUIET);
 
         $this->doRenderException($e, $output);
 
+        $this->finishRenderThrowableOrException($output);
+    }
+
+    public function renderThrowable(\Throwable $e, OutputInterface $output): void
+    {
+        if (__CLASS__ !== \get_class($this) && __CLASS__ === (new \ReflectionMethod($this, 'renderThrowable'))->getDeclaringClass()->getName() && __CLASS__ !== (new \ReflectionMethod($this, 'renderException'))->getDeclaringClass()->getName()) {
+            @trigger_error(sprintf('The "%s::renderException()" method is deprecated since Symfony 4.4, use "renderThrowable()" instead.', __CLASS__), E_USER_DEPRECATED);
+
+            if (!$e instanceof \Exception) {
+                $e = class_exists(FatalThrowableError::class) ? new FatalThrowableError($e) : new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine());
+            }
+
+            $this->renderException($e, $output);
+
+            return;
+        }
+
+        $output->writeln('', OutputInterface::VERBOSITY_QUIET);
+
+        $this->doRenderThrowable($e, $output);
+
+        $this->finishRenderThrowableOrException($output);
+    }
+
+    private function finishRenderThrowableOrException(OutputInterface $output): void
+    {
         if (null !== $this->runningCommand) {
             $output->writeln(sprintf('<info>%s</info>', sprintf($this->runningCommand->getSynopsis(), $this->getName())), OutputInterface::VERBOSITY_QUIET);
             $output->writeln('', OutputInterface::VERBOSITY_QUIET);
         }
     }
 
+    /**
+     * @deprecated since Symfony 4.4, use "doRenderThrowable()" instead
+     */
     protected function doRenderException(\Exception $e, OutputInterface $output)
+    {
+        @trigger_error(sprintf('The "%s::doRenderException()" method is deprecated since Symfony 4.4, use "doRenderThrowable()" instead.', __CLASS__), E_USER_DEPRECATED);
+
+        $this->doActuallyRenderThrowable($e, $output);
+    }
+
+    protected function doRenderThrowable(\Throwable $e, OutputInterface $output): void
+    {
+        if (__CLASS__ !== \get_class($this) && __CLASS__ === (new \ReflectionMethod($this, 'doRenderThrowable'))->getDeclaringClass()->getName() && __CLASS__ !== (new \ReflectionMethod($this, 'doRenderException'))->getDeclaringClass()->getName()) {
+            @trigger_error(sprintf('The "%s::doRenderException()" method is deprecated since Symfony 4.4, use "doRenderThrowable()" instead.', __CLASS__), E_USER_DEPRECATED);
+
+            if (!$e instanceof \Exception) {
+                $e = class_exists(FatalThrowableError::class) ? new FatalThrowableError($e) : new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine());
+            }
+
+            $this->doRenderException($e, $output);
+
+            return;
+        }
+
+        $this->doActuallyRenderThrowable($e, $output);
+    }
+
+    private function doActuallyRenderThrowable(\Throwable $e, OutputInterface $output): void
     {
         do {
             $message = trim($e->getMessage());
@@ -1125,12 +1203,12 @@ class Application implements ResetInterface
     /**
      * @internal
      */
-    public function isSingleCommand()
+    public function isSingleCommand(): bool
     {
         return $this->singleCommand;
     }
 
-    private function splitStringByWidth(string $string, int $width)
+    private function splitStringByWidth(string $string, int $width): array
     {
         // str_split is not suitable for multi-byte characters, we should use preg_split to get char array properly.
         // additionally, array_slice() is not enough as some character has doubled width.
