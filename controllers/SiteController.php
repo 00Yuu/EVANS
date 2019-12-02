@@ -105,39 +105,6 @@ class SiteController extends Controller
                 $email_user = 'yudhistira@umn.ac.id';
                 $Jabatan = 'admin';
             }
-            else if($jabatan == 'DEM Sekretaris'){
-                $email_user = 'felicia.tanata@student.umn.ac.id';
-            }
-            else if($jabatan == 'DEM Ketua'){
-                $email_user = "gideon.k.f.h..hutapea@student.umn.ac.id";
-            }
-            else if($jabatan == 'DEM Board 1'){
-                $email_user = 'galang.rizky.pradipta@student.umn.ac.id';
-            }
-            else if($jabatan == 'DEM Board 2'){
-                $email_user = 'neville.budiman@student.umn.ac.id';
-            }
-            else if($jabatan == 'DEM Board 3'){
-                $email_user = 'gregorius.dennis@umn.ac.id';
-            }
-            else if($jabatan == 'Kaprodi TI'){
-                $email_user = 'seng.hansun@student.umn.ac.id';
-            }
-            else if($jabatan == 'Sekretaris Rektor'){
-                $email_user = 'bella.surya@student.umn.ac.id';
-            }
-            else if($jabatan == 'BAAK'){
-                $email_user = 'phili.stanlee@student.umn.ac.id';
-            }
-            else if($jabatan == 'Pelapor'){
-                $email_user = 'mesi.sucitra.dewi@student.umn.ac.id';
-            }
-            else if($jabatan == 'Telapor'){
-                $email_user = 'efraim.yahya.wijaya@student.umn.ac.id';
-            }
-            else if($jabatan == 'Student Councel'){
-                $email_user = 'benedictus.betavian.usdinoari@student.umn.ac.id';
-            }
 
             //query ambil namanya dan emplid
             $sql = "SELECT DESKRIPSI
