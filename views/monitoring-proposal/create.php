@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Proposal */
 
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>Halaman Judul</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/judul'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -43,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>Lembar Pengesahan</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/pengesahan'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -57,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>Kata Pengantar</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/pengantar'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -71,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>BAB I Pendahuluan</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/bab1'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -85,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>BAB II Deskripsi Kegiatan</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/bab2'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -99,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>BAB III Rencana Kerja</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/bab3'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -127,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>BAB V Penutup</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/bab5'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -141,7 +142,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>Lampiran</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/lampiran'], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>

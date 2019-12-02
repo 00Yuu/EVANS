@@ -3,17 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Proposal;
-use app\models\HalamanPengesahanProposal;
+use app\models\MasterTTD;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
- * MonitoringProposalController implements the CRUD actions for Proposal model.
+ * MasterTtdController implements the CRUD actions for MasterTTD model.
  */
-class MonitoringProposalController extends Controller
+class MasterTtdController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,22 +31,52 @@ class MonitoringProposalController extends Controller
     }
 
     /**
-     * Lists all Proposal models.
+     * Lists all MasterTTD models.
      * @return mixed
      */
     public function actionIndex()
     {
+        $model = new MasterTTD();
+
+
+        if ($model->load(Yii::$app->request->post())) {
+            $FILE = UploadedFile::getInstance($model, 'FILE_TTD');
+            
+            if($model->FILE_TTD && $model->validate()){
+                $model->FILE_TTD->saveAs('uploads/' . $model->FILE_TTD->baseName . '.' . $model->FILE_TTD->extension);
+
+                // $model->save();
+                // if (!empty($FILE)) {
+                //     $FILE->saveAs(Yii::getAlias('Upload/') . 'File.' . $FILE_TTD->extension);
+                //     $model->FILE_TTD = 'FILE.' . $FILE_TTD->extension;
+                //     $model->save();
+                // }
+            }
+            // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
+            return $this->redirect(['index']);
+        }
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Proposal::find(),
+            'query' => MasterTTD::find(),
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_TTD' => SORT_ASC,
+                ]
+            ]
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'model' => $model,
+
         ]);
     }
 
     /**
-     * Displays a single Proposal model.
+     * Displays a single MasterTTD model.
      * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -59,16 +89,16 @@ class MonitoringProposalController extends Controller
     }
 
     /**
-     * Creates a new Proposal model.
+     * Creates a new MasterTTD model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Proposal();
+        $model = new MasterTTD();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_PROPOSAL]);
+            return $this->redirect(['view', 'id' => $model->ID_TTD]);
         }
 
         return $this->render('create', [
@@ -76,70 +106,8 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionJudul(){
-        $model = new Proposal();
-
-        return $this->render('halamanjudul', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionPengesahan(){
-        $model = new HalamanPengesahanProposal();
-
-        return $this->render('pengesahan', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionPengantar(){
-        $model = new Proposal();
-
-        return $this->render('katapengantar', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionBab1(){
-        $model = new Proposal();
-
-        return $this->render('bab1', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionBab2(){
-        $model = new Proposal();
-
-        return $this->render('bab2', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionBab3(){
-        $model = new Proposal();
-
-        return $this->render('bab3', [
-            'model' => $model,
-        ]);
-    }
-    public function actionBab5(){
-        $model = new Proposal();
-
-        return $this->render('bab5', [
-            'model' => $model,
-        ]);
-    }
-    public function actionLampiran(){
-        $model = new Proposal();
-
-        return $this->render('lampiran', [
-            'model' => $model,
-        ]);
-    }
-
     /**
-     * Updates an existing Proposal model.
+     * Updates an existing MasterTTD model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -150,7 +118,7 @@ class MonitoringProposalController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_PROPOSAL]);
+            return $this->redirect(['view', 'id' => $model->ID_TTD]);
         }
 
         return $this->render('update', [
@@ -159,7 +127,7 @@ class MonitoringProposalController extends Controller
     }
 
     /**
-     * Deletes an existing Proposal model.
+     * Deletes an existing MasterTTD model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -173,15 +141,15 @@ class MonitoringProposalController extends Controller
     }
 
     /**
-     * Finds the Proposal model based on its primary key value.
+     * Finds the MasterTTD model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Proposal the loaded model
+     * @return MasterTTD the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Proposal::findOne($id)) !== null) {
+        if (($model = MasterTTD::findOne($id)) !== null) {
             return $model;
         }
 
