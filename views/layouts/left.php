@@ -10,6 +10,7 @@
                     ['label' => 'Master Organisasi','icon' => 'clipboard','url' =>['/master-daftar-organisasi']],                  
                     ['label' => 'Master Tenggat Waktu','icon' => 'clipboard','url' => ['/master-tenggat-waktu']],
                     ['label' => 'Master Periode','icon' => 'clipboard','url' => ['/master-periode']],
+                    ['label' => 'Master TTD','icon' => 'clipboard','url' => ['/master-ttd']],
                     ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
                     ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
                     ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],

@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'HARGA')->textInput(['maxlength' => true])->input('HARGA', ['placeholder' => "Harga"])->label('Harga') ?>
 
-    <div class="card" style="background-color: white;border:1px solid gray; ;margin: 5% 0 5% 0;padding: 5%">
+    <div class="card" style="background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); ;margin: 5% 0 5% 0;padding: 5%">
     
     <?= Html::Button('Choose Files', array(
             'class' => 'btn btn-default',
