@@ -98,10 +98,12 @@ class SiteController extends Controller
     public function actionLoginSso(){
         
         $email_user = '';
+        $Jabatan = '';
         if(isset($_POST['jabatan'])){
             $jabatan = Yii::$app->request->post()['jabatan'];
             if($jabatan == 'Admin'){
                 $email_user = 'yudhistira@umn.ac.id';
+                $Jabatan = 'admin';
             }
             else if($jabatan == 'DEM Sekretaris'){
                 $email_user = 'felicia.tanata@student.umn.ac.id';
@@ -156,6 +158,7 @@ class SiteController extends Controller
                     $session->open();
                 }
                 $session->set('email', $email_user);
+                $session->set('jabatan', $Jabatan);
                 return $this->redirect(Yii::$app->homeUrl);
             }
             else{

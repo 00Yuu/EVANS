@@ -7,6 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Calendar Proker';
 // var_dump($events);
+
 ?>
 
 <div class="calendar-view">
@@ -14,7 +15,7 @@ $this->title = 'Calendar Proker';
   <div class="search-calendar">
 
     <?php $form = ActiveForm::begin([
-        'method' => 'get',
+        
     ]); ?>
 
     <div class="row" >
@@ -38,18 +39,14 @@ $this->title = 'Calendar Proker';
       </div>
 
       <div class="col-sm-3">
-        <div class="form-group">
-          <label>&nbsp</label>
+   
           <?=
             Html::submitButton('Search', 
             [
                 'class' => 'btn btn-primary',
-                'style' => '',
+                'style' => 'margin-top:9%;',
             ]);
           ?>
-        </div>
-        
-
       </div>
 
     </div>
@@ -58,7 +55,11 @@ $this->title = 'Calendar Proker';
 
   </div>
 
-<?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+  <?php
+  $date = date('m-d-Y');
+  ?>
+
+  <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
       'events'=> $events,
       'clientOptions' => [
         'displayEventTime' => false,
@@ -67,7 +68,7 @@ $this->title = 'Calendar Proker';
         "eventTextColor" =>  'black',
         'editable' => false,
         'draggable' => false,
-        'defaultDate' => '08-08-2019' // untuk search date
+        'defaultDate' => "$date" // untuk search date
       ],
       'eventClick' => "function(calEvent, jsEvent, view) {
 
@@ -77,7 +78,7 @@ $this->title = 'Calendar Proker';
         })
       }",
     ));
-?>
+  ?>
 
 </div>
 
