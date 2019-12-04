@@ -19,7 +19,7 @@
     
     
     <div class="col-sm-5" style="padding-right: 0; padding-left:0;">
-        <input type="text" id="start_date" class="form-control" style="" value="<?= $model->START_DATE?>"  readonly="true">
+        <input type="text" id="start_date" class="form-control" style="" value="<?= date('d-m-Y', strtotime("$model->START_DATE")) ?>"  readonly="true">
     </div>
     <div class="col-sm-2" style="padding: 0 0 0 0">
         <div style="padding: 6.7% 6.7% 6.7% 40%;border: 1px solid #e0e0e0;background-color: #f2f2f2">
@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="col-sm-5" style="padding-left: 0;padding-right: 0;">
-        <input type="text" id="start_date" class="form-control" style="" value="<?= $model->END_DATE?>"  readonly="true">
+        <input type="text" id="start_date" class="form-control" style="" value="<?= date('d-m-Y', strtotime("$model->END_DATE"))?>"  readonly="true">
     </div>
 </div>
 
