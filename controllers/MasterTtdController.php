@@ -37,25 +37,43 @@ class MasterTtdController extends Controller
     public function actionIndex()
     {
         $model = new MasterTTD();
+        
 
+        if($model->load(Yii::$app->request->post())){
+              
+                if ($model->validate()) {
 
-        if ($model->load(Yii::$app->request->post())) {
-            $FILE = UploadedFile::getInstance($model, 'FILE_TTD');
-            
-            if($model->FILE_TTD && $model->validate()){
-                $model->FILE_TTD->saveAs('uploads/' . $model->FILE_TTD->baseName . '.' . $model->FILE_TTD->extension);
+        
+                    $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
+                    
+                    $model->FILE_TTD->saveAs('uploads/' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension);
+                    
+                }
 
-                // $model->save();
-                // if (!empty($FILE)) {
-                //     $FILE->saveAs(Yii::getAlias('Upload/') . 'File.' . $FILE_TTD->extension);
-                //     $model->FILE_TTD = 'FILE.' . $FILE_TTD->extension;
-                //     $model->save();
-                // }
+                $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
+                //$tmp= 'uploads/' . $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
+                if($model->FILE_TTD != null){
+                    $fileName = 'Lampiran_TTD_' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
+                    $model->FILE_TTD = $fileName;
+                    
+                    $model->save();
+                }
+
+               
+                
+                
+               Yii::$app->session->setFlash('success','File terupload');
+         
+               return $this->redirect(['index']);
+               
+                 
+               
+                
+                
             }
-            // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
-            return $this->redirect(['index']);
-        }
 
+           
+        
         $dataProvider = new ActiveDataProvider([
             'query' => MasterTTD::find(),
             'pagination' => [
@@ -73,7 +91,21 @@ class MasterTtdController extends Controller
             'model' => $model,
 
         ]);
-    }
+    
+}   
+
+        // public function actionDownload($id){
+        //     $download = MasterTTD::findOne($id); 
+        //     $path = Yii::getAlias('@webroot').'/uploads/'.$download->FILE_TTD;
+
+        //     if (file_exists($path)) {
+        //         //return \Yii::$app->response->sendFile($download->pre_paper,@file_get_contents($path));
+        //         return Yii::$app->response->sendFile($path);
+        //     }
+        //     else{
+        //         echo "bablabla";
+        //     }
+        // }
 
     /**
      * Displays a single MasterTTD model.
@@ -113,17 +145,31 @@ class MasterTtdController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
+        $arrayButton = Yii::$app->request->post('updateBtn');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_TTD]);
+       foreach ($arrayButton as $key => $value) {
+            $id_ttd = $key;
+        }
+        
+        $arrayStatus = Yii::$app->request->post('selectStatus');
+        
+        foreach($arrayStatus as $key => $value){
+            if($key == $id_ttd){
+                $statusUpdate =  $value;
+            }
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        $sql = "UPDATE EVANS_MASTER_TTD_TBL
+                SET STATUS = :1 
+                WHERE ID_TTD = :2";
+
+        Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_ttd])->execute();
+
+        Yii::$app->session->setFlash('success','Status Berhasil diubah');
+            
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     /**

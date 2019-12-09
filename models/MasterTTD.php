@@ -37,12 +37,24 @@ class MasterTTD extends \yii\db\ActiveRecord
             [['ID_TTD'], 'required'],
             [['ID_TTD'], 'string', 'max' => 5],
             [['EMPLID'], 'string', 'max' => 11],
-            [['FILE_TTD'], 'file', 'skipOnEmpty' => false, 'extensions' => 'pdf, docx'],
+            [['FILE_TTD'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['STATUS'], 'string', 'max' => 1],
+            [['FILE_URL'], 'string', 'max' => 255],
             [['ID_TTD'], 'unique'],
             
         ];
     }
+
+    public function getFileName(){
+        $sql = "SELECT FILE_TTD FROM EVANS_MASTER_TTD_TBL
+                WHERE ROWNUM <= 1
+                ORDER BY ID_TTD DESC ";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+        return $result['FILE_TTD'];
+    }
+
 
     public function StatusValue($val)
     {
@@ -66,6 +78,7 @@ class MasterTTD extends \yii\db\ActiveRecord
             'EMPLID' => 'NIK',
             'FILE_TTD' => 'File Ttd',
             'STATUS' => 'Status',
+            'FILE_URL' => 'URL'
         ];
     }
 

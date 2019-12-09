@@ -44,7 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'label' => 'NIK'
                             ],
                             [
-                                'label' => 'Files'
+                                'format' => 'raw',
+                                'header' => 'Files',
+                                'value' =>function($model, $key, $index, $column){
+                                    Html::a($model->FILE_URL, ['master-ttd/download', 'filename' => $model->FILE_URL], ['class' => 'profile-link']); 
+                                }
                             ],
                             [
                                 'format' => 'raw',
@@ -60,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         }
                                     }
                                     $select = '
-                                    <select class="form-control" name="selectStatus['.$model->ID_ORGANISASI.']" >
+                                    <select class="form-control" name="selectStatus['.$model->ID_TTD.']" >
                                     '.implode('',$option).'
                                     </select>';
                                     return $select;  
