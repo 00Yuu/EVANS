@@ -15,6 +15,7 @@
                             ['label' => 'Master Tenggat Waktu','icon' => 'clipboard','url' => ['/master-tenggat-waktu']],
                             ['label' => 'Master Periode','icon' => 'clipboard','url' => ['/master-periode']],
                             ['label' => 'Master TTD','icon' => 'clipboard','url' => ['/master-ttd']],
+                            ['label' => 'Master Alur','icon' => 'clipboard','url' => ['/master-alur']],
                             ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
                             ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
                             ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],

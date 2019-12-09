@@ -175,7 +175,7 @@ class ProgramKerjaController extends Controller
         }
 
         foreach($events as $event1){
-            $array_color = ['#AE0101','green','black','blue','gray','#AE0167','brown','#C88E00','#7701AE','#9DA923'];
+            $array_color = ['#AE0101','green','black','blue','gray','#AE0167','brown','#C88E00','#7701AE','#9DA92'];
             $array_index = array_rand($array_color);
             $rand_color = $array_color[$array_index];
             // $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
