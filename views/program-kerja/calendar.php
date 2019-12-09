@@ -39,7 +39,6 @@ $this->title = 'Calendar Proker';
       </div>
 
       <div class="col-sm-3">
-   
           <?=
             Html::submitButton('Search', 
             [
@@ -48,7 +47,14 @@ $this->title = 'Calendar Proker';
             ]);
           ?>
       </div>
-
+      <div class="col-sm-3">
+        <?=
+          Html::a('List',['program-kerja/index'], ['class' => 'btn btn-primary pull-right','style' => 'margin-top:9%;margin-right:5%;'])
+        ?>
+      </div>
+      
+      
+              
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -56,16 +62,19 @@ $this->title = 'Calendar Proker';
   </div>
 
   <?php
-  $date = date('m-d-Y');
+    $date = date('m-d-Y');
+    if($search_date != null){
+      $date = $search_date;
+    }
   ?>
 
   <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
       'events'=> $events,
       'clientOptions' => [
         'displayEventTime' => false,
-        "eventBackgroundColor" =>  '#d1d6de',
+        // "eventBackgroundColor" =>  '#d1d6de',
         "eventBorderColor" =>  'black',
-        "eventTextColor" =>  'black',
+        "eventTextColor" =>  'white',
         'editable' => false,
         'draggable' => false,
         'defaultDate' => "$date" // untuk search date

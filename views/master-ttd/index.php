@@ -44,7 +44,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'label' => 'NIK'
                             ],
                             [
-                                'label' => 'Files'
+                                'format' => 'raw',
+                                'header' => 'Files',
+                                'value' =>function($model, $key, $index, $column){
+                                  return  Html::a($model->FILE_TTD, ['master-ttd/download', 'filename' => $model->FILE_TTD], ['class' => 'profile-link']); 
+                                }
                             ],
                             [
                                 'format' => 'raw',

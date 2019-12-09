@@ -22,6 +22,8 @@ use yii\helpers\Url;
         'maxlength' => true, 
         'value' => '99999',
         ])->label(false) ?>
+
+   
     </div>
 
         <?= $form->field($model, 'EMPLID', )->widget(Select2::classname(), [

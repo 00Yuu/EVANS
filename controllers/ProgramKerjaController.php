@@ -148,26 +148,49 @@ class ProgramKerjaController extends Controller
             'bulan', 'tahun'
         ]);
 
+        $model->addRule(['bulan', 'tahun'], 'required');
+
         $modelProker = new ProgramKerja();
 
         $events = ProgramKerja::find()->where(['STATUS_DRAFT' => '0'])->all();
 
         $search_date = null;
         
-        var_dump(Yii::$app->request->post());
 
         if(Yii::$app->request->post()){
-            echo "aa";
+            // var_dump(Yii::$app->request->post('DynamicModel'));
+            $bulan = Yii::$app->request->post('DynamicModel')['bulan'];
+            // var_dump($bulan);
+            $tahun = Yii::$app->request->post('DynamicModel')['tahun'];
+            // var_dump($tahun);
 
+            if($bulan != '' && $tahun != ''){
+                $events = ProgramKerja::find()
+                ->where(['STATUS_DRAFT' => '0'])
+                ->andWhere("SUBSTR(TO_CHAR(START_DATE,'dd/mm/yyyy'),7,4) = '$tahun'")
+                ->andWhere("SUBSTR(TO_CHAR(START_DATE,'dd/mm/yyyy'),4,2) = '$bulan'")
+                ->all();
+            }
+            $search_date = "$bulan-02-$tahun";
         }
 
         foreach($events as $event1){
+            $array_color = ['#AE0101','green','black','blue','gray','#AE0167','brown','#C88E00','#7701AE','#9DA92'];
+            $array_index = array_rand($array_color);
+            $rand_color = $array_color[$array_index];
+            // $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
+
             $event = new \yii2fullcalendar\models\Event();
             $event->id = $event1->ID_PROKER;
             $event->title = $event1->NAMA_KEGIATAN;
-            $event->start = $event1->START_DATE;
+            $start_date = date('d-M-y', strtotime("$event1->START_DATE  + 1 day"));
+            $event->start = $start_date ;
+            // $event->start = $event1->START_DATE ;
             $event->end = $event1->END_DATE;
+            $event->color = $rand_color;
             $events[] = $event;
+            // var_dump($event->start);
+            // var_dump($start_date);
         }
 
         return $this->render('calendar', [
