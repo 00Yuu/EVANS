@@ -175,6 +175,11 @@ class ProgramKerjaController extends Controller
         }
 
         foreach($events as $event1){
+            $array_color = ['#AE0101','green','black','blue','gray','#AE0167','brown','#C88E00','#7701AE','#9DA923'];
+            $array_index = array_rand($array_color);
+            $rand_color = $array_color[$array_index];
+            // $rand_color = '#' . substr(md5(mt_rand()), 0, 6);
+
             $event = new \yii2fullcalendar\models\Event();
             $event->id = $event1->ID_PROKER;
             $event->title = $event1->NAMA_KEGIATAN;
@@ -182,6 +187,7 @@ class ProgramKerjaController extends Controller
             $event->start = $start_date ;
             // $event->start = $event1->START_DATE ;
             $event->end = $event1->END_DATE;
+            $event->color = $rand_color;
             $events[] = $event;
             // var_dump($event->start);
             // var_dump($start_date);
