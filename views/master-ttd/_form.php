@@ -23,10 +23,7 @@ use yii\helpers\Url;
         'value' => '99999',
         ])->label(false) ?>
 
-    <?= $form->field($model, 'FILE_URL')->hiddenInput([
-        'maxlength' => true, 
-        
-        ])->label(false) ?>
+   
     </div>
 
         <?= $form->field($model, 'EMPLID', )->widget(Select2::classname(), [

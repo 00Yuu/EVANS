@@ -40,36 +40,23 @@ class MasterTtdController extends Controller
         
 
         if($model->load(Yii::$app->request->post())){
+
+         
               
                 if ($model->validate()) {
 
-        
                     $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
-                    
+                    // $FILE_URL = 'Lampiran_TTD_' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
+                    // $model->FILE_URL = $FILE_URL;
                     $model->FILE_TTD->saveAs('uploads/' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension);
-                    
+                    $model->save(false);
                 }
 
-                $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
-                //$tmp= 'uploads/' . $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
-                if($model->FILE_TTD != null){
-                    $fileName = 'Lampiran_TTD_' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
-                    $model->FILE_TTD = $fileName;
-                    
-                    $model->save();
-                }
-
-               
-                
                 
                Yii::$app->session->setFlash('success','File terupload');
          
                return $this->redirect(['index']);
-               
-                 
-               
-                
-                
+        
             }
 
            
@@ -137,6 +124,18 @@ class MasterTtdController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionDownload($filename){
+        $path = Yii::getAlias('@webroot').'/uploads/'.$filename;
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path, $filename);
+        }
+        else{
+            Yii::$app->session->setFlash('error','File tidak ditemukan');
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
+    }
+
 
     /**
      * Updates an existing MasterTTD model.

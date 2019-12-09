@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'raw',
                                 'header' => 'Files',
                                 'value' =>function($model, $key, $index, $column){
-                                    Html::a($model->FILE_URL, ['master-ttd/download', 'filename' => $model->FILE_URL], ['class' => 'profile-link']); 
+                                  return  Html::a($model->FILE_TTD, ['master-ttd/download', 'filename' => $model->FILE_TTD], ['class' => 'profile-link']); 
                                 }
                             ],
                             [
