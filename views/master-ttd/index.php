@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         }
                                     }
                                     $select = '
-                                    <select class="form-control" name="selectStatus['.$model->ID_ORGANISASI.']" >
+                                    <select class="form-control" name="selectStatus['.$model->ID_TTD.']" >
                                     '.implode('',$option).'
                                     </select>';
                                     return $select;  
