@@ -49,8 +49,21 @@ class ProgramKerja extends \yii\db\ActiveRecord
             // [['FEEDBACK'], 'string', 'max' => 4000],
             // [['STATUS_DRAFT'], 'string', 'max' => 1],
             // [['ID_PROKER'], 'unique'],
+            // [['START_DATE', 'END_DATE'], 'date'],
         ];
     }
+
+    // public function validateDates($attribute){
+    //     $this->addError($attribute,'You are not allowed to see research Articles');
+    //     $end_date = strtotime($this->END_DATE);
+    //     $start_date = strtotime($this->START_DATE);
+    //     var_dump($start_date);
+    //     echo '<script>console.log("HAHA")</script>';
+    //     // if(strtotime($this->END_DATE) <= strtotime($this->START_DATE)){
+    //     //     $this->addError('START_DATE','Please give correct Start and End dates');
+    //     //     $this->addError('END_DATE','Please give correct Start and End dates');
+    //     // }
+    // }
 
     /**
      * {@inheritdoc}

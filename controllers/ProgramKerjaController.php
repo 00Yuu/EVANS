@@ -69,29 +69,45 @@ class ProgramKerjaController extends Controller
         $model = new ProgramKerja();
         $model2 = new BentukKegiatan();
 
+        $errorMessage = null;
+
         if ($model->load(Yii::$app->request->post())) {
-            if(Yii::$app->request->post('submit1')==='save'){
-                $model->STATUS_DRAFT = '1';
+            if(strtotime(Yii::$app->request->post('ProgramKerja')['START_DATE']) <= strtotime(Yii::$app->request->post('ProgramKerja')['END_DATE'])){
+                if(Yii::$app->request->post('submit1')==='save'){
+                    $model->STATUS_DRAFT = '1';
+                }
+                else{
+                    $model->STATUS_DRAFT = '0'; 
+                }
+                $idTenggatWaktu = $model->getIDTenggatWaktu('Program Kerja');
+                
+                $model->ID_TENGGAT_WAKTU = $idTenggatWaktu['ID_TENGGAT_WAKTU'];
+                
+                
+                if(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] === null){
+                    $errorMessage = "Please Select Bentuk Kegiatan";
+                }
+                else{
+                    $model->save();
+                    $value = $model->getSeqValue()['LPAD(EVANS_PROGRAM_KERJA_SEQ.CURRVAL,5,0)'];
+                    foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
+                        $model2 = new BentukKegiatan();
+                        $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
+                        $model2->ID_PROKER = $value;
+                        $model2->save();                
+                    }
+                    return $this->redirect(['index']);
+                }
+                
             }
             else{
-                $model->STATUS_DRAFT = '0'; 
+                $model->addError('END_DATE','Please Enter a Valid End Date');
             }
-            $idTenggatWaktu = $model->getIDTenggatWaktu('Program Kerja');
             
-            $model->ID_TENGGAT_WAKTU = $idTenggatWaktu['ID_TENGGAT_WAKTU'];
-            $model->save();
-            
-            $value = $model->getSeqValue()['LPAD(EVANS_PROGRAM_KERJA_SEQ.CURRVAL,5,0)'];
-            foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
-                $model2 = new BentukKegiatan();
-                $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
-                $model2->ID_PROKER = $value;
-                $model2->save();                
-            }
-            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
+            'errorMessage' => $errorMessage,
             'model' => $model,
             'row' => $row
         ]);
@@ -111,33 +127,45 @@ class ProgramKerjaController extends Controller
         $row = array();
         $data = $model->getCurrentKegiatan($id);
 
+        $errorMessage = null;
+
         foreach($data as $key => $val){
             $row[] = $key;
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            // $model->save();
-            if(Yii::$app->request->post('submit1')==='save'){
-                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'save');
+            if(strtotime(Yii::$app->request->post('ProgramKerja')['START_DATE']) <= strtotime(Yii::$app->request->post('ProgramKerja')['END_DATE'])){ 
+                if(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] === null){
+                    $errorMessage = "Please Select Bentuk Kegiatan";
+                }
+                else{
+                    if(Yii::$app->request->post('submit1')==='save'){
+                        $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'save');
+                    }
+                    else{
+                        $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'submit');
+                    }
+                    
+                    $model->deleteBentukKegiatan($id);
+                    foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
+                        $model2 = new BentukKegiatan();
+                        $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
+                        $model2->ID_PROKER = $id;
+                        $model2->save();
+                    }
+                    return $this->redirect(['index']);
+                }
             }
             else{
-                $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'submit');
-            }
-            
-            $model->deleteBentukKegiatan($id);
-            foreach(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] as $IDBentuk){
-                $model2 = new BentukKegiatan();
-                $model2->ID_BENTUK_KEGIATAN = $IDBentuk;
-                $model2->ID_PROKER = $id;
-                $model2->save();
-            }
-            return $this->redirect(['index']);
+                $model->addError('END_DATE','Please Enter a Valid End Date');
+            } 
         }
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
         //     return $this->redirect(['view', 'id' => $model->ID_PROKER]);
         // }
 
         return $this->render('update', [
+            'errorMessage' => $errorMessage,
             'model' => $model,
             'row' => $row            
         ]);

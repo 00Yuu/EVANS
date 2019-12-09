@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="container">
         <h4><b>Program Kerja</b></h4>
         <?= $this->render('_form', [
+            'errorMessage' => $errorMessage,
             'model' => $model,
             'row' => $row
         ]) ?>

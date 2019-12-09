@@ -80,6 +80,7 @@ else{
                         ],
                     ]
                     ); ?>
+                <div style="color: red"><?= $errorMessage ?></div>
 
                 <div style="margin-top: 3%"></div>
                 <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(
@@ -123,7 +124,7 @@ else{
                             DatePicker::className(), [
                             'clientOptions' => [
                                 'autoclose' => true,
-                                'format' => 'dd-M-yyyy',
+                                'format' => 'dd-M-yy',
                             ],
                             'options' => [
                                 'placeholder' => 'Start Date',
@@ -141,7 +142,7 @@ else{
                             DatePicker::className(), [
                             'clientOptions' => [
                                 'autoclose' => true,
-                                'format' => 'dd-M-yyyy',
+                                'format' => 'dd-M-yy',
                             ],
                             'options' => [
                                 'placeholder' => 'End Date',

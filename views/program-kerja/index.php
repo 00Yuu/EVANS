@@ -48,6 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Start Date'
             ],
             [
+                'attribute' => 'END_DATE',
+                'label' => 'END Date'
+            ],
+            [
                 'attribute' => 'TEMPAT_PELAKSANAAN',
                 'label' => 'Tempat Pelaksanaan'
             ],
