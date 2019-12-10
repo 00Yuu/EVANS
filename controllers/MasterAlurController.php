@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\MasterAlur;
+use app\models\JenisAlur;
 use app\models\DetailAlur;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -47,6 +48,14 @@ class MasterAlurController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => MasterAlur::find(),
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_ALUR' => SORT_ASC,
+                ]
+            ]
         ]);
 
         return $this->render('index', [
@@ -55,13 +64,37 @@ class MasterAlurController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single MasterAlur model.
-     * @param string $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
+    {
+        $modelJenis = new JenisAlur();
+
+        if ($modelJenis->load(Yii::$app->request->post()) && $modelJenis->validate()) {
+            $modelJenis->save();
+
+            Yii::$app->session->setFlash('success','Data Tersimpan');
+            return $this->refresh();
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => JenisAlur::find()->where(['ID_ALUR' => $id]),
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_JENIS_ALUR' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        return $this->render('view', [
+            'id' => $id,
+            'dataProvider' => $dataProvider,
+            'modelJenis' => $modelJenis,
+        ]);
+    }
+
+    public function actionDetail($id,$id_alur)
     {
         $modelDetail = new DetailAlur();
 
@@ -73,7 +106,7 @@ class MasterAlurController extends Controller
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => DetailAlur::find()->where(['ID_ALUR' => $id]),
+            'query' => DetailAlur::find()->where(['ID_JENIS_ALUR' => $id]),
             'pagination' => [
                 'pageSize' => 1,
             ],
@@ -84,8 +117,9 @@ class MasterAlurController extends Controller
             ]
         ]);
 
-        return $this->render('view', [
+        return $this->render('detail', [
             'id' => $id,
+            'id_alur' => $id_alur,
             'dataProvider' => $dataProvider,
             'modelDetail' => $modelDetail,
         ]);
@@ -112,6 +146,33 @@ class MasterAlurController extends Controller
                 WHERE ID_ALUR = :2 ";
 
         Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_alur])->execute();
+
+        Yii::$app->session->setFlash('success','Status Berhasil diubah');
+            
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionUpdateJenis()
+    {
+        $arrayButton = Yii::$app->request->post('updateBtn');
+
+        foreach ($arrayButton as $key => $value) {
+            $id_jenis_alur = $key;
+        }
+        
+        $arrayStatus = Yii::$app->request->post('selectStatus');
+
+        foreach($arrayStatus as $key => $value){
+            if($key == $id_jenis_alur){
+                $statusUpdate =  $value;
+            }
+        }
+
+        $sql = "UPDATE EVANS_JENIS_ALUR_TBL 
+                SET STATUS = :1 
+                WHERE ID_JENIS_ALUR = :2 ";
+
+        Yii::$app->db->createCommand($sql,[':1' => $statusUpdate, ':2' => $id_jenis_alur])->execute();
 
         Yii::$app->session->setFlash('success','Status Berhasil diubah');
             

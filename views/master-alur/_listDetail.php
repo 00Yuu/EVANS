@@ -13,7 +13,7 @@ use yii\widgets\DetailView;
             'style' => 'background-color:white;' 
         ],
         'attributes' => [
-            'masterAlur.NAMA_ALUR',
+            'jenisAlur.JENIS_DOKUMEN',
             'DESKRIPSI',
             'TINGKAT',
             'PHASE',

@@ -63,8 +63,8 @@ class MasterAlur extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDetailAlur()
+    public function getJenisAlur()
     {
-        return $this->hasMany(DetailAlur::className(), ['ID_ALUR' => 'ID_ALUR']);
+        return $this->hasMany(JenisAlur::className(), ['ID_ALUR' => 'ID_ALUR']);
     }
 }

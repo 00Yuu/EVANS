@@ -35,8 +35,8 @@ class DetailAlur extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_DETAIL', 'ID_ALUR', 'DESKRIPSI', 'TINGKAT', 'PHASE'], 'required'],
-            [['ID_DETAIL', 'ID_ALUR'], 'string', 'max' => 5],
+            [['ID_DETAIL', 'ID_JENIS_ALUR', 'DESKRIPSI', 'TINGKAT', 'PHASE'], 'required'],
+            [['ID_DETAIL', 'ID_JENIS_ALUR'], 'string', 'max' => 5],
             [['DESKRIPSI'], 'string', 'max' => 32],
             [['TINGKAT', 'PHASE'], 'string', 'max' => 1],
             [['ID_DETAIL'], 'unique'],
@@ -50,18 +50,28 @@ class DetailAlur extends \yii\db\ActiveRecord
     {
         return [
             'ID_DETAIL' => 'Id Detail',
-            'ID_ALUR' => 'Id Alur',
+            'ID_JENIS_ALUR' => 'Id Jenis Alur',
             'DESKRIPSI' => 'Deskripsi',
             'TINGKAT' => 'Tingkat',
             'PHASE' => 'Phase',
         ];
     }
+    
+    public function dataTingkat(){
+        $array = [];
+
+        for($i = 1; $i<= 20; $i++){
+            array_push($array, $i);
+        }
+
+        return $array;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMasterAlur()
+    public function getJenisAlur()
     {
-        return $this->hasOne(MasterAlur::className(), ['ID_ALUR' => 'ID_ALUR']);
+        return $this->hasOne(JenisAlur::className(), ['ID_JENIS_ALUR' => 'ID_JENIS_ALUR']);
     }
 }
