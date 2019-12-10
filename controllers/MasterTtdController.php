@@ -80,6 +80,14 @@ class MasterTtdController extends Controller
         ]);
     
 }   
+        public function actionHome()
+        {
+            return $this->redirect(Yii::$app->homeUrl);
+            
+
+        return $this->render('home', [
+            ]);
+        }
 
         // public function actionDownload($id){
         //     $download = MasterTTD::findOne($id); 

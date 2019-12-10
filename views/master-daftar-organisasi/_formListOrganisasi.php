@@ -28,11 +28,10 @@ use yii\widgets\ActiveForm;
     </div>
     
     <div class="form-group" style="float: right;margin-top: 8%">
-    <?= Html::Button('Back', array(
-                'class' => 'btn btn-primary',
-                'style' => 'width: 100px'
-            )
-        ) ?>
+    <?= Html::a('Back', ['master-daftar-organisasi/'], [
+            'class' => 'btn btn-primary',
+            'style' => 'width: 100px']) 
+        ?>
         <?= Html::submitButton('Create', array(
                 'class' => 'btn btn-primary',
                 'style' => 'width: 100px'
