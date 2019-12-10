@@ -66,11 +66,10 @@ use yii\helpers\Url;
     </div>
 
     <div class="form-group" style="float: right;margin-top: 15%">
-    <?= Html::Button('Back', array(
-                'class' => 'btn btn-primary',
-                'style' => 'width: 100px'
-            )
-        ) ?>
+    <?= Html::a('Back', ['master-ttd/home'], [
+            'class' => 'btn btn-primary',
+            'style' => 'width: 100px']) 
+        ?>
         <?= Html::submitButton('Create', array(
                 'class' => 'btn btn-primary',
                 'style' => 'width: 100px'

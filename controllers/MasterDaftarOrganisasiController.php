@@ -42,8 +42,8 @@ class MasterDaftarOrganisasiController extends Controller
 
         $model = new MasterDaftarOrganisasi();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->save();
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
             return $this->redirect(['index']);
         }
@@ -71,8 +71,8 @@ class MasterDaftarOrganisasiController extends Controller
         $model = new MasterPengurusOrganisasi();
         // $model = MasterDaftarOrganisasi::find()->where(['ID_JENIS' => $id])->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
         }
@@ -118,6 +118,14 @@ class MasterDaftarOrganisasiController extends Controller
         ]);
     }
 
+    public function actionHome()
+    {
+        return $this->redirect(Yii::$app->homeUrl);
+        
+
+    return $this->render('home', [
+        ]);
+    }
 
     /**
      * Creates a new MasterDaftarOrganisasi model.
