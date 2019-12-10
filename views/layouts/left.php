@@ -5,7 +5,7 @@
     <?php
         $session = Yii::$app->session;
         if($session->has('email')){
-            if($session->get('jabatan') === 'admin'){
+            if($session->get('jabatan') === 'ADMIN'){
                 echo dmstr\widgets\Menu::widget(
                     [
                         'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
@@ -16,6 +16,86 @@
                             ['label' => 'Master Periode','icon' => 'clipboard','url' => ['/master-periode']],
                             ['label' => 'Master TTD','icon' => 'clipboard','url' => ['/master-ttd']],
                             ['label' => 'Master Alur','icon' => 'clipboard','url' => ['/master-alur']],
+                            ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
+                            ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
+                            ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],
+                            ['label' => 'LPJ','icon' => 'clipboard','url' =>['/lat']],
+                            [
+                                'label' => 'Some tools',
+                                'icon' => 'share',
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                                    [
+                                        'label' => 'Level One',
+                                        'icon' => 'circle-o',
+                                        'url' => '#',
+                                        'items' => [
+                                            ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+                                            [
+                                                'label' => 'Level Two',
+                                                'icon' => 'circle-o',
+                                                'url' => '#',
+                                                'items' => [
+                                                    ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                                    ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                );
+            }
+            elseif($session->get('jabatan') === 'STUDEV'){
+                echo dmstr\widgets\Menu::widget(
+                    [
+                        'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+                        'items' => [
+                            ['label' => 'Home','icon' => 'home','url' => ['/site/index']],    
+                            ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
+                            ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
+                            ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],
+                            ['label' => 'LPJ','icon' => 'clipboard','url' =>['/lat']],
+                            [
+                                'label' => 'Some tools',
+                                'icon' => 'share',
+                                'url' => '#',
+                                'items' => [
+                                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
+                                    [
+                                        'label' => 'Level One',
+                                        'icon' => 'circle-o',
+                                        'url' => '#',
+                                        'items' => [
+                                            ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
+                                            [
+                                                'label' => 'Level Two',
+                                                'icon' => 'circle-o',
+                                                'url' => '#',
+                                                'items' => [
+                                                    ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                                    ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                );
+            }
+            elseif($session->get('jabatan') === 'MAHASISWA'){
+                echo dmstr\widgets\Menu::widget(
+                    [
+                        'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+                        'items' => [
+                            ['label' => 'Home','icon' => 'home','url' => ['/site/index']],    
                             ['label' => 'Program Kerja','icon' => 'clipboard','url' =>['/program-kerja']],
                             ['label' => 'Proposal','icon' => 'clipboard','url' =>['/monitoring-proposal']],
                             ['label' => 'LPK','icon' => 'clipboard','url' =>['/lembar-pertanggung-jawaban-keuangan']],

@@ -6,6 +6,8 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$session = Yii::$app->session;
+
 $this->title = 'Program Kerja';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -13,11 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create', ['create'], ['class' => 'btn btn-primary']) ?>
-
-        <?= Html::a('Calendar', ['calendar'], ['class' => 'btn btn-success pull-right']) ?>
-    </p>
+    <div class="row" style="margin-bottom: 1%">
+        <div class="col-sm-6">
+            <div class="text-left">
+                <?php
+                    if($session->get('jabatan') === 'ADMIN' || $session->get('jabatan') === 'MAHASISWA'){
+                        echo Html::a('Create', ['create'], ['class' => 'btn btn-primary']);
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="text-right">
+                <?php
+                    if($session->get('jabatan') === 'ADMIN' || $session->get('jabatan') === 'STUDEV'){
+                        echo Html::a('Calendar', ['calendar'], ['class' => 'btn btn-success', 'style' => 'float-left: 100px']);
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

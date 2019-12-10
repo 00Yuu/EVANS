@@ -14,7 +14,15 @@ $this->title = '';
         ]); 
     ?>
     <div class="form-group ">
-        <?= Html::submitButton('admin', ['class' => 'btn btn-primary', 'name'  => 'jabatan', 'value' => 'Admin']) ?>
+        <?= Html::submitButton('Admin', ['class' => 'btn btn-primary', 'name'  => 'email', 'value' => 'lord@umn.ac.id']) ?>
+    </div>
+
+    <div class="form-group ">
+        <?= Html::submitButton('Mahasiswa', ['class' => 'btn btn-primary', 'name'  => 'email', 'value' => 'sarukdunu@umn.ac.id']) ?>
+    </div>
+
+    <div class="form-group ">
+        <?= Html::submitButton('Student Development', ['class' => 'btn btn-primary', 'name'  => 'email', 'value' => 'jabatsanto@umn.ac.id']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

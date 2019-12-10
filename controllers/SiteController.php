@@ -99,14 +99,9 @@ class SiteController extends Controller
         
         $email_user = '';
         $Jabatan = '';
-        if(isset($_POST['jabatan'])){
-            $jabatan = Yii::$app->request->post()['jabatan'];
-            if($jabatan == 'Admin'){
-                $email_user = 'yudhistira@umn.ac.id';
-                $Jabatan = 'admin';
-            }
-
-            //query ambil namanya dan emplid
+        if(isset($_POST['email'])){
+            $email_user = Yii::$app->request->post()['email'];
+            
             $sql = "SELECT DESKRIPSI
             FROM EVANS_PERSONAL_DATA_VIEW
             WHERE EMAIL = '$email_user'
@@ -116,21 +111,44 @@ class SiteController extends Controller
 
             $deskripsi = $result['DESKRIPSI'];
 
-            if($deskripsi === 'MAHASISWA'){
-                $session = Yii::$app->session;
+            $session = Yii::$app->session;
 
-                if($session->isActive){
+            if($session->isActive){
 
-                }else{
-                    $session->open();
-                }
-                $session->set('email', $email_user);
-                $session->set('jabatan', $Jabatan);
-                return $this->redirect(Yii::$app->homeUrl);
+            }else{
+                $session->open();
             }
-            else{
+            $session->set('email', $email_user);
+            $session->set('jabatan', $deskripsi);
 
-            }
+            return $this->redirect(Yii::$app->homeUrl);
+
+
+            //query ambil namanya dan emplid
+            // $sql = "SELECT DESKRIPSI
+            // FROM EVANS_PERSONAL_DATA_VIEW
+            // WHERE EMAIL = '$email_user'
+            // ";
+
+            // $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+            // $deskripsi = $result['DESKRIPSI'];
+
+            // if($deskripsi === 'MAHASISWA'){
+            //     $session = Yii::$app->session;
+
+            //     if($session->isActive){
+
+            //     }else{
+            //         $session->open();
+            //     }
+            //     $session->set('email', $email_user);
+            //     $session->set('jabatan', $Jabatan);
+            //     return $this->redirect(Yii::$app->homeUrl);
+            // }
+            // else{
+
+            // }
 
             // $emplid_user = $result['EMPLID'];
 
