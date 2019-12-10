@@ -8,6 +8,7 @@ use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\ProgramKerja */
 /* @var $form yii\widgets\ActiveForm */
+$session = Yii::$app->session;
 
 $data = $model->getBentukKegiatan();
 if($model->STATUS_DRAFT === '1' || $model->STATUS_DRAFT === null){
@@ -86,6 +87,7 @@ else{
                 <?= $form->field($model, 'TUJUAN_KEGIATAN')->textInput(
                     [
                         'maxlength' => true,
+                        'placeholder' => "Tujuan Kegiatan",
                         "$disable" => "$disable"
                     ]
                     ) ?>
@@ -154,11 +156,10 @@ else{
                 </div>
             </div>
 
-            <!-- <?= $form->field($model, 'FEEDBACK')->textInput(['maxlength' => true]) ?> -->
 
         </div>
 
-        <div class="form-group" style="float: right;margin-top: 4%">
+        <div class="form-group" style="float: right;margin-top: 3%">
             <?=Html::a('Back', 
                 [
                     'index'
@@ -189,8 +190,39 @@ else{
                     'value' => 'submit'
                 ]);
             }?>
-
+            <?php 
+                if($session->get('jabatan') === 'STUDEV'){
+                    echo Html::submitButton('Reject', 
+                    [
+                        'name' => 'submit1',
+                        'class' => 'btn btn-danger',
+                        'style' => 'width: 100px',
+                        'value' => 'reject'
+                    ]);
+                }
+            ?>
+            <?php 
+                if($session->get('jabatan') === 'STUDEV'){
+                echo Html::submitButton('Approve', 
+                [
+                    'name' => 'submit1',
+                    'class' => 'btn btn-success',
+                    'style' => 'width: 100px',
+                    'value' => 'approve'
+                ]);
+            }?>
         </div>    
+
+        <div class="card" style="background-color: white;padding: 1% 3% 1% 3%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);width: 80%;float: right">
+            <?= $form->field($model, 'FEEDBACK')->textarea(
+                    [
+                        'rows' => '4',
+                        'maxlength' => true,
+                        'placeholder' => "Feedback",
+                    ]
+                ) ?>
+        </div>
+        
     <?php ActiveForm::end(); ?>
 
 </div>

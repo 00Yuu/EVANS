@@ -36,60 +36,121 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'summary' => '',
-        'tableOptions' => ['class' => 'table table-bordered'],
-        'options' => ['style' => 'background-color: white'],
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'NAMA_KEGIATAN',
-                'label' => 'Nama Program Kerja'
-            ],
-            [
-                'attribute' => 'BENTUK_PROKER',
-                'label' => 'Bentuk Program Kerja'
-            ],
-            [
-                'attribute' => 'TINGKAT_KEGIATAN',
-                'label' => 'Tingkat Kegiatan'
-            ],
-            [
-                'attribute' => 'DANA',
-                'label' => 'Dana'
-            ],
-            [
-                'attribute' => 'START_DATE',
-                'label' => 'Start Date'
-            ],
-            [
-                'attribute' => 'END_DATE',
-                'label' => 'END Date'
-            ],
-            [
-                'attribute' => 'TEMPAT_PELAKSANAAN',
-                'label' => 'Tempat Pelaksanaan'
-            ],
-            [
-                'attribute' => 'JUMLAH_PESERTA',
-                'label' => 'Jumlah Peserta'
-            ],
-            [
-                'label' => 'Status Proker',
-                'value' => function ($model){
-                    return $model->showStatus($model->STATUS_DRAFT);
-                }
-            ],
-            [
-                'header' => 'Action',
-                'content' => function($model) {
-                    return Html::a('Detail', ['update', 'id' => $model->ID_PROKER]);
-                }  
-],
+    <?php
+        if($session->get('jabatan') === 'ADMIN' || $session->get('jabatan') === 'MAHASISWA'){
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'summary' => '',
+                'tableOptions' => ['class' => 'table table-bordered'],
+                'options' => ['style' => 'background-color: white'],
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-        ],
-    ]); 
+                    [
+                        'attribute' => 'NAMA_KEGIATAN',
+                        'label' => 'Nama Program Kerja'
+                    ],
+                    [
+                        'attribute' => 'BENTUK_PROKER',
+                        'label' => 'Bentuk Program Kerja'
+                    ],
+                    [
+                        'attribute' => 'TINGKAT_KEGIATAN',
+                        'label' => 'Tingkat Kegiatan'
+                    ],
+                    [
+                        'attribute' => 'DANA',
+                        'label' => 'Dana'
+                    ],
+                    [
+                        'attribute' => 'START_DATE',
+                        'label' => 'Start Date'
+                    ],
+                    [
+                        'attribute' => 'END_DATE',
+                        'label' => 'END Date'
+                    ],
+                    [
+                        'attribute' => 'TEMPAT_PELAKSANAAN',
+                        'label' => 'Tempat Pelaksanaan'
+                    ],
+                    [
+                        'attribute' => 'JUMLAH_PESERTA',
+                        'label' => 'Jumlah Peserta'
+                    ],
+                    [
+                        'label' => 'Status Proker',
+                        'value' => function ($model){
+                            return $model->showStatus($model->STATUS_DRAFT);
+                        }
+                    ],
+                    [
+                        'header' => 'Action',
+                        'content' => function($model) {
+                            return Html::a('Detail', ['update', 'id' => $model->ID_PROKER]);
+                        }  
+                    ],
+
+                ],
+            ]); 
+        }
+        elseif($session->get('jabatan') === 'STUDEV'){
+                echo GridView::widget([
+                    'dataProvider' => $dataProviderS,
+                    'summary' => '',
+                    'tableOptions' => ['class' => 'table table-bordered'],
+                    'options' => ['style' => 'background-color: white'],
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+    
+                        [
+                            'attribute' => 'NAMA_KEGIATAN',
+                            'label' => 'Nama Program Kerja'
+                        ],
+                        [
+                            'attribute' => 'BENTUK_PROKER',
+                            'label' => 'Bentuk Program Kerja'
+                        ],
+                        [
+                            'attribute' => 'TINGKAT_KEGIATAN',
+                            'label' => 'Tingkat Kegiatan'
+                        ],
+                        [
+                            'attribute' => 'DANA',
+                            'label' => 'Dana'
+                        ],
+                        [
+                            'attribute' => 'START_DATE',
+                            'label' => 'Start Date'
+                        ],
+                        [
+                            'attribute' => 'END_DATE',
+                            'label' => 'END Date'
+                        ],
+                        [
+                            'attribute' => 'TEMPAT_PELAKSANAAN',
+                            'label' => 'Tempat Pelaksanaan'
+                        ],
+                        [
+                            'attribute' => 'JUMLAH_PESERTA',
+                            'label' => 'Jumlah Peserta'
+                        ],
+                        [
+                            'label' => 'Status Proker',
+                            'value' => function ($model){
+                                return $model->showStatus($model->STATUS_DRAFT);
+                            }
+                        ],
+                        [
+                            'header' => 'Action',
+                            'content' => function($model) {
+                                return Html::a('Detail', ['update', 'id' => $model->ID_PROKER]);
+                            }  
+                        ],
+    
+                    ],
+                ]); 
+            }
     ?>
 </div>
