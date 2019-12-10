@@ -37,9 +37,9 @@ class DetailAlur extends \yii\db\ActiveRecord
         return [
             [['ID_DETAIL', 'ID_JENIS_ALUR', 'DESKRIPSI', 'TINGKAT', 'PHASE'], 'required'],
             [['ID_DETAIL', 'ID_JENIS_ALUR'], 'string', 'max' => 5],
-            [['DESKRIPSI'], 'string', 'max' => 32],
+            [['DESKRIPSI'], 'string', 'max' => 100],
             [['TINGKAT', 'PHASE'], 'string', 'max' => 1],
-            [['DESKRIPSI'], 'unique'],
+            [['ID_JENIS_ALUR','DESKRIPSI'], 'unique', 'targetAttribute' => ['ID_JENIS_ALUR', 'DESKRIPSI']],
         ];
     }
 
