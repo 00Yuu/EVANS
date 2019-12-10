@@ -45,7 +45,9 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
         ),
         'k' => 
         array (
+            'kartik\\tabs\\' => 12,
             'kartik\\select2\\' => 15,
+            'kartik\\plugins\\tabs\\' => 20,
             'kartik\\plugins\\fileinput\\' => 25,
             'kartik\\file\\' => 12,
             'kartik\\base\\' => 12,
@@ -170,9 +172,17 @@ class ComposerStaticInit423c72b0ad01f1cd4a62635a21107416
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
+        'kartik\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-tabs-x/src',
+        ),
         'kartik\\select2\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
+        ),
+        'kartik\\plugins\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
         ),
         'kartik\\plugins\\fileinput\\' => 
         array (

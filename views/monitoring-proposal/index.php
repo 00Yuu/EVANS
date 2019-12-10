@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\tabs\TabsX;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,8 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Proposal', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    
+
     <!-- Ini Monitoring PIC Kegiatan -->
-    <?= GridView::widget([
+    <?php $tab_himpunan =  GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
@@ -73,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <!-- Ini Monitoring KPU -->
-    <?= GridView::widget([
+    <?php $tab_kpu =  GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
@@ -120,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <!-- Ini Monitoring UKM -->
-    <?= GridView::widget([
+    <?php $tab_ukm =  GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
@@ -183,5 +186,37 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?> -->
 
+    <?=
+        TabsX::widget([
+            'position' => TabsX::POS_ABOVE,
+            'align' => TabsX::ALIGN_LEFT,
+            'bordered' => true,
+            'items' => [
+                [
+                    'label' => 'Himpunan',
+                    'content' => $tab_himpunan,
+                    'headerOptions' => [
+                        'style'=>'background-color:white; width:15%;'
+                    ],
+                    
+                ],
+                [
+                    'label' => 'KPU',
+                    'content' =>  $tab_kpu,
+                    'headerOptions' => [
+                        'style'=>'background-color:white; width:15%;'
+                    ],
+                ],
+                [
+                    'label' => 'UKM',
+                    'content' => $tab_ukm,
+                    'headerOptions' => [
+                        'style'=>'background-color:white; width:15%;'
+                    ],
+                ],
+                
+            ],
+        ]);
+    ?>
 
 </div>
