@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
         ?>
 
         <?= $form->field($modelDetail, 'PHASE')->dropDownList(
-            ['1' => '1', '0' => '0' ])
+            ['0' => '0', '1' => '1' ])
         ?>
         <p style="color:#d3d3d3;">
             *Tingkat digunakan untuk menentukan level tiap alur. User
@@ -35,7 +35,7 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="form-group" style="float: right;margin-top: 8%">
-        <?= Html::a('Back',['/master-alur/index'],[
+        <?= Html::a('Back',['master-alur/view' , 'id'=> $id_alur ],[
                 'class' => 'btn btn-primary',
                 'style' => 'width: 100px'
             ])

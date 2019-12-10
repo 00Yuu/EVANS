@@ -108,7 +108,7 @@ class MasterAlurController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => DetailAlur::find()->where(['ID_JENIS_ALUR' => $id]),
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 10,
             ],
             'sort' => [
                 'defaultOrder' => [

@@ -39,7 +39,7 @@ class DetailAlur extends \yii\db\ActiveRecord
             [['ID_DETAIL', 'ID_JENIS_ALUR'], 'string', 'max' => 5],
             [['DESKRIPSI'], 'string', 'max' => 32],
             [['TINGKAT', 'PHASE'], 'string', 'max' => 1],
-            [['ID_DETAIL'], 'unique'],
+            [['DESKRIPSI'], 'unique'],
         ];
     }
 
@@ -60,7 +60,7 @@ class DetailAlur extends \yii\db\ActiveRecord
     public function dataTingkat(){
         $array = [];
 
-        for($i = 1; $i<= 20; $i++){
+        for($i = 0; $i<= 20; $i++){
             array_push($array, $i);
         }
 

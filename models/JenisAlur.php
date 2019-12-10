@@ -35,7 +35,7 @@ class JenisAlur extends \yii\db\ActiveRecord
             [['ID_JENIS_ALUR', 'ID_ALUR'], 'string', 'max' => 5],
             [['JENIS_DOKUMEN'], 'string', 'max' => 100],
             [['STATUS'], 'string', 'max' => 1],
-            [['ID_JENIS_ALUR'], 'unique'],
+            [['JENIS_DOKUMEN'], 'unique'],
         ];
     }
 
@@ -69,7 +69,7 @@ class JenisAlur extends \yii\db\ActiveRecord
      */
     public function getDetailAlur()
     {
-        return $this->hasMany(EVANSDETAILALURTBL::className(), ['ID_JENIS_ALUR' => 'ID_JENIS_ALUR']);
+        return $this->hasMany(DetailAlur::className(), ['ID_JENIS_ALUR' => 'ID_JENIS_ALUR']);
     }
 
     /**
@@ -77,6 +77,6 @@ class JenisAlur extends \yii\db\ActiveRecord
      */
     public function getMasterAlur()
     {
-        return $this->hasOne(EVANSMASTERALURTBL::className(), ['ID_ALUR' => 'ID_ALUR']);
+        return $this->hasOne(MasterAlur::className(), ['ID_ALUR' => 'ID_ALUR']);
     }
 }

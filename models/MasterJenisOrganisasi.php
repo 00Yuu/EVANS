@@ -32,6 +32,7 @@ class MasterJenisOrganisasi extends \yii\db\ActiveRecord
             [['ID_JENIS'], 'string', 'max' => 5],
             [['JENIS_ORGANISASI'], 'string', 'max' => 20],
             [['ID_JENIS'], 'unique'],
+            [['JENIS_ORGANISASI'], 'unique'],
         ];
     }
 

@@ -32,7 +32,9 @@ class MasterAlur extends \yii\db\ActiveRecord
             [['ID_ALUR', 'NAMA_ALUR', 'STATUS'], 'required'],
             [['ID_ALUR'], 'string', 'max' => 5],
             [['NAMA_ALUR'], 'string', 'max' => 32],
+            [['NAMA_ALUR'], 'unique'],
             [['STATUS'], 'string', 'max' => 1],
+
         ];
     }
 

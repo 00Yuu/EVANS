@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\grid\GridView;
 
 
 /* @var $this yii\web\View */
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-sm-6">
                 <h4 style="margin: 0 5% 5% 0"><b>Detail Alur<b></h4>
-                <?= ListView::widget([
+                <!-- <?= ListView::widget([
                     'dataProvider' => $dataProvider,
                     'itemView' => function ($model, $key, $index, $widget) {
                         return $this->render('_listDetail',['model' => $model]);
@@ -32,17 +33,36 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); 
                 
+                ?> -->
+
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'summary' => '',
+                    'tableOptions' => [
+                        'class' => 'table table-bordered table-hover table-light',
+                        'style' => 'background-color:white;'
+                    ],
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'jenisAlur.masterAlur.NAMA_ALUR',
+                        'jenisAlur.JENIS_DOKUMEN',
+                        'DESKRIPSI',
+                        'TINGKAT',
+                        'PHASE',
+                    ],
+                ]); 
                 ?>
 
-            </div>
+                
 
-               
+            </div>
 
             <div class="col-sm-6">
                 <h4 style="margin: 0 5% 5% 0"><b>Tambah Data<b></h4>
                     <?= $this->render('_formDetail', [
                         'modelDetail' => $modelDetail,
                         'id' => $id,
+                        'id_alur' => $id_alur,
                     ]) ?>
             </div>
 
