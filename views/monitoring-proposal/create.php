@@ -169,10 +169,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div>
 
-        <?= $form->field($model, 'ID_PROPOSAL')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
-        <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true])->hiddenInput(['value' => '00001'])->label(false) ?>
+        <?= $form->field($model, 'ID_PROPOSAL')->hiddenInput(['value' => 99])->label(false) ?>
+        <?= $form->field($model, 'ID_TENGGAT_WAKTU')->hiddenInput(['value' => '00001'])->label(false) ?>
         <?= $form->field($model, 'CREATE_DATE')->hiddenInput(['value'=> date("d-M-y")])->label(false) ?>
-        <?= $form->field($model, 'ID_RINCI')->textInput(['maxlength' => true])->hiddenInput(['value' => '00004'])->label(false) ?>
+        <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => '00008'])->label(false) ?>
 
         <div class="form-group" style="float: right;margin-top: 8%">
             <?= Html::Button('Back', array(

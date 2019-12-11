@@ -70,7 +70,7 @@ class MasterPengurusOrganisasi extends \yii\db\ActiveRecord
      */
     public function getMasterDaftarOrganisasi()
     {
-        return $this->hasMany(MasterDaftarOrganisasi::className(), ['ID_JENIS' => 'ID_JENIS']);
+        return $this->hasMany(MasterDaftarOrganisasi::className(), ['ID_ORGANISASI' => 'ID_ORGANISASI']);
     }
 
    

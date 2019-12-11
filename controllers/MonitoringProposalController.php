@@ -37,8 +37,47 @@ class MonitoringProposalController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Proposal::find(),
+        //dataprovider himpunan
+        $query_himpunan = Proposal::find()
+            ->joinWith('masterRinciOrganisasi.masterPengurusOrganisasi.masterDaftarOrganisasi.masterJenisOrganisasi')
+            ->where("JENIS_ORGANISASI = 'Himpunan'");
+        
+        $dataProvider_himpunan = new ActiveDataProvider([
+            'query' => $query_himpunan ,
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_PROPOSAL' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        //dataprovider UKM/Organisasi
+        $query_ukm = Proposal::find()
+            ->joinWith('masterRinciOrganisasi.masterPengurusOrganisasi.masterDaftarOrganisasi.masterJenisOrganisasi')
+            ->where("JENIS_ORGANISASI = 'UKM/Organisasi'");
+        
+        $dataProvider_ukm = new ActiveDataProvider([
+            'query' => $query_ukm ,
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_PROPOSAL' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        //dataprovider KPU
+        $query_kpu = Proposal::find()
+            ->joinWith('masterRinciOrganisasi.masterPengurusOrganisasi.masterDaftarOrganisasi.masterJenisOrganisasi')
+            ->where("JENIS_ORGANISASI = 'KPU'");
+        
+        $dataProvider_kpu = new ActiveDataProvider([
+            'query' => $query_kpu ,
             'pagination' => [
                 'pageSize' => 6,
             ],
@@ -50,7 +89,9 @@ class MonitoringProposalController extends Controller
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'dataProvider_ukm' => $dataProvider_ukm,
+            'dataProvider_himpunan' => $dataProvider_himpunan,
+            'dataProvider_kpu' => $dataProvider_kpu,
         ]);
     }
 
@@ -80,15 +121,16 @@ class MonitoringProposalController extends Controller
         //     return $this->redirect(['view', 'id' => $model->ID_PROPOSAL]);
         // }
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(Yii::$app->request->post('submit1')==='save'){
                 $model->STATUS_DRAFT = '1';
             }
             else{
                 $model->STATUS_DRAFT = '0'; 
             }
+            
             $model->save();
-            return $this->redirect(['create']);
+            return $this->refresh();
         }
 
         return $this->render('create', [

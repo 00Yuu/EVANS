@@ -20,9 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     
 
-    <!-- Ini Monitoring PIC Kegiatan -->
+    <!-- Ini Monitoring Himpunan -->
     <?php $tab_himpunan =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_himpunan,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
@@ -30,36 +30,48 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Ketua Himpunan'
+                'label' => 'Ketua Himpunan',
+                'value' => function($model){
+                    return $model->getStatusKetuaHimpunan($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'BEM'
+                'label' => 'BEM',
+                'value' => function($model){
+                    return $model->getStatusBem($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Kaprodi'
+                'label' => 'Kaprodi',
+                'value' => function($model){
+                    return $model->getStatusKaprodi($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -77,36 +89,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Ini Monitoring KPU -->
     <?php $tab_kpu =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_kpu,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'DKBM'
+                'label' => 'DKBM',
+                'value' => function($model){
+                    return $model->getDKBM($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -124,36 +143,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Ini Monitoring UKM -->
     <?php $tab_ukm =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_ukm,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'BEM'
+                'label' => 'BEM',
+                'value' => function($model){
+                    return $model->getStatusBem($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -168,23 +194,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); 
     ?>
-
-    <!-- <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'ID_PROPOSAL',
-            'ID_PROKER',
-            'ID_TENGGAT_WAKTU',
-            'BANK',
-            'ID_RINCI',
-            //'NO_REKENING',
-            //'STATUS_DRAFT',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?> -->
 
     <?=
         TabsX::widget([
