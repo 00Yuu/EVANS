@@ -88,8 +88,6 @@ class MonitoringProposalController extends Controller
             ]
         ]);
 
-
-
         return $this->render('index', [
             'dataProvider_ukm' => $dataProvider_ukm,
             'dataProvider_himpunan' => $dataProvider_himpunan,

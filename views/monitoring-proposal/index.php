@@ -44,24 +44,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'BEM'
+                'label' => 'BEM',
+                'value' => function($model){
+                    return $model->getStatusBem($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Kaprodi'
+                'label' => 'Kaprodi',
+                'value' => function($model){
+                    return $model->getStatusKaprodi($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -94,20 +104,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'DKBM'
+                'label' => 'DKBM',
+                'value' => function($model){
+                    return $model->getDKBM($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -140,20 +158,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'BEM'
+                'label' => 'BEM',
+                'value' => function($model){
+                    return $model->getStatusBem($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Studev'
+                'label' => 'Studev',
+                'value' => function($model){
+                    return $model->getStatusStudev($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'SA Manager'
+                'label' => 'SA Manager',
+                'value' => function($model){
+                    return $model->getStatusSAManager($model->ID_PROPOSAL);                    
+                }
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Wakil Rektor 3'
+                'label' => 'Wakil Rektor 3',
+                'value' => function($model){
+                    return $model->getStatusWarek3($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
