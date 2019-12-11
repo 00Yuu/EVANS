@@ -163,10 +163,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'NO_REKENING')->textInput(['maxlength' => true, 'placeholder' => "No. Rek"]) ?>
 
-            <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true])->dropDownList(
-                ['0' => 'Tidak Aktif', '1' => 'Aktif'])->label('Bendahara')
+            <?= $form->field($model, 'ID_BENDAHARA')->textInput(['maxlength' => true])->dropDownList(
+                    $model->dataBendahara()
+                )->label('Bendahara')
             ?>
         </div>
+
+        <?= $form->field($model, 'ID_PROPOSAL')->textInput(['maxlength' => true])->hiddenInput(['value' => 99])->label(false) ?>
+        <?= $form->field($model, 'ID_TENGGAT_WAKTU')->textInput(['maxlength' => true])->hiddenInput(['value' => '00001'])->label(false) ?>
+        <?= $form->field($model, 'CREATE_DATE')->hiddenInput(['value'=> date("d-M-y")])->label(false) ?>
+        <?= $form->field($model, 'ID_RINCI')->textInput(['maxlength' => true])->hiddenInput(['value' => '00004'])->label(false) ?>
 
         <div class="form-group" style="float: right;margin-top: 8%">
             <?= Html::Button('Back', array(
@@ -176,12 +182,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?>
             <?= Html::submitButton('Save', array(
                     'class' => 'btn btn-primary',
-                    'style' => 'width: 100px'
+                    'style' => 'width: 100px',
+                    'name' => 'button1',
+                    'value' => 'save'
                 )
             ) ?>
             <?= Html::submitButton('Submit', array(
                     'class' => 'btn btn-primary',
-                    'style' => 'width: 100px'
+                    'style' => 'width: 100px',
+                    'name' => 'button1',
+                    'value' => 'submit'
                 )
             ) ?>
         </div>

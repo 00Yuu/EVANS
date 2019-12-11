@@ -32,7 +32,7 @@ class Proposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'BANK', 'NO_REKENING', 'STATUS_DRAFT','ID_RINCI'], 'required'],
+            [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'BANK', 'NO_REKENING', 'STATUS_DRAFT','ID_RINCI', 'CREATE_DATE', 'ID_BENDAHARA'], 'required'],
             [['NO_REKENING'], 'number'],
             [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'ID_RINCI'], 'string', 'max' => 5],
             [['BANK'], 'string', 'max' => 25],
@@ -53,7 +53,9 @@ class Proposal extends \yii\db\ActiveRecord
             'BANK' => 'Bank',
             'NO_REKENING' => 'No Rekening',
             'STATUS_DRAFT' => 'Status Draft',
-            'ID_RINCI' => 'Id Rinci'
+            'ID_RINCI' => 'Id Rinci',
+            'CREATE_DATE' => 'Create Date',
+            'ID_BENDAHARA' => 'Id Bendahara',
         ];
     }
 
@@ -67,4 +69,20 @@ class Proposal extends \yii\db\ActiveRecord
     {
         return $this->hasOne(ProgramKerja::className(), ['ID_PROKER' => 'ID_PROKER']);
     }
+
+    public function dataBendahara(){
+        $sql = "SELECT *
+                FROM EVANS_PENGURUS_ORGANISASI_TBL
+                JOIN EVANS_RINCI_ORGANISASI_TBL ON EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS = EVANS_RINCI_ORGANISASI_TBL.ID_PENGURUS
+                WHERE EVANS_PENGURUS_ORGANISASI_TBL.JABATAN = 'BENDAHARA'
+                ";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return ArrayHelper::map($result,'EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS','EMPLID');
+    }
+
+    // public function getCurrDate(){
+    //     $sql = "SELECT TO_CHAR(SYSDATE, 'dd-MMM-yyyy') AS D FROM DUAL";
+    //     $result = Yii::$app->db->createCommand($sql)->queryOne();
+    //     return $result['D'];
+    // }
 }

@@ -32,7 +32,7 @@ class HalamanJudulProposal extends \yii\db\ActiveRecord
         return [
             [['ID_HAL_JUDUL', 'ID_PROPOSAL', 'NAMA_FILE_JUDUL'], 'required'],
             [['ID_HAL_JUDUL', 'ID_PROPOSAL'], 'string', 'max' => 5],
-            [['NAMA_FILE_JUDUL'], 'string', 'max' => 100],
+            [['NAMA_FILE_JUDUL'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['FEEDBACK'], 'string', 'max' => 4000],
             [['ID_HAL_JUDUL'], 'unique'],
         ];
