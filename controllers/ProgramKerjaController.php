@@ -192,9 +192,7 @@ class ProgramKerjaController extends Controller
                 $model->addError('END_DATE','Please Enter a Valid End Date');
             } 
         }
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['view', 'id' => $model->ID_PROKER]);
-        // }
+
         $statusReview = $model->checkStatusReview($id);
 
         return $this->render('update', [
