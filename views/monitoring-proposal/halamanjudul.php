@@ -20,12 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card" style="background-color: white; padding: 5%; margin: 5% 0 5% 0; border-radius: 7px 7px 7px 7px;">
                     <?php $hint = "Unggah pindaian Halaman Judul.</br><span style='color: red;'><i>*Format docs/pdf maks 5mb</i></span>" ?>
 
-                    <?= $form->field($model, 'ID_PROPOSAL', [
+                    <?= $form->field($model, 'NAMA_FILE_JUDUL', [
                     'template' => '
                         <div>
                             {input}
                         </div>
-                        {error}
                         {hint}
                         ',
                     

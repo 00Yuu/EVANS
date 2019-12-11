@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Proposal;
 use app\models\HalamanPengesahanProposal;
+use app\models\HalamanJudulProposal;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -38,6 +39,14 @@ class MonitoringProposalController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Proposal::find(),
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_PROPOSAL' => SORT_ASC,
+                ]
+            ]
         ]);
 
         return $this->render('index', [
@@ -77,7 +86,7 @@ class MonitoringProposalController extends Controller
     }
 
     public function actionJudul(){
-        $model = new Proposal();
+        $model = new HalamanJudulProposal();
 
         return $this->render('halamanjudul', [
             'model' => $model,

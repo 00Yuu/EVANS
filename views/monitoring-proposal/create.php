@@ -153,8 +153,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form = ActiveForm::begin(); ?>
         <div class="card" style="background-color: white; padding: 10%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 7px 7px 7px 7px;">
             <?= $form->field($model, 'ID_PROKER')->textInput(['maxlength' => true])->dropDownList(
-                ['0' => 'Tidak Aktif', '1' => 'Aktif'])->label('Proker')
-            ?>
+                   $model->dataProgramKerja()
+            )->label('Proker') ?>
         </div>
         
         <h4 style="margin: 10% 5% 5% 0%"><b>Rekening Bendahara<b></h4>

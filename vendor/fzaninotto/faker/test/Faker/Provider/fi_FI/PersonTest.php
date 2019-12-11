@@ -7,12 +7,12 @@ use Faker\Provider\DateTime;
 use Faker\Provider\fi_FI\Person;
 use PHPUnit\Framework\TestCase;
 
-class PersonTest extends TestCase
+final class PersonTest extends TestCase
 {
     /** @var Generator */
     protected $faker;
 
-    public function setUp()
+    protected function setUp()
     {
         $faker = new Generator();
         $faker->addProvider(new DateTime($faker));

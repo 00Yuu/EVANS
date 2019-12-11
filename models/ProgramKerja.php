@@ -188,5 +188,8 @@ class ProgramKerja extends \yii\db\ActiveRecord
         return ArrayHelper::map($result, 'YEAR','YEAR');
     }
 
-   
+    public function getProposal()
+    {
+        return $this->hasMany(Proposal::className(), ['ID_PROKER' => 'ID_PROKER']);
+    }
 }

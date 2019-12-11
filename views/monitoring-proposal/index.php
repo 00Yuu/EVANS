@@ -30,35 +30,35 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Ketua Himpunan'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'BEM'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Kaprodi'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Studev'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'SA Manager'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Wakil Rektor 3'
             ],
             [
@@ -85,27 +85,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'DKBM'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Studev'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'SA Manager'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Wakil Rektor 3'
             ],
             [
@@ -132,27 +132,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'BEM'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Studev'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'SA Manager'
             ],
             [
-                'attribute' => '',
+                'attribute' => 'BANK',
                 'label' => 'Wakil Rektor 3'
             ],
             [
@@ -176,9 +176,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'ID_PROPOSAL',
             'ID_PROKER',
-            'ID_PENGURUS',
             'ID_TENGGAT_WAKTU',
             'BANK',
+            'ID_RINCI',
             //'NO_REKENING',
             //'STATUS_DRAFT',
 

@@ -37,9 +37,19 @@ class MasterPeriodeController extends Controller
     {
 
         $model = new MasterPeriode();
+        
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['index']);
+        // }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post())) {
+            if(strtotime(Yii::$app->request->post('MasterPeriode')['START_DATE']) <= strtotime(Yii::$app->request->post('MasterPeriode')['END_DATE'])){
+                $model->save();
+                return $this->redirect(['index']);
+            }
+            else{
+                $model->addError('END_DATE','Please Enter a Valid End Date');
+            }
         }
 
         $dataProvider = new ActiveDataProvider([
