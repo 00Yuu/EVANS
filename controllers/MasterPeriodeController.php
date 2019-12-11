@@ -42,7 +42,7 @@ class MasterPeriodeController extends Controller
         //     return $this->redirect(['index']);
         // }
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(strtotime(Yii::$app->request->post('MasterPeriode')['START_DATE']) <= strtotime(Yii::$app->request->post('MasterPeriode')['END_DATE'])){
                 $model->save();
                 return $this->redirect(['index']);

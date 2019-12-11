@@ -42,7 +42,7 @@ class MasterDaftarOrganisasiController extends Controller
 
         $model = new MasterDaftarOrganisasi();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
             $model->save();
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
             return $this->redirect(['index']);
@@ -71,7 +71,7 @@ class MasterDaftarOrganisasiController extends Controller
         $model = new MasterPengurusOrganisasi();
         // $model = MasterDaftarOrganisasi::find()->where(['ID_JENIS' => $id])->all();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() ) {
             $model->save();
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);

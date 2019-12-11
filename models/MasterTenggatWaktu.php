@@ -34,6 +34,7 @@ class MasterTenggatWaktu extends \yii\db\ActiveRecord
             [['JNS_ALUR'], 'string', 'max' => 50],
             [['DDAY'], 'string', 'max' => 8],
             [['ID_TENGGAT_WAKTU'], 'unique'],
+            [['JNS_ALUR'], 'unique' , 'message' => 'Jenis Alur sudah ada'],
         ];
     }
 

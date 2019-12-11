@@ -40,7 +40,7 @@ use dosamigos\datepicker\DatePicker;
         ]);?>
 
         <?= $form->field($model, 'STATUS')->textInput(['maxlength' => true])->dropDownList(
-            ['0' => 'Tidak Aktif', '1' => 'Aktif'])->label('Status')
+            ['1' => 'Aktif','0' => 'Tidak Aktif' ])->label('Status')
         ?>
     </div>
 

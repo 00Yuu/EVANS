@@ -38,7 +38,7 @@ class MasterDaftarOrganisasi extends \yii\db\ActiveRecord
             [['NAMA_ORGANISASI'], 'string', 'max' => 50],
             [['STATUS'], 'string', 'max' => 1],
             [['ID_ORGANISASI'], 'unique'],
-            [['NAMA_ORGANISASI'], 'unique'],
+            [['NAMA_ORGANISASI'], 'unique', 'message' => 'Nama Organisasi ini sudah ada'],
            
         ];
     }

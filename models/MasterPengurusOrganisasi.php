@@ -35,7 +35,7 @@ class MasterPengurusOrganisasi extends \yii\db\ActiveRecord
             [['JABATAN'], 'string', 'max' => 50],
             [['STATUS'], 'string', 'max' => 1],
             [['ID_PENGURUS'], 'unique'],
-            [['ID_ORGANISASI','JABATAN'], 'unique', 'targetAttribute' => ['ID_ORGANISASI', 'JABATAN']],
+            [['ID_ORGANISASI','JABATAN'], 'unique', 'targetAttribute' => ['ID_ORGANISASI', 'JABATAN'], 'message' => 'Jabatan ini sudah ada untuk organisasi ini'],
             // [['ID_ORGANISASI'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSDAFTARORGANISASITBL::className(), 'targetAttribute' => ['ID_ORGANISASI' => 'ID_ORGANISASI']],
         ];
     }

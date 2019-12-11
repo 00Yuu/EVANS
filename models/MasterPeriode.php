@@ -28,11 +28,13 @@ class MasterPeriode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_PERIODE', 'STATUS', 'START_DATE', 'END_DATE'], 'required'],
+            [['ID_PERIODE', 'PERIODE' , 'STATUS', 'START_DATE', 'END_DATE'], 'required'],
             [['ID_PERIODE'], 'string', 'max' => 5],
             [['STATUS'], 'string', 'max' => 1],
             [['PERIODE'], 'string', 'max' => 16],
             [['ID_PERIODE'], 'unique'],
+            [['PERIODE'], 'unique', 'message' => 'Periode ini sudah ada'],
+            [['START_DATE','END_DATE'], 'unique', 'targetAttribute' => ['START_DATE', 'END_DATE'], 'message' => 'Start date dan end date ini sudah ada'],
         ];
     }
 
