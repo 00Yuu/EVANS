@@ -40,8 +40,13 @@ class ProgramKerjaController extends Controller
             'query' => ProgramKerja::find(),
         ]);
 
+        $dataProviderS = new ActiveDataProvider([
+            'query' => ProgramKerja::find()->where(['STATUS_DRAFT' => '0']),
+        ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'dataProviderS' => $dataProviderS,
         ]);
     }
 
