@@ -18,7 +18,7 @@ $this->title = '';
     </div>
 
     <div class="form-group ">
-        <?= Html::submitButton('Mahasiswa', ['class' => 'btn btn-primary', 'name'  => 'email', 'value' => 'sarukdunu@umn.ac.id']) ?>
+        <?= Html::submitButton('Mahasiswa', ['class' => 'btn btn-primary', 'name'  => 'email', 'value' => 'yudhistira@umn.ac.id']) ?>
     </div>
 
     <div class="form-group ">

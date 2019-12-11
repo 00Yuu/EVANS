@@ -147,13 +147,134 @@ class ProgramKerja extends \yii\db\ActiveRecord
         Yii::$app->db->createCommand("DELETE FROM EVANS_BENTUK_KEGIATAN_TBL WHERE ID_PROKER = '$id'")->execute();
     }
 
-    public function showStatus($status){
+    public function insertIntoTransAlur($id_proker){
+        $session = Yii::$app->session;
+
+        $id_proker = $id_proker;
+        $jns_org = $session->get('jns_org');
+
+        $sql = "SELECT ID_DETAIL
+        From EVANS_DETAIL_ALUR_TBL da
+        Join EVANS_JENIS_ALUR_TBL ja on ja.ID_JENIS_ALUR=da.ID_JENIS_ALUR
+        Join EVANS_MASTER_ALUR_TBL ma on ma.ID_ALUR=ja.ID_ALUR
+        WHERE ma.NAMA_ALUR = '$jns_org' AND ja.JENIS_DOKUMEN='Proker' AND da.DESKRIPSI='Waiting Approval'";
+
+        $result2 = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        $id_detail = $result2['ID_DETAIL'];
+
+        $sql = "SELECT TO_CHAR
+        (SYSDATE, 'DD-MON-YYYY') AS TGGL
+         FROM DUAL";
+
+        $result3 = Yii::$app->db->createCommand($sql)->queryOne();
+
+        $insert_date = $result3['TGGL'];
+
+        $sql = "INSERT INTO EVANS_TRANS_ALUR_PROKER_TBL
+        VALUES('99', '$id_proker', '$id_detail', '$insert_date')";
+
+        Yii::$app->db->createCommand($sql)->execute();
+    }
+
+    public function insertIntoTransAlurReviewer($id_proker, $status){
+        $sql = "SELECT ID_RINCI
+            from EVANS_PROGRAM_KERJA_TBL
+            where ID_PROKER = '$id_proker'";
+
+            $result1 = Yii::$app->db->createCommand($sql)->queryOne();
+            $id_rinci = $result1['ID_RINCI'];
+
+
+        $sql = "SELECT JENIS_ORGANISASI
+            From EVANS_RINCI_ORGANISASI_TBL r
+            Join EVANS_PENGURUS_ORGANISASI_TBL p on p.ID_PENGURUS=r.ID_PENGURUS
+            Join EVANS_DAFTAR_ORGANISASI_TBL do on do.ID_ORGANISASI=p.ID_ORGANISASI
+            Join EVANS_MSTR_JNS_ORGANISASI_TBL jo on jo.ID_JENIS=do.ID_JENIS
+            WHERE r.ID_RINCI = '$id_rinci'";
+
+            $result2 = Yii::$app->db->createCommand($sql)->queryOne();
+            $jns_org = $result2['JENIS_ORGANISASI'];
+
+        if($status === 'approve'){
+            $sql = "SELECT ID_DETAIL
+            From EVANS_DETAIL_ALUR_TBL da
+            Join EVANS_JENIS_ALUR_TBL ja on ja.ID_JENIS_ALUR=da.ID_JENIS_ALUR
+            Join EVANS_MASTER_ALUR_TBL ma on ma.ID_ALUR=ja.ID_ALUR
+            WHERE ma.NAMA_ALUR = '$jns_org' AND ja.JENIS_DOKUMEN='Proker' AND da.DESKRIPSI='Approved'";
+    
+            $result = Yii::$app->db->createCommand($sql)->queryOne();
+            
+            $id_detail = $result['ID_DETAIL'];
+
+        }
+        else{
+            $sql = "SELECT ID_DETAIL
+            From EVANS_DETAIL_ALUR_TBL da
+            Join EVANS_JENIS_ALUR_TBL ja on ja.ID_JENIS_ALUR=da.ID_JENIS_ALUR
+            Join EVANS_MASTER_ALUR_TBL ma on ma.ID_ALUR=ja.ID_ALUR
+            WHERE ma.NAMA_ALUR = '$jns_org' AND ja.JENIS_DOKUMEN='Proker' AND da.DESKRIPSI='Rejected'";
+    
+            $result = Yii::$app->db->createCommand($sql)->queryOne();
+            
+            $id_detail = $result['ID_DETAIL'];
+            
+        }
+
+        $sql = "SELECT TO_CHAR
+        (SYSDATE, 'DD-MON-YYYY') AS TGGL
+         FROM DUAL";
+
+        $result3 = Yii::$app->db->createCommand($sql)->queryOne();
+
+        $insert_date = $result3['TGGL'];
+
+        $sql = "INSERT INTO EVANS_TRANS_ALUR_PROKER_TBL
+        VALUES('99', '$id_proker', '$id_detail', '$insert_date')";
+
+        Yii::$app->db->createCommand($sql)->execute();
+    }
+
+    public function checkStatusReview($id_proker){
+        $sql ="SELECT ID_DETAIL
+        from EVANS_TRANS_ALUR_PROKER_TBL
+        where ID_PROKER = '$id_proker'";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        if($result['ID_DETAIL'] === '00007' || $result['ID_DETAIL'] === '00041'){
+            return 'Yes';
+        }
+        else{
+            return 'No';
+        }
+    }
+
+    public function showStatus($status, $id_proker){
         if($status==='1'){
             return 'Draft';
         }
         else{
-            return 'Waiting For Approval';
+            $sql ="SELECT DESKRIPSI
+            from EVANS_DETAIL_ALUR_TBL da
+            join EVANS_TRANS_ALUR_PROKER_TBL tap on tap.ID_DETAIL=da.ID_DETAIL
+            where tap.ID_PROKER='$id_proker' AND tap.INSERT_DATE=(
+                SELECT MAX(INSERT_DATE) from EVANS_TRANS_ALUR_PROKER_TBL where ID_PROKER='$id_proker')";
+
+            $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+            $status = $result['DESKRIPSI'];
+
+            return $status;
         }
+    }
+
+    public function updateFeedback($id_proker, $feedback){
+        $sql = "UPDATE EVANS_PROGRAM_KERJA_TBL 
+        set 
+            FEEDBACK = '$feedback'
+            WHERE ID_PROKER = '$id_proker'";
+
+        Yii::$app->db->createCommand($sql)->execute();
     }
 
     public function getIDTenggatWaktu($alur){

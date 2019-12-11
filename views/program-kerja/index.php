@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'label' => 'Status Proker',
                         'value' => function ($model){
-                            return $model->showStatus($model->STATUS_DRAFT);
+                            return $model->showStatus($model->STATUS_DRAFT,$model->ID_PROKER);
                         }
                     ],
                     [
@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'label' => 'Status Proker',
                             'value' => function ($model){
-                                return $model->showStatus($model->STATUS_DRAFT);
+                                return $model->showStatus($model->STATUS_DRAFT, $model->ID_PROKER);
                             }
                         ],
                         [

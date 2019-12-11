@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * ProgramKerjaController implements the CRUD actions for ProgramKerja model.
  */
@@ -70,6 +71,8 @@ class ProgramKerjaController extends Controller
      */
     public function actionCreate()
     {
+        $session = Yii::$app->session;
+
         $row = array();
         $model = new ProgramKerja();
         $model2 = new BentukKegiatan();
@@ -87,6 +90,7 @@ class ProgramKerjaController extends Controller
                 $idTenggatWaktu = $model->getIDTenggatWaktu('Program Kerja');
                 
                 $model->ID_TENGGAT_WAKTU = $idTenggatWaktu['ID_TENGGAT_WAKTU'];
+                $model->ID_RINCI = $session->get('id_rinci');
                 
                 
                 if(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] === null){
@@ -101,6 +105,10 @@ class ProgramKerjaController extends Controller
                         $model2->ID_PROKER = $value;
                         $model2->save();                
                     }
+                    if(Yii::$app->request->post('submit1')==='submit'){
+                        $model->insertIntoTransAlur($value);
+                    }
+                    
                     return $this->redirect(['index']);
                 }
                 
@@ -114,7 +122,8 @@ class ProgramKerjaController extends Controller
         return $this->render('create', [
             'errorMessage' => $errorMessage,
             'model' => $model,
-            'row' => $row
+            'row' => $row,
+            'status' => 'create'
         ]);
     }
 
@@ -139,7 +148,24 @@ class ProgramKerjaController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            if(strtotime(Yii::$app->request->post('ProgramKerja')['START_DATE']) <= strtotime(Yii::$app->request->post('ProgramKerja')['END_DATE'])){ 
+            if(Yii::$app->request->post('submit1')==='approve'){
+                if(Yii::$app->request->post('ProgramKerja')['FEEDBACK'] !== ""){
+                    $model->updateFeedback($id, Yii::$app->request->post('ProgramKerja')['FEEDBACK']);
+                }
+                $model->insertIntoTransAlurReviewer($id, 'approve');
+                return $this->redirect(['index']);
+            }
+            elseif(Yii::$app->request->post('submit1')==='reject'){
+                if(Yii::$app->request->post('ProgramKerja')['FEEDBACK'] === ""){
+                    $model->addError('FEEDBACK','Please Give Feedback');
+                }
+                else{
+                    $model->updateFeedback($id, Yii::$app->request->post('ProgramKerja')['FEEDBACK']);
+                    $model->insertIntoTransAlurReviewer($id, 'reject');
+                    return $this->redirect(['index']);
+                }
+            }
+            elseif(strtotime(Yii::$app->request->post('ProgramKerja')['START_DATE']) <= strtotime(Yii::$app->request->post('ProgramKerja')['END_DATE'])){ 
                 if(Yii::$app->request->post('BentukKegiatan')['ID_BENTUK_KEGIATAN'] === null){
                     $errorMessage = "Please Select Bentuk Kegiatan";
                 }
@@ -149,6 +175,7 @@ class ProgramKerjaController extends Controller
                     }
                     else{
                         $model->updateProker(Yii::$app->request->post('ProgramKerja'),$id,'submit');
+                        $model->insertIntoTransAlur($id);
                     }
                     
                     $model->deleteBentukKegiatan($id);
@@ -168,11 +195,14 @@ class ProgramKerjaController extends Controller
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
         //     return $this->redirect(['view', 'id' => $model->ID_PROKER]);
         // }
+        $statusReview = $model->checkStatusReview($id);
 
         return $this->render('update', [
             'errorMessage' => $errorMessage,
             'model' => $model,
-            'row' => $row            
+            'row' => $row,
+            'status' => 'update',
+            'statusReview' => $statusReview
         ]);
     }
 

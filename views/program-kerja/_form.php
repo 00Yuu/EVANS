@@ -191,7 +191,7 @@ else{
                 ]);
             }?>
             <?php 
-                if($session->get('jabatan') === 'STUDEV'){
+                if($session->get('jabatan') === 'STUDEV' && $statusReview === 'No' || $session->get('jabatan') === 'ADMIN' && $status === 'update' && $statusReview === 'No'){
                     echo Html::submitButton('Reject', 
                     [
                         'name' => 'submit1',
@@ -202,7 +202,7 @@ else{
                 }
             ?>
             <?php 
-                if($session->get('jabatan') === 'STUDEV'){
+                if($session->get('jabatan') === 'STUDEV' && $statusReview === 'No' || $session->get('jabatan') === 'ADMIN' && $status === 'update' && $statusReview === 'No'){
                 echo Html::submitButton('Approve', 
                 [
                     'name' => 'submit1',
@@ -212,7 +212,11 @@ else{
                 ]);
             }?>
         </div>    
-
+        
+        <?php
+            if($session->get('jabatan') === 'STUDEV' && $statusReview === 'No' || $session->get('jabatan') === 'ADMIN' && $status === 'update' && $statusReview === 'No'){
+                
+        ?>
         <div class="card" style="background-color: white;padding: 1% 3% 1% 3%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);width: 80%;float: right">
             <?= $form->field($model, 'FEEDBACK')->textarea(
                     [
@@ -222,7 +226,9 @@ else{
                     ]
                 ) ?>
         </div>
-        
+        <?php
+            }
+        ?>
     <?php ActiveForm::end(); ?>
 
 </div>

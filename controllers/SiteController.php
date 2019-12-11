@@ -102,14 +102,31 @@ class SiteController extends Controller
         if(isset($_POST['email'])){
             $email_user = Yii::$app->request->post()['email'];
             
-            $sql = "SELECT DESKRIPSI
+            $sql = "SELECT DESKRIPSI, EMPLID
             FROM EVANS_PERSONAL_DATA_VIEW
-            WHERE EMAIL = '$email_user'
-            ";
+            WHERE EMAIL = '$email_user'";
 
             $result = Yii::$app->db->createCommand($sql)->queryOne();
 
             $deskripsi = $result['DESKRIPSI'];
+            $id = $result['EMPLID'];
+
+            $sql = "SELECT ID_RINCI
+            FROM EVANS_RINCI_ORGANISASI_TBL
+            WHERE EMPLID = '$id'";
+
+            $result1 = Yii::$app->db->createCommand($sql)->queryOne();
+            $id_rinci = $result1['ID_RINCI'];
+
+            $sql = "SELECT JENIS_ORGANISASI
+            From EVANS_RINCI_ORGANISASI_TBL r
+            Join EVANS_PENGURUS_ORGANISASI_TBL p on p.ID_PENGURUS=r.ID_PENGURUS
+            Join EVANS_DAFTAR_ORGANISASI_TBL do on do.ID_ORGANISASI=p.ID_ORGANISASI
+            Join EVANS_MSTR_JNS_ORGANISASI_TBL jo on jo.ID_JENIS=do.ID_JENIS
+            WHERE r.ID_RINCI = '$id_rinci'";
+
+            $result2 = Yii::$app->db->createCommand($sql)->queryOne();
+            $jns_org = $result2['JENIS_ORGANISASI'];
 
             $session = Yii::$app->session;
 
@@ -120,6 +137,8 @@ class SiteController extends Controller
             }
             $session->set('email', $email_user);
             $session->set('jabatan', $deskripsi);
+            $session->set('id_rinci', $id_rinci);
+            $session->set('jns_org', $jns_org);
 
             return $this->redirect(Yii::$app->homeUrl);
 

@@ -19,7 +19,9 @@ $this->params['breadcrumbs'][] = 'Update';
         <?= $this->render('_form', [
             'errorMessage' => $errorMessage,
             'model' => $model,
-            'row' => $row
+            'row' => $row,
+            'status' => $status,
+            'statusReview' => $statusReview
         ]) ?>
     </div>
 </div>
