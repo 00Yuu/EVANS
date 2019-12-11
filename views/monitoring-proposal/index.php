@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Ini Monitoring Himpunan -->
     <?php $tab_himpunan =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_himpunan,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Ini Monitoring KPU -->
     <?php $tab_kpu =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_kpu,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
@@ -125,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Ini Monitoring UKM -->
     <?php $tab_ukm =  GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => $dataProvider_ukm,
         'summary' => '',
         'tableOptions' => ['class' => 'table table-bordered'],
         'options' => ['style' => 'background-color: white'],
@@ -168,23 +168,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); 
     ?>
-
-    <!-- <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'ID_PROPOSAL',
-            'ID_PROKER',
-            'ID_TENGGAT_WAKTU',
-            'BANK',
-            'ID_RINCI',
-            //'NO_REKENING',
-            //'STATUS_DRAFT',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?> -->
 
     <?=
         TabsX::widget([
