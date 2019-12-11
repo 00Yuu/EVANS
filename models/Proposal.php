@@ -70,6 +70,10 @@ class Proposal extends \yii\db\ActiveRecord
         return $this->hasOne(ProgramKerja::className(), ['ID_PROKER' => 'ID_PROKER']);
     }
 
+    public function getMasterRinciOrganisasi(){
+        return $this->hasOne(MasterRinciOrganisasi::className(), ['ID_RINCI' => 'ID_RINCI']);
+    }
+
     public function dataBendahara(){
         $sql = "SELECT *
                 FROM EVANS_PENGURUS_ORGANISASI_TBL
@@ -78,6 +82,9 @@ class Proposal extends \yii\db\ActiveRecord
                 ";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return ArrayHelper::map($result,'EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS','EMPLID');
+    }
+    public function getStatusKetuaHimpunan($id){
+        return 'tes';
     }
 
     // public function getCurrDate(){

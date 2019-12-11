@@ -82,7 +82,7 @@ use yii\helpers\Url;
                 ])->fileInput()->label('File ttd',['class' => 'pull-left','style' => 'margin-left:3%;']) ?>
             
             <h6>Unggah pindaian tanda tangan</h6>
-            <h6 style="color:red"><i>*Format docs/pdf maks 5mb</i></h6>
+            <h6 style="color:red"><i>*Format jpg/png maks 5mb</i></h6>
 
         </div>
         

@@ -192,4 +192,10 @@ class ProgramKerja extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Proposal::className(), ['ID_PROKER' => 'ID_PROKER']);
     }
+
+    public function getmasterPeriode()
+    {
+        return $this->hasMany(Proposal::className(), ['ID_PERIODE' => 'ID_PERIODE']);
+    }
+
 }

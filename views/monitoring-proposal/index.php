@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     
 
-    <!-- Ini Monitoring PIC Kegiatan -->
+    <!-- Ini Monitoring Himpunan -->
     <?php $tab_himpunan =  GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => '',
@@ -30,16 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
-                'attribute' => 'BANK',
-                'label' => 'Ketua Himpunan'
+                'label' => 'Ketua Himpunan',
+                'value' => function($model){
+                    return $model->getStatusKetuaHimpunan($model->ID_PROPOSAL);                    
+                }
             ],
             [
                 'attribute' => 'BANK',
@@ -83,13 +85,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['style' => 'background-color: white'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
@@ -130,13 +131,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'options' => ['style' => 'background-color: white'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
-                'attribute' => 'BANK',
+                'attribute' => 'programKerja.NAMA_KEGIATAN',
                 'label' => 'Nama Proposal'
             ],
             [
-                'attribute' => 'BANK',
+                'attribute' => 'masterRinciOrganisasi.masterPeriode.PERIODE',
                 'label' => 'Periode'
             ],
             [
