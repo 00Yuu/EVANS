@@ -80,15 +80,16 @@ class MonitoringProposalController extends Controller
         //     return $this->redirect(['view', 'id' => $model->ID_PROPOSAL]);
         // }
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(Yii::$app->request->post('submit1')==='save'){
                 $model->STATUS_DRAFT = '1';
             }
             else{
                 $model->STATUS_DRAFT = '0'; 
             }
+            
             $model->save();
-            return $this->redirect(['create']);
+            return $this->refresh();
         }
 
         return $this->render('create', [
