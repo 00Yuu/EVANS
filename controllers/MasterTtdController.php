@@ -41,23 +41,20 @@ class MasterTtdController extends Controller
 
         if($model->load(Yii::$app->request->post())){
 
-         
-              
-                if ($model->validate()) {
+            if ($model->validate()) {
 
-                    $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
-                    // $FILE_URL = 'Lampiran_TTD_' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
-                    // $model->FILE_URL = $FILE_URL;
-                    $model->FILE_TTD->saveAs('uploads/' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension);
-                    $model->save(false);
-                }
-
-                
-               Yii::$app->session->setFlash('success','File terupload');
-         
-               return $this->redirect(['index']);
-        
+                $model->FILE_TTD = UploadedFile::getInstance($model, 'FILE_TTD');
+                // $FILE_URL = 'Lampiran_TTD_' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension;
+                // $model->FILE_URL = $FILE_URL;
+                $model->FILE_TTD->saveAs('uploads/' .  $model->FILE_TTD->baseName  . '.' . $model->FILE_TTD->extension);
+                $model->save(false);
             }
+            
+            Yii::$app->session->setFlash('success','File terupload');
+        
+            return $this->redirect(['index']);
+        
+        }
 
            
         

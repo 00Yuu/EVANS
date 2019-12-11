@@ -31,12 +31,11 @@ class MasterRinciOrganisasi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_RINCI', 'ID_PENGURUS', 'EMPLID', 'ID_PERIODE', 'STATUS'], 'required'],
+            [['ID_RINCI', 'ID_PENGURUS', 'EMPLID', 'ID_PERIODE'], 'required'],
             [['ID_RINCI', 'ID_PENGURUS', 'ID_PERIODE'], 'string', 'max' => 5],
             [['EMPLID'], 'string', 'max' => 11],
-            [['STATUS'], 'string', 'max' => 1],
+            [['FILE_TTD'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['ID_RINCI'], 'unique'],
-            // [['ID_PERIODE'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSMASTERPERIODETBL::className(), 'targetAttribute' => ['ID_PERIODE' => 'ID_PERIODE']],
         ];
     }
 
@@ -50,7 +49,7 @@ class MasterRinciOrganisasi extends \yii\db\ActiveRecord
             'ID_PENGURUS' => 'Id Pengurus',
             'EMPLID' => 'NIM',
             'ID_PERIODE' => 'Id Periode',
-            'STATUS' => 'Status',
+            'FILE_TTD' => 'File Ttd',
         ];
     }
 

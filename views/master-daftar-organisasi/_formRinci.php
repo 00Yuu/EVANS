@@ -72,13 +72,20 @@ use yii\helpers\Url;
                 ['style' => 'text-align:left;'],
         ) ?>
 
-        <?= $form->field($modelRinci, 'STATUS')->dropDownList($modelRinci->dataStatus(),
-            ['class' => 'form-control',
-            'style' => 'width:50%;'
-            ])->label(
-                'Status:',
-                ['style' => 'text-align:left;'],
-        ) ?>
+        <div class="card" style="background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); ;margin: 5% 0 5% 0;padding: 5%">   
+        
+            <?= $form->field($modelRinci, 'FILE_TTD',[
+                'horizontalCssClasses' => [
+                    'label' => 'col-sm-12',
+                    'wrapper' => 'col-sm-12',
+                    ]
+                ])->fileInput()->label('File ttd',['class' => 'pull-left','style' => 'margin-left:3%;']) ?>
+            
+            <h6>Unggah pindaian tanda tangan</h6>
+            <h6 style="color:red"><i>*Format docs/pdf maks 5mb</i></h6>
+
+        </div>
+        
     </div>
 
     <div class="form-group" style="float: right;margin-top: 8%">

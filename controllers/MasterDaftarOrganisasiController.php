@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 
 
 /**
@@ -98,6 +98,29 @@ class MasterDaftarOrganisasiController extends Controller
     public function actionRinci($id,$id_org){
         $modelRinci = new MasterRinciOrganisasi();
 
+        if($modelRinci->load(Yii::$app->request->post())){
+            if ($modelRinci->validate()) {
+
+                $modelRinci->FILE_TTD = UploadedFile::getInstance($modelRinci, 'FILE_TTD');
+
+                $FILE_URL = $modelRinci->FILE_TTD->baseName  . '.' . $modelRinci->FILE_TTD->extension;
+
+                $modelRinci->FILE_TTD->saveAs('uploads/ttd_org/' . $FILE_URL );
+
+                $modelRinci->FILE_TTD = $FILE_URL;
+                
+                $modelRinci->save();
+
+                Yii::$app->session->setFlash('success','Data berhasil disimpan');
+            }
+            else{
+                Yii::$app->session->setFlash('error','Data gagal disimpan');
+            }
+            
+            return $this->refresh();
+
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => MasterRinciOrganisasi::find()->where(['ID_PENGURUS' => $id]),
             'pagination' => [
@@ -118,12 +141,23 @@ class MasterDaftarOrganisasiController extends Controller
         ]);
     }
 
+    public function actionDownload($filename){
+        $path = Yii::getAlias('@webroot').'/uploads/ttd_org/'.$filename;
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path, $filename);
+        }
+        else{
+            Yii::$app->session->setFlash('error','File tidak ditemukan');
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
+    }
+
     public function actionHome()
     {
         return $this->redirect(Yii::$app->homeUrl);
         
 
-    return $this->render('home', [
+        return $this->render('home', [
         ]);
     }
 

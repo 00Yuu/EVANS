@@ -21,7 +21,7 @@ class PersonalDataController extends \yii\web\Controller
             $query = new Query;
             $query->select('EMPLID as id ,NAMA as text ')
                 ->from('EVANS_PERSONAL_DATA_VIEW')
-                ->where("lower(EMPLID||NAMA||PHONE||EMAIL) LIKE lower('%". $q  ."%')");
+                ->where("lower(EMPLID||NAMA) LIKE lower('%". $q  ."%')");
                 // ->andWhere("length(EMPLID) >= 10");
             $command = $query->createCommand();
             $data = $command->queryAll();

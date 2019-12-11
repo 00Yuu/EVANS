@@ -21,6 +21,13 @@ use yii\widgets\DetailView;
             'personalData.ANGKATAN',
             'personalData.PRODI',
             'masterPeriode.PERIODE',
+            [
+                'format' => 'raw',
+                'label' => 'File TTD',
+                'value' =>function($model, $widget){
+                  return  Html::a($model->FILE_TTD, ['master-daftar-organisasi/download', 'filename' => $model->FILE_TTD], ['class' => 'profile-link']); 
+                }
+            ],
         ],
     ]);
 
