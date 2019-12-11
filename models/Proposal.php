@@ -32,7 +32,7 @@ class Proposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'BANK', 'NO_REKENING', 'STATUS_DRAFT','ID_RINCI', 'CREATE_DATE', 'ID_BENDAHARA'], 'required'],
+            [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'BANK', 'NO_REKENING', 'ID_RINCI', 'CREATE_DATE', 'ID_BENDAHARA'], 'required'],
             [['NO_REKENING'], 'number'],
             [['ID_PROPOSAL', 'ID_PROKER', 'ID_TENGGAT_WAKTU', 'ID_RINCI'], 'string', 'max' => 5],
             [['BANK'], 'string', 'max' => 25],
@@ -75,14 +75,15 @@ class Proposal extends \yii\db\ActiveRecord
     }
 
     public function dataBendahara(){
-        $sql = "SELECT *
+        $sql = "SELECT EVANS_RINCI_ORGANISASI_TBL.ID_RINCI RINCI, EMPLID
                 FROM EVANS_PENGURUS_ORGANISASI_TBL
                 JOIN EVANS_RINCI_ORGANISASI_TBL ON EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS = EVANS_RINCI_ORGANISASI_TBL.ID_PENGURUS
-                WHERE EVANS_PENGURUS_ORGANISASI_TBL.JABATAN = 'BENDAHARA'
+                WHERE LOWER(EVANS_PENGURUS_ORGANISASI_TBL.JABATAN) = 'bendahara'
                 ";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
-        return ArrayHelper::map($result,'EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS','EMPLID');
+        return ArrayHelper::map($result,'RINCI','EMPLID');
     }
+    
     public function getStatusKetuaHimpunan($id){
         return 'tes';
     }
