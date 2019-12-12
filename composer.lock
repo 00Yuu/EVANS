@@ -115,7 +115,7 @@
             "version": "v3.4.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:twbs/bootstrap.git",
+                "url": "https://github.com/twbs/bootstrap.git",
                 "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
@@ -624,12 +624,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "a44c1ab6cd48c3d25449efa84a068c8cd12bac3a"
+                "reference": "c575bc9b8ce10ecb521d93f51508f564f6cbf342"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/a44c1ab6cd48c3d25449efa84a068c8cd12bac3a",
-                "reference": "a44c1ab6cd48c3d25449efa84a068c8cd12bac3a",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/c575bc9b8ce10ecb521d93f51508f564f6cbf342",
+                "reference": "c575bc9b8ce10ecb521d93f51508f564f6cbf342",
                 "shasum": ""
             },
             "type": "library",
@@ -669,7 +669,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2019-12-05T09:01:55+00:00"
+            "time": "2019-12-11T08:07:22+00:00"
         },
         {
             "name": "kartik-v/bootstrap-tabs-x",
@@ -1581,12 +1581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "506eb87430500f13c5c68f53b4305f3b822274e3"
+                "reference": "ee31ca061bcf41b3a7e051c79af978ed8ff165d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/506eb87430500f13c5c68f53b4305f3b822274e3",
-                "reference": "506eb87430500f13c5c68f53b4305f3b822274e3",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ee31ca061bcf41b3a7e051c79af978ed8ff165d3",
+                "reference": "ee31ca061bcf41b3a7e051c79af978ed8ff165d3",
                 "shasum": ""
             },
             "require": {
@@ -1673,7 +1673,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2019-12-10T12:08:45+00:00"
+            "time": "2019-12-11T23:48:42+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",

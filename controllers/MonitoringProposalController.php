@@ -135,7 +135,8 @@ class MonitoringProposalController extends Controller
             }
             
             $model->save();
-            return $this->refresh();
+            return $this->redirect(['index']);
+            // return $this->refresh();
         }
 
         return $this->render('create', [

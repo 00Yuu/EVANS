@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?> -->
 
-    <div class="col-sm-8">
+    <!-- <div class="col-sm-8">
         <h4 style="margin: 4% 0% 3% 0%"><b>Proposal<b></h4>
         <div class="card" style="background-color: white; padding: 5%; margin-bottom: 5%; width: 70%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 7px 7px 7px 7px;">
             <div class="row">
@@ -146,9 +146,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="col-sm-4">
+    <div class="col-sm-6" style="margin-left: 20%">
         <h4 style="margin: 10% 5% 5% 0%"><b>Select Proker<b></h4>
         <?php $form = ActiveForm::begin(); ?>
         <div class="card" style="background-color: white; padding: 10%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border-radius: 7px 7px 7px 7px;">
@@ -175,7 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => '00008'])->label(false) ?>
 
         <div class="form-group" style="float: right;margin-top: 8%">
-            <?= Html::Button('Back', array(
+            <?= Html::a('Back', ['index'], array(
                     'class' => 'btn btn-primary',
                     'style' => 'width: 100px'
                 )
@@ -187,13 +187,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => 'save'
                 )
             ) ?>
-            <?= Html::submitButton('Submit', array(
+            <!-- <?= Html::submitButton('Submit', array(
                     'class' => 'btn btn-primary',
                     'style' => 'width: 100px',
                     'name' => 'button1',
                     'value' => 'submit'
                 )
-            ) ?>
+            ) ?> -->
         </div>
         <?php ActiveForm::end(); ?>
     </div>
