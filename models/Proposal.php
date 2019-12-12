@@ -258,4 +258,12 @@ class Proposal extends \yii\db\ActiveRecord
                 
         return $result['ID_ORGANISASI'];
     }
+
+    public function getCurrIdProposal(){
+        $sql = "SELECT LPAD(EVANS_PROPOSAL_SEQ.CURRVAL,5,'0') ID_PROPOSAL FROM DUAL";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+                
+        return $result['ID_PROPOSAL'];
+    }
 }

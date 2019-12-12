@@ -135,7 +135,10 @@ class MonitoringProposalController extends Controller
             }
             
             $model->save();
-            return $this->redirect(['index']);
+
+            $id_proposal = $model->getCurrIdProposal();
+
+            return $this->redirect(['update', 'id' => $id_proposal]);
             // return $this->refresh();
         }
 
@@ -404,6 +407,9 @@ class MonitoringProposalController extends Controller
                 $model->STATUS_DRAFT = '0'; 
 
                 $model->save();
+
+                // $sql = ""
+
                 Yii::$app->session->setFlash('success','Suubmit proposal berhasil');
             }
             
@@ -425,6 +431,10 @@ class MonitoringProposalController extends Controller
             Yii::$app->session->setFlash('error','File tidak ditemukan');
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
         }
+    }
+
+    public function actionSusunanKepanitian($id){
+
     }
 
     public function actionDeleteAnggaran($id){
