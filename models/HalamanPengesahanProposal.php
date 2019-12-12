@@ -33,13 +33,10 @@ class HalamanPengesahanProposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_HAL_PENGESAHAN', 'ID_PROPOSAL', 'NAMA_ORGANISASI', 'NAMA_ACARA', 'END_DATE'], 'required'],
+            [['ID_HAL_PENGESAHAN', 'ID_PROPOSAL','NAMA_ORGANISASI', 'NAMA_ACARA', 'START_DATE','END_DATE'], 'required'],
             [['ID_HAL_PENGESAHAN', 'ID_PROPOSAL'], 'string', 'max' => 5],
             [['NAMA_ORGANISASI', 'FILE_LEMBAR_PENGESAHAN'], 'string', 'max' => 100],
             [['NAMA_ACARA'], 'string', 'max' => 200],
-            [['START_DATE'], 'string', 'max' => 7],
-            [['END_DATE'], 'string', 'max' => 1],
-            [['ID_HAL_PENGESAHAN'], 'unique'],
         ];
     }
 
@@ -59,11 +56,25 @@ class HalamanPengesahanProposal extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getDetailProker($id_proker){
+        $sql = "SELECT do.NAMA_ORGANISASI, pk.NAMA_KEGIATAN, TO_CHAR(pk.START_DATE,'DD-Mon-YYYY') START_DATE, TO_CHAR(pk.END_DATE,'DD-Mon-YYYY') END_DATE
+                FROM EVANS_PROGRAM_KERJA_TBL pk
+                JOIN EVANS_RINCI_ORGANISASI_TBL ro ON (pk.ID_RINCI = ro.ID_RINCI)
+                JOIN EVANS_PENGURUS_ORGANISASI_TBL po ON (po.ID_PENGURUS = ro.ID_PENGURUS)
+                JOIN EVANS_DAFTAR_ORGANISASI_TBL do ON (do.ID_ORGANISASI = po.ID_ORGANISASI)
+                WHERE ID_PROKER = '$id_proker'
+                ";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+                        
+        return $result;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPROPOSAL()
+    public function getProposal()
     {
-        return $this->hasOne(EVANSPROPOSALTBL::className(), ['ID_PROPOSAL' => 'ID_PROPOSAL']);
+        return $this->hasOne(Proposal::className(), ['ID_PROPOSAL' => 'ID_PROPOSAL']);
     }
 }

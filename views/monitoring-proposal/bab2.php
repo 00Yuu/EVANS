@@ -64,11 +64,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div style="margin: 5% 0 5% 0">
                     <?php
-                        
-                        Html::a('Input Susunan Kepanitian', ['susunanpanitia'], [
-                        'class' => 'btn btn-success',
-                        'style' => ''
-                    ]) ?>
+                        if($file_bab_2 != ''){
+                            echo Html::a('Input Susunan Kepanitian', ['monitoring-proposal/susunan-kepanitian','id' => $id_bab_2,'id_proposal' => $id], [
+                                    'class' => 'btn btn-success',
+                                    'style' => ''
+                                ]) ;
+                        }
+                    ?>
                 </div>
 
             </div>

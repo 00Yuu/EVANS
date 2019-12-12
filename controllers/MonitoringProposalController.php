@@ -53,9 +53,9 @@ class MonitoringProposalController extends Controller
         
         $dataProvider_himpunan = new ActiveDataProvider([
             'query' => $query_himpunan ,
-            'pagination' => [
-                'pageSize' => 6,
-            ],
+            // 'pagination' => [
+            //     'pageSize' => 10,
+            // ],
             'sort' => [
                 'defaultOrder' => [
                     'ID_PROPOSAL' => SORT_ASC,
@@ -70,9 +70,9 @@ class MonitoringProposalController extends Controller
         
         $dataProvider_ukm = new ActiveDataProvider([
             'query' => $query_ukm ,
-            'pagination' => [
-                'pageSize' => 6,
-            ],
+            // 'pagination' => [
+            //     'pageSize' => 10,
+            // ],
             'sort' => [
                 'defaultOrder' => [
                     'ID_PROPOSAL' => SORT_ASC,
@@ -87,9 +87,9 @@ class MonitoringProposalController extends Controller
         
         $dataProvider_kpu = new ActiveDataProvider([
             'query' => $query_kpu ,
-            'pagination' => [
-                'pageSize' => 6,
-            ],
+            // 'pagination' => [
+            //     'pageSize' => 10,
+            // ],
             'sort' => [
                 'defaultOrder' => [
                     'ID_PROPOSAL' => SORT_ASC,
@@ -208,8 +208,41 @@ class MonitoringProposalController extends Controller
     public function actionPengesahan($id){
         $model = new HalamanPengesahanProposal();
 
+        $sql = "SELECT * FROM EVANS_HAL_PENGESAHAN_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        if($result != false){
+            $id_pengesahan = $result['ID_HAL_PENGESAHAN'];
+            $model = HalamanPengesahanProposal::findOne($id_pengesahan);
+        }
+        else{
+            $id_pengesahan = '';
+        }
+        if($model->load(Yii::$app->request->post()) && $model->validate() ){
+            $model->save();
+
+            Yii::$app->session->setFlash('success','Data berhasil disimpan');
+            
+            return $this->refresh();
+        }
+
+        $sql = "SELECT ID_PROKER FROM EVANS_PROPOSAL_TBL WHERE ID_PROPOSAL = '$id'";
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        $id_proker = $result['ID_PROKER'];
+        $detail_proker = $model->getDetailProker($id_proker);
+        $nama_org = $detail_proker['NAMA_ORGANISASI'];
+        $nama_kegiatan = $detail_proker['NAMA_KEGIATAN'];
+        $start_date = $detail_proker['START_DATE'];
+        $end_date = $detail_proker['END_DATE'];
+
         return $this->render('pengesahan', [
             'model' => $model,
+            'id' => $id,
+            'id_pengesahan' => $id_pengesahan,
+            'nama_org' => $nama_org,
+            'nama_kegiatan' => $nama_kegiatan,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
         ]);
     }
 
@@ -325,7 +358,7 @@ class MonitoringProposalController extends Controller
     public function actionBab2($id){
         $model = new BabII();
 
-        $sql = "SELECT FILE_BAB_2 FROM EVANS_HAL_DESKRIPSI_PRPSL_TBL
+        $sql = "SELECT FILE_BAB_2,ID_BAB_2 FROM EVANS_HAL_DESKRIPSI_PRPSL_TBL
                 WHERE ID_PROPOSAL = '$id'";
         
         $result = Yii::$app->db->createCommand($sql)->queryOne();
@@ -333,9 +366,11 @@ class MonitoringProposalController extends Controller
         // ada file nya
         if($result != false){
             $file_bab_2 = $result['FILE_BAB_2'];
+            $id_bab_2 = $result['ID_BAB_2'];
         }
         else{//gak ada file nya
             $file_bab_2 = '';
+            $id_bab_2 = '';
         }
 
         if($model->load(Yii::$app->request->post())  ){
@@ -372,6 +407,40 @@ class MonitoringProposalController extends Controller
             'model' => $model,
             'id' => $id,
             'file_bab_2' => $file_bab_2,
+            'id_bab_2' => $id_bab_2,
+        ]);
+    }
+
+    public function actionSusunanKepanitian($id,$id_proposal){
+        $model = new SusunanPanitia();
+
+        if($model->load(Yii::$app->request->post()) && $model->validate() ){
+            $model->save();
+
+            Yii::$app->session->setFlash('success','Panitia berhasil disimpan');
+
+            return $this->refresh();
+        }
+
+        $query = SusunanPanitia::find()->where(['ID_BAB_2' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_SUSUNAN' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        return $this->render('susunanpanitia', [
+            'dataProvider' => $dataProvider,
+            'model' => $model,
+            'id' => $id,
+            'id_proposal' => $id_proposal,
         ]);
     }
 
@@ -643,6 +712,22 @@ class MonitoringProposalController extends Controller
 
                     return $this->refresh();
                 }
+                else{
+                    $result_bab2 = Yii::$app->db->createCommand($sql_bab2)->queryOne();
+
+                    $id_bab_2 = $result_bab2['ID_BAB_2'];
+
+                    $sql_susunan = "SELECT * FROM EVANS_SUSUNAN_PANITIA_TBL WHERE ID_BAB_2 = '$id_bab_2'";
+                    
+                    $result_susunan = Yii::$app->db->createCommand($sql_susunan)->queryAll();
+
+                    if($result_susunan == null){
+                        Yii::$app->session->setFlash('error','Mohon Input Susunan Kepanitian pada halaman Bab 2');
+
+                        return $this->refresh();
+                    }
+
+                }
 
                 $sql_bab3 = "SELECT * FROM EVANS_HAL_RENCANA_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
 
@@ -716,6 +801,8 @@ class MonitoringProposalController extends Controller
                 ])->execute();
 
                 Yii::$app->session->setFlash('success','Suubmit proposal berhasil');
+
+                return $this->redirect(['index']);
             }
             
             return $this->refresh();
@@ -735,29 +822,6 @@ class MonitoringProposalController extends Controller
             Yii::$app->session->setFlash('error','File tidak ditemukan');
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
         }
-    }
-
-    public function actionSusunanKepanitian($id){
-        $model = new SusunanKepanitian();
-
-        $query = SusunanKepanitian::find()->where(['ID_BAB_2' => $id]);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'ID_SUSUNAN' => SORT_ASC,
-                ]
-            ]
-        ]);
-
-        return $this->render('susunanpanitia', [
-            'model' => $model,
-            'id' => $id,
-        ]);
     }
 
     public function actionDeleteAnggaran($id){

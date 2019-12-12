@@ -2,8 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
+use kartik\select2\Select2;
+use yii\web\JsExpression;
 /* @var $this yii\web\View */
 /* @var $model app\models\Proposal */
 /* @var $form yii\widgets\ActiveForm */
@@ -47,7 +48,7 @@ use yii\helpers\Url;
     </div>
 
     <div class="form-group" style="float: right;margin-top: 8%">
-        <?= Html::a('Back', ['update','id' => $id], array(
+        <?= Html::a('Back', ['bab2','id' => $id_proposal], array(
                 'class' => 'btn btn-primary',
                 'style' => 'width: 100px'
             )

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
 
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Susunan Kepanitian';
@@ -51,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('_formsusunan', [
                 'model' => $model,
                 'id' => $id,
+                'id_proposal' => $id_proposal,
             ]) ?>
         </div>
     </div>
