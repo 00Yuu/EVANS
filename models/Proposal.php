@@ -88,6 +88,10 @@ class Proposal extends \yii\db\ActiveRecord
         return $this->hasOne(MasterRinciOrganisasi::className(), ['ID_RINCI' => 'ID_RINCI']);
     }
 
+    public function getLembarPertanggungJawabanKeuangan(){
+        return $this->hasOne(LembarPertanggungJawabanKeuangan::className(), ['ID_PROPOSAL' => 'ID_PROPOSAL']);
+    }
+
     public function dataBendahara(){
         $sql = "SELECT EVANS_RINCI_ORGANISASI_TBL.ID_RINCI RINCI, EMPLID
                 FROM EVANS_PENGURUS_ORGANISASI_TBL

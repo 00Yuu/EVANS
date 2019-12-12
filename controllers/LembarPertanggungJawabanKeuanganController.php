@@ -39,11 +39,7 @@ class LembarPertanggungJawabanKeuanganController extends Controller
 
         $model = new LembarPertanggungJawabanKeuangan();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            
-            // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
-            return $this->redirect(['index']);
-        }
+       
 
         $dataProvider = new ActiveDataProvider([
             'query' => LembarPertanggungJawabanKeuangan::find(),
@@ -60,6 +56,15 @@ class LembarPertanggungJawabanKeuanganController extends Controller
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'model' => $model,
+        ]);
+    }
+
+    public function actionHome()
+    {
+        return $this->redirect(Yii::$app->homeUrl);
+        
+
+    return $this->render('home', [
         ]);
     }
 
@@ -104,17 +109,36 @@ class LembarPertanggungJawabanKeuanganController extends Controller
     {
         $model = new LembarPertanggungJawabanKeuangan();
 
-        $row = array();
+        
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if(strtotime(Yii::$app->request->post('LembarPertanggungJawabanKeuangan')['TANGGAL_BON']) 
+            <= strtotime(Yii::$app->request->post('LembarPertanggungJawabanKeuangan')['TANGGAL_PENYELESAIAN_BON'])){
+                if(Yii::$app->request->post('button1')==='save'){
+                    $model->STATUS_DRAFT = '1';
+                    Yii::$app->session->setFlash('success','LPK SAVED');
+                }
+                else{
+                    $model->STATUS_DRAFT = '0'; 
+                    Yii::$app->session->setFlash('success','LPK SUBMITTED');
+                }
+    
+                $model->save();
+                return $this->redirect(['create']);
+            }
+            else{
+                $model->addError('TANGGAL_PENYELESAIAN_BON','Please Enter a Valid End Date');
+            }
+          
+          
             
             // return $this->redirect(['view', 'id' => $model->ID_TENGGAT_WAKTU]);
-            return $this->redirect(['index']);
+           
         }
 
         return $this->render('create', [
             'model' => $model,
-            'row' => $row
+            
         ]);
     }
 

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h4><b>Lembar Pertanggung Jawaban Keuangan</b></h4>
     <?= $this->render('_form', [
         'model' => $model,
-        'row' => $row
+       
     ]) ?>
     </div>
 

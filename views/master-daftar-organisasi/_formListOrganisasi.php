@@ -18,7 +18,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'JABATAN')->textInput(['maxlength' => true])->input('JABATAN', ['placeholder' => "Jabatan"])->label('Jabatan') ?>
         
     <div class="hide">
-        <?= $form->field($model, 'ID_ORGANISASI')->hiddenInput(['maxlength' => true, 'value' => "$id" ])->label(false) ?>
+        <?= $form->field($model, 'ID_ORGANISASI')->
+        hiddenInput(['maxlength' => true, 'value' => "$id" ])->
+        label(false) ?>
     </div>
 
     <?= $form->field($model, 'STATUS')->textInput(['maxlength' => true])->dropDownList(

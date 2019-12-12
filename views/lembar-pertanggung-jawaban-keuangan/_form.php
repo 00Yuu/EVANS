@@ -1,5 +1,6 @@
 <?php
 
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\datepicker\DatePicker;
@@ -14,9 +15,17 @@ use dosamigos\datepicker\DatePicker;
     <?php $form = ActiveForm::begin(); ?>
 
     <div class="card" style="background-color: white;padding: 5% 5% 5% 5%;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);margin-left: 5%">
-                <?= $form->field($model, 'ID_LPK')->textInput(['maxlength' => true])->hiddenInput(['value' => '99999'])->label(false) ?>
+                <?= $form->field($model, 'ID_LPK')->hiddenInput(['value' => '99999'])->label(false) ?>
+
+                <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => '00008'])->label(false) ?>
+
+                <?= $form->field($model, 'ID_TENGGAT_WAKTU')->hiddenInput(['value' => '00004'])->label(false) ?>
+
+                <?= $form->field($model, 'CREATE_DATE')->hiddenInput(['value'=> date("d-M-y")])->label(false) ?>
                 
-                <?= $form->field($model, 'NAMA_KEGIATAN')->textInput(['maxlength' => true])->input('NAMA_KEGIATAN', ['placeholder' => "Proposal"])->label('Proposal') ?>
+                <?= $form->field($model, 'ID_PROPOSAL')->textInput(['maxlength' => true])->dropDownList(
+                   $model->dataProposal()
+            )->label('Proposal') ?>
 
                 <?= $form->field($model, 'NAMA_KEGIATAN')->textInput(['maxlength' => true])->input('NAMA_KEGIATAN', ['placeholder' => "Nama Kegiatan"])->label('Nama Kegiatan') ?>
 
@@ -47,12 +56,13 @@ use dosamigos\datepicker\DatePicker;
                         ]);?>
 
                     <?= $form->field($model, 'DANA_UMN')->textInput(['maxlength' => true])->input('DANA_UMN', ['placeholder' => "Dana UMN"])->label('Dana UMN') ?>                
-            
+                                
                     <?= Html::a('Create List LPK',
                     ['view-list'],
                     [
                         'class' => 'btn btn-default',
                         'style' => 'width: 100%'
+                        
                     ]
                 ) ?>
 
@@ -61,25 +71,25 @@ use dosamigos\datepicker\DatePicker;
 
 
             <div class="form-group" style="float: right;margin-top: 6%">
-                <?= Html::a('Back', 
-                    [
-                        'index'
-                    ],
-                    [
-                        'class' => 'btn btn-primary',
-                        'style' => 'width: 100px'
-                    ]
-                ) ?>
-                <?= Html::Button('Save', 
-                [
+            <?= Html::a('Back', ['index'], array(
                     'class' => 'btn btn-primary',
                     'style' => 'width: 100px'
-                ]) ?>
-                <?= Html::submitButton('Submit', array(
-                        'class' => 'btn btn-primary',
-                        'style' => 'width: 100px'
-                    )
-                ) ?>
+                )
+            ) ?>
+            <?= Html::submitButton('Save', array(
+                    'class' => 'btn btn-primary',
+                    'style' => 'width: 100px',
+                    'name' => 'button1',
+                    'value' => 'save'
+                )
+            ) ?>
+            <?= Html::submitButton('Submit', array(
+                    'class' => 'btn btn-primary',
+                    'style' => 'width: 100px',
+                    'name' => 'button1',
+                    'value' => 'submit'
+                )
+            ) ?>
             </div>
 
     <?php ActiveForm::end(); ?>

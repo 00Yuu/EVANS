@@ -21,38 +21,51 @@ $this->params['breadcrumbs'][] = 'Monitoring LPK';
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => '',
-        'tableOptions' => ['class' => 'table table-bordered'],
-        'options' => ['style' => 'background-color: white'],
+        'pager'        => [
+
+            'class' => '\yii\widgets\LinkPager',
+
+        ],                
+        'tableOptions' => [
+            'class' => 'table table-bordered table-hover table-light',
+            'style' => 'background-color:white;'
+        ],
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           
 
             [
-                // 'attribute' => 'NAMA_KEGIATAN',
+                'attribute' => 'ID_LPK',
+                'label' => 'id'
+            ],
+            [
+                'attribute' => 'NAMA_KEGIATAN',
                 'label' => 'Nama Kegiatan'
             ],
             [
-                // 'attribute' => 'BENTUK_PROKER',
+                'attribute' => 'PENYELENGGARA',
                 'label' => 'Penyelenggara'
             ],
             [
-                // 'attribute' => 'TINGKAT_KEGIATAN',
+                'attribute' => 'KEPERLUAN',
                 'label' => 'Keperluan'
             ],
             [
-                // 'attribute' => 'DANA',
+                'attribute' => 'TANGGAL_BON',
                 'label' => 'Tangal BS'
             ],
             [
-                // 'attribute' => 'START_DATE',
+                'attribute' => 'TANGGAL_PENYELESAIAN_BON',
                 'label' => 'Tanggal Penyelesaian'
             ],
             [
-                // 'attribute' => 'TEMPAT_PELAKSANAAN',
-                'label' => 'Total'
+                'attribute' => 'DANA_UMN',
+                'label' => 'Dana UMN'
             ],
             [
-                // 'attribute' => 'JUMLAH_PESERTA',
-                'label' => 'Status LPK'
+                'label' => 'Status LPK',
+                        'value' => function ($model){
+                            return $model->showStatus($model->STATUS_DRAFT,$model->ID_LPK);
+                        }
             ],
             [
                 'header' => 'Action',

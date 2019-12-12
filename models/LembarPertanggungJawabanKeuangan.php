@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "EVANS_FORM_LBR_PTGJWB_KGN_TBL".
@@ -39,13 +40,12 @@ class LembarPertanggungJawabanKeuangan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_LPK', 'NAMA_KEGIATAN', 'PENYELENGGARA', 'KEPERLUAN', 'TANGGAN_BON', 'TANGGAL_PENYELESAIAN_BON', 'DANA_UMN', 'CREATE_DATE', 'STATUS_DRAFT'], 'required'],
+            [['ID_LPK', 'NAMA_KEGIATAN', 'PENYELENGGARA', 'KEPERLUAN', 'TANGGAL_BON', 'TANGGAL_PENYELESAIAN_BON', 'DANA_UMN', 'CREATE_DATE'], 'required'],
             [['DANA_UMN'], 'number'],
             [['ID_LPK', 'ID_PROPOSAL', 'ID_RINCI', 'ID_TENGGAT_WAKTU'], 'string', 'max' => 5],
             [['NAMA_KEGIATAN'], 'string', 'max' => 25],
             [['PENYELENGGARA'], 'string', 'max' => 50],
             [['KEPERLUAN'], 'string', 'max' => 30],
-            [['TANGGAL_BON', 'TANGGAL_PENYELESAIAN_BON', 'CREATE_DATE'], 'string'],
             [['STATUS_DRAFT'], 'string', 'max' => 1],
             [['ID_LPK'], 'unique'],
             // [['ID_TENGGAT_WAKTU'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSMASTERTENGGATWAKTUTBL::className(), 'targetAttribute' => ['ID_TENGGAT_WAKTU' => 'ID_TENGGAT_WAKTU']],
@@ -81,11 +81,31 @@ class LembarPertanggungJawabanKeuangan extends \yii\db\ActiveRecord
         return $this->hasOne(EVANSMASTERTENGGATWAKTUTBL::className(), ['ID_TENGGAT_WAKTU' => 'ID_TENGGAT_WAKTU']);
     }
 
+    public function dataProposal(){
+        $sql = "SELECT * FROM EVANS_PROPOSAL_TBL";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return ArrayHelper::map($result,'ID_PROPOSAL','BANK');
+    }
+
+    public function showStatus($status, $id_lpk){
+        if($status==='1'){
+            return 'Draft';
+        }
+        else{
+            return 'Waiting For Approval';
+        }
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getListLembarPertanggungJawabanKeuangan()
     {
         return $this->hasMany(ListLembarPertanggungJawabanKeuangan::className(), ['ID_LPK' => 'ID_LPK']);
+    }
+
+    public function getProposal()
+    {
+        return $this->hasMany(Proposal::className(), ['ID_PROPOSAL' => 'ID_PROPOSAL']);
     }
 }
