@@ -56,4 +56,11 @@ class MasterKategori extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TransaksiKategori::className(), ['ID_KATEGORI' => 'ID_KATEGORI']);
     }
+
+    public function getMasterJenisPendapatan()
+    {
+        return $this->hasMany(MasterJenisPendapatan::className(), ['ID_JENIS' => 'ID_JENIS']);
+    }
+
+
 }

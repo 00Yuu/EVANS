@@ -242,6 +242,19 @@ class MonitoringProposalController extends Controller
     public function actionBab4($id){
         $model_kategori = new TransaksiKategori();
 
+        $placeholder = new \yii\base\DynamicModel([
+            'JENIS_ANGGARAN', 'KATEGORI'
+        ]);
+        $placeholder->addRule(['JENIS_ANGGARAN', 'KATEGORI'], 'required');
+
+        if($model_kategori->load(Yii::$app->request->post()) && $model_kategori->validate() ){
+            $model_kategori->save();
+
+            Yii::$app->session->setFlash('success','Anggaran berhasil disimpan');
+
+            return $this->refresh();
+        }
+
         $query = TransaksiKategori::find()->where(['ID_PROPOSAL' => $id]);
 
         $dataProvider = new ActiveDataProvider([
@@ -259,6 +272,8 @@ class MonitoringProposalController extends Controller
         return $this->render('bab4', [
             'dataProvider' => $dataProvider,
             'model_kategori' => $model_kategori,
+            'placeholder' => $placeholder,
+            'id' => $id,
         ]);
     }
 
@@ -315,6 +330,57 @@ class MonitoringProposalController extends Controller
             Yii::$app->session->setFlash('error','File tidak ditemukan');
             return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
         }
+    }
+
+    public function actionDeleteAnggaran($id){
+        $sql = "DELETE FROM EVANS_TRANS_KATEGORI_TBL
+                WHERE ID_TRANS_KATEGORI = :1
+                ";
+
+        Yii::$app->db->createCommand($sql,[':1' => $id])->execute();
+
+        Yii::$app->session->setFlash('success','Anggaran berhasil dihapus');
+
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionFindKategori(){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $id_jenis = $parents[0];
+                $sql = "SELECT DISTINCT KATEGORI as ".'"id"'.", KATEGORI as ".'"name"'."
+                        FROM EVANS_MSTR_KATEGORI_TBL
+                        WHERE ID_JENIS = '$id_jenis' 
+                        ";
+                $out = Yii::$app->db->createCommand($sql)->queryAll();
+
+                return ['output'=> $out, 'selected'=>''];
+            }
+        }
+        return ['output'=>'', 'selected'=>''];
+    }
+
+    public function actionFindSumber(){
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $ids = $_POST['depdrop_parents'];
+            $jenis = empty($ids[0]) ? null : $ids[0];
+            $kategori = empty($ids[1]) ? null : $ids[1];
+            if ($kategori != null) {
+                $sql = "SELECT ID_KATEGORI as ".'"id"'.", DESKRIPSI as ".'"name"'."
+                        FROM EVANS_MSTR_KATEGORI_TBL
+                        WHERE ID_JENIS = '$jenis'  AND KATEGORI = '$kategori'
+                        ";
+                $out = Yii::$app->db->createCommand($sql)->queryAll();
+
+                return ['output'=> $out, 'selected'=>'']; 
+            }
+        }
+        return ['output'=>'', 'selected'=>''];
     }
 
     /**

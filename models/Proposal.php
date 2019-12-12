@@ -93,10 +93,15 @@ class Proposal extends \yii\db\ActiveRecord
     }
 
     public function dataBendahara(){
+        $id_rinci = $this->getIdRinci();
+
+        $id_org = $this->getIdOrg($id_rinci);
+
         $sql = "SELECT EVANS_RINCI_ORGANISASI_TBL.ID_RINCI RINCI, EMPLID
                 FROM EVANS_PENGURUS_ORGANISASI_TBL
                 JOIN EVANS_RINCI_ORGANISASI_TBL ON EVANS_PENGURUS_ORGANISASI_TBL.ID_PENGURUS = EVANS_RINCI_ORGANISASI_TBL.ID_PENGURUS
                 WHERE LOWER(EVANS_PENGURUS_ORGANISASI_TBL.JABATAN) = 'bendahara'
+                AND EVANS_PENGURUS_ORGANISASI_TBL.ID_ORGANISASI = '$id_org'
                 ";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return ArrayHelper::map($result,'RINCI','EMPLID');
@@ -241,5 +246,16 @@ class Proposal extends \yii\db\ActiveRecord
         $rinci = $session->get('id_rinci');
 
         return "$rinci";
+    }
+
+    public function getIdOrg($id_rinci){
+        $sql = "SELECT ID_ORGANISASI
+                FROM EVANS_PENGURUS_ORGANISASI_TBL po
+                JOIN EVANS_RINCI_ORGANISASI_TBL ro ON po.ID_PENGURUS = ro.ID_PENGURUS
+                WHERE ro.ID_RINCI = '$id_rinci'";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+                
+        return $result['ID_ORGANISASI'];
     }
 }
