@@ -408,12 +408,36 @@ class MonitoringProposalController extends Controller
 
                 $model->save();
 
-                // $sql = ""
+                $session = Yii::$app->session;
+
+                $jns_org = $session->get('jns_org');
+
+                $sql = "SELECT da.ID_DETAIL
+                        FROM EVANS_MASTER_ALUR_TBL ma
+                        JOIN EVANS_JENIS_ALUR_TBL ja ON (ja.ID_ALUR = ma.ID_ALUR)
+                        JOIN EVANS_DETAIL_ALUR_TBL da on (da.ID_JENIS_ALUR = ja.ID_JENIS_ALUR)
+                        WHERE ma.NAMA_ALUR = '$jns_org'
+                        AND ja.JENIS_DOKUMEN = 'Proposal'
+                        AND ja.STATUS = '1'
+                        AND da.TINGKAT = '0'
+                        AND da.DESKRIPSI LIKE '%Waiting%'
+                        ";
+                
+                $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+                $id_detail =  $result['ID_DETAIL'];
+
+                $sql_insert = "INSERT INTO EVANS_TRANS_ALUR_PRPSL_TBL
+                                VALUES ('99999',:1,:2,sysdate)";
+
+                Yii::$app->db->createCommand($sql_insert,[
+                    ':1' => $id, 
+                    ':2' => $id_detail,
+                ])->execute();
 
                 Yii::$app->session->setFlash('success','Suubmit proposal berhasil');
             }
             
-
             return $this->refresh();
         }
 
