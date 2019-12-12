@@ -99,18 +99,26 @@ class MasterDaftarOrganisasiController extends Controller
         $modelRinci = new MasterRinciOrganisasi();
 
         if($modelRinci->load(Yii::$app->request->post())){
-                $modelRinci->FILE_TTD = UploadedFile::getInstance($modelRinci, 'FILE_TTD');
+                $file = UploadedFile::getInstance($modelRinci, 'FILE_TTD');
 
-                if($modelRinci->FILE_TTD != null && $modelRinci->EMPLID != null){
-                    $FILE_URL = $modelRinci->FILE_TTD->baseName  . '.' . $modelRinci->FILE_TTD->extension;
-
-                    $modelRinci->FILE_TTD->saveAs('uploads/ttd_org/' . $FILE_URL );
+                if($file != null && $modelRinci->EMPLID != null){
+                    $FILE_URL = 'ttd_rinci_'  . '.' . $file->extension;
 
                     $modelRinci->FILE_TTD = $FILE_URL;
 
                     if ($modelRinci->validate()) {
                       
                         $modelRinci->save();
+
+                        $sql = "SELECT LPAD(EVANS_RINCI_ORGANISASI_SEQ.CURRVAL,5,'0') SEQ FROM DUAL";
+
+                        $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+                        $id_rinci = $result['SEQ'];
+
+                        $FILE_URL = 'ttd_rinci_'  . $id_rinci . '.' . $file->extension;
+
+                        $file->saveAs('uploads/ttd_org/' . $FILE_URL );
         
                         Yii::$app->session->setFlash('success','Data berhasil disimpan');
                     }
