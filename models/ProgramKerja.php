@@ -163,16 +163,16 @@ class ProgramKerja extends \yii\db\ActiveRecord
         
         $id_detail = $result2['ID_DETAIL'];
 
-        $sql = "SELECT TO_CHAR
-        (SYSDATE, 'DD-MON-YYYY') AS TGGL
-         FROM DUAL";
+        // $sql = "SELECT TO_CHAR
+        // (SYSDATE, 'DD-MON-YYYY HH:MI:SS') AS TGGL
+        //  FROM DUAL";
 
-        $result3 = Yii::$app->db->createCommand($sql)->queryOne();
+        // $result3 = Yii::$app->db->createCommand($sql)->queryOne();
 
-        $insert_date = $result3['TGGL'];
+        // $insert_date = $result3['TGGL'];
 
         $sql = "INSERT INTO EVANS_TRANS_ALUR_PROKER_TBL
-        VALUES('99', '$id_proker', '$id_detail', '$insert_date')";
+        VALUES('99', '$id_proker', '$id_detail', sysdate)";
 
         Yii::$app->db->createCommand($sql)->execute();
     }
@@ -221,16 +221,16 @@ class ProgramKerja extends \yii\db\ActiveRecord
             
         }
 
-        $sql = "SELECT TO_CHAR
-        (SYSDATE, 'DD-MON-YYYY') AS TGGL
-         FROM DUAL";
+        // $sql = "SELECT TO_CHAR
+        // (SYSDATE, 'DD-MON-YYYY') AS TGGL
+        //  FROM DUAL";
 
-        $result3 = Yii::$app->db->createCommand($sql)->queryOne();
+        // $result3 = Yii::$app->db->createCommand($sql)->queryOne();
 
-        $insert_date = $result3['TGGL'];
+        // $insert_date = $result3['TGGL'];
 
         $sql = "INSERT INTO EVANS_TRANS_ALUR_PROKER_TBL
-        VALUES('99', '$id_proker', '$id_detail', '$insert_date')";
+        VALUES('99', '$id_proker', '$id_detail', sysdate)";
 
         Yii::$app->db->createCommand($sql)->execute();
     }
@@ -238,14 +238,19 @@ class ProgramKerja extends \yii\db\ActiveRecord
     public function checkStatusReview($id_proker){
         $sql ="SELECT ID_DETAIL
         from EVANS_TRANS_ALUR_PROKER_TBL
-        where ID_PROKER = '$id_proker'";
+        where ID_PROKER = '$id_proker' AND INSERT_DATE=(
+            SELECT MAX(INSERT_DATE) from EVANS_TRANS_ALUR_PROKER_TBL where ID_PROKER='$id_proker')";
 
         $result = Yii::$app->db->createCommand($sql)->queryOne();
-        if($result['ID_DETAIL'] === '00007' || $result['ID_DETAIL'] === '00041'){
-            return 'Yes';
+
+        if($result['ID_DETAIL'] === '00007'){
+            return 'Rejected';
+        }
+        elseif($result['ID_DETAIL'] === '00041'){
+            return 'Approved';
         }
         else{
-            return 'No';
+            return 'Waiting Approval';
         }
     }
 
