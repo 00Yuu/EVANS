@@ -99,26 +99,30 @@ class MasterDaftarOrganisasiController extends Controller
         $modelRinci = new MasterRinciOrganisasi();
 
         if($modelRinci->load(Yii::$app->request->post())){
-            if ($modelRinci->validate()) {
-
                 $modelRinci->FILE_TTD = UploadedFile::getInstance($modelRinci, 'FILE_TTD');
 
-                $FILE_URL = $modelRinci->FILE_TTD->baseName  . '.' . $modelRinci->FILE_TTD->extension;
+                if($modelRinci->FILE_TTD != null && $modelRinci->EMPLID != null){
+                    $FILE_URL = $modelRinci->FILE_TTD->baseName  . '.' . $modelRinci->FILE_TTD->extension;
 
-                $modelRinci->FILE_TTD->saveAs('uploads/ttd_org/' . $FILE_URL );
+                    $modelRinci->FILE_TTD->saveAs('uploads/ttd_org/' . $FILE_URL );
 
-                $modelRinci->FILE_TTD = $FILE_URL;
-                
-                $modelRinci->save();
+                    $modelRinci->FILE_TTD = $FILE_URL;
 
-                Yii::$app->session->setFlash('success','Data berhasil disimpan');
-            }
-            else{
-                Yii::$app->session->setFlash('error','Data gagal disimpan');
-            }
-            
+                    if ($modelRinci->validate()) {
+                      
+                        $modelRinci->save();
+        
+                        Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','Data gagal disimpan');
+                    }
+                }
+                else{
+                    Yii::$app->session->setFlash('error','Data gagal disimpan');
+                }
+
             return $this->refresh();
-
         }
 
         $dataProvider = new ActiveDataProvider([

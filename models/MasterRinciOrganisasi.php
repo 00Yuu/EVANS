@@ -31,10 +31,10 @@ class MasterRinciOrganisasi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_RINCI', 'ID_PENGURUS', 'EMPLID', 'ID_PERIODE'], 'required'],
+            [['ID_RINCI', 'ID_PENGURUS', 'EMPLID', 'ID_PERIODE','FILE_TTD'], 'required'],
             [['ID_RINCI', 'ID_PENGURUS', 'ID_PERIODE'], 'string', 'max' => 5],
             [['EMPLID'], 'string', 'max' => 11],
-            [['FILE_TTD'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            // [['FILE_TTD'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
             [['ID_RINCI'], 'unique'],
         ];
     }

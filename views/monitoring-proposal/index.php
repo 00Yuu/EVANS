@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Detail',
                 'buttons' => [
                     'view' => function($url, $model, $key){
-                        return Html::a('Detail',$url, ['alt' => 'detail']);
+                        return Html::a('Detail',['monitoring-proposal/update','id' => $model->ID_PROPOSAL], ['alt' => 'detail']);
                     }
                 ]
             ],
@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Detail',
                 'buttons' => [
                     'view' => function($url, $model, $key){
-                        return Html::a('Detail',$url, ['alt' => 'detail']);
+                        return Html::a('Detail',['monitoring-proposal/update','id' => $model->ID_PROPOSAL], ['alt' => 'detail']);
                     }
                 ]
             ],
@@ -187,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Detail',
                 'buttons' => [
                     'view' => function($url, $model, $key){
-                        return Html::a('Detail',$url, ['alt' => 'detail']);
+                        return Html::a('Detail',['monitoring-proposal/update','id' => $model->ID_PROPOSAL], ['alt' => 'detail']);
                     }
                 ]
             ],

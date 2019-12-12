@@ -6,10 +6,12 @@ use Yii;
 use app\models\Proposal;
 use app\models\HalamanPengesahanProposal;
 use app\models\HalamanJudulProposal;
+use app\models\BabI;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MonitoringProposalController implements the CRUD actions for Proposal model.
@@ -138,7 +140,7 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionJudul(){
+    public function actionJudul($id){
         $model = new HalamanJudulProposal();
 
         return $this->render('halamanjudul', [
@@ -146,7 +148,7 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionPengesahan(){
+    public function actionPengesahan($id){
         $model = new HalamanPengesahanProposal();
 
         return $this->render('pengesahan', [
@@ -154,7 +156,7 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionPengantar(){
+    public function actionPengantar($id){
         $model = new Proposal();
 
         return $this->render('katapengantar', [
@@ -162,15 +164,62 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionBab1(){
-        $model = new Proposal();
+    public function actionBab1($id){
+        $model = new BabI();
+        
+        $sql = "SELECT FILE_BAB_1 FROM EVANS_HAL_PENDHLUAN_PRPSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_bab_1 = $result['FILE_BAB_1'];
+        }
+        else{//gak ada file nya
+            $file_bab_1 = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_BAB_1 = UploadedFile::getInstance($model, 'FILE_BAB_1');
+
+            if($model->FILE_BAB_1 != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Bab_1.' . $model->FILE_BAB_1->extension;
+
+                $model->FILE_BAB_1->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_BAB_1 = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_bab_1 == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+            
+        }
 
         return $this->render('bab1', [
             'model' => $model,
+            'id' => $id,
+            'file_bab_1' => $file_bab_1,
         ]);
     }
 
-    public function actionBab2(){
+    public function actionBab2($id){
         $model = new Proposal();
 
         return $this->render('bab2', [
@@ -178,21 +227,21 @@ class MonitoringProposalController extends Controller
         ]);
     }
 
-    public function actionBab3(){
+    public function actionBab3($id){
         $model = new Proposal();
 
         return $this->render('bab3', [
             'model' => $model,
         ]);
     }
-    public function actionBab5(){
+    public function actionBab5($id){
         $model = new Proposal();
 
         return $this->render('bab5', [
             'model' => $model,
         ]);
     }
-    public function actionLampiran(){
+    public function actionLampiran($id){
         $model = new Proposal();
 
         return $this->render('lampiran', [
@@ -211,13 +260,32 @@ class MonitoringProposalController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->ID_PROPOSAL]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if(Yii::$app->request->post('submit1')==='save'){
+                $model->STATUS_DRAFT = '1';
+            }
+            else{
+                $model->STATUS_DRAFT = '0'; 
+            }
+            
+            $model->save();
+            return $this->refresh();
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionDownload($filename){
+        $path = Yii::getAlias('@webroot').'/uploads/proposal/'.$filename;
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path, $filename);
+        }
+        else{
+            Yii::$app->session->setFlash('error','File tidak ditemukan');
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+        }
     }
 
     /**

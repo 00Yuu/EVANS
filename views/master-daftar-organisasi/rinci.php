@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                
 
             <div class="col-sm-6">
-                <h4 style="margin: 0 5% 5% 0"><b>Input Organisasi<b></h4>
+                <h4 style="margin: 0 5% 5% 0"><b>Input Pengurus<b></h4>
                     <?= $this->render('_formRinci', [
                         'modelRinci' => $modelRinci,
                         'id' => $id,

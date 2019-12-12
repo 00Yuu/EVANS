@@ -6,6 +6,7 @@ use kartik\datecontrol\DateControl;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 use yii\helpers\Url;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MasterJabatan */
@@ -73,17 +74,31 @@ use yii\helpers\Url;
         ) ?>
 
         <div class="card" style="background-color: white;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); ;margin: 5% 0 5% 0;padding: 5%">   
-        
-            <?= $form->field($modelRinci, 'FILE_TTD',[
-                'horizontalCssClasses' => [
-                    'label' => 'col-sm-12',
-                    'wrapper' => 'col-sm-12',
-                    ]
-                ])->fileInput()->label('File ttd',['class' => 'pull-left','style' => 'margin-left:3%;']) ?>
-            
-            <h6>Unggah pindaian tanda tangan</h6>
-            <h6 style="color:red"><i>*Format jpg/png maks 5mb</i></h6>
+            <?php $hint = "Unggah file tanda tangan.</br><span style='color: red;'><i>*Format jpg/png maks 5mb</i></span>" ?>
+            <?= $form->field($modelRinci, 'FILE_TTD', [
+                    'template' => '
+                        <div>
+                            {input}
+                        </div>
+                        {error}
+                        {hint}
+                        ',
+                    
+                    ])->widget(FileInput::classname(), [
+                        'pluginOptions' => [
+                            'allowedFileExtensions'=>['jpg','png'],
+                            'showPreview' => false,
+                            'showCaption' => true,
+                            'showRemove' => true,
+                            'showUpload' => false,
+                        ],
+                        'options' => [
+                            'accept' => '.jpg, .png',
+                            'multiple'=> false,
 
+                        ],
+                    ])->label('',['class' => ''])->hint($hint, ['class' => 'help-block'])
+            ?>
         </div>
         
     </div>

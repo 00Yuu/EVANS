@@ -8,16 +8,12 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\MasterDaftarOrganisasi */
 
-$this->title = "List Organisasi";
+$this->title = "Daftar Jabatan";
 $this->params['breadcrumbs'][] = ['label' => 'Master Daftar Organisasi', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="master-daftar-organisasi-view">
-
-    <!-- <h1><?= Html::encode($this->title) ?></h1> -->
-
-   
 
     <div class="container" style="margin-left: 1%">
         <div class="row">
@@ -94,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
         <div class="col-sm-6">
-        <h4 style="margin: 10% 5% 5% 5%"><b>Input Organisasi<b></h4>
+        <h4 style="margin: 10% 5% 5% 5%"><b>Input Jabatan<b></h4>
             <?= $this->render('_formListOrganisasi', [
                 'model' => $model,
                 'id' => $id,
