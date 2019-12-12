@@ -146,9 +146,55 @@ class MonitoringProposalController extends Controller
 
     public function actionJudul($id){
         $model = new HalamanJudulProposal();
+        
+        $sql = "SELECT NAMA_FILE_JUDUL FROM EVANS_HAL_JUDUL_PROPOSAL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $nama_file_judul = $result['NAMA_FILE_JUDUL'];
+        }
+        else{//gak ada file nya
+            $nama_file_judul = '';
+        }
 
+        if($model->load(Yii::$app->request->post())  ){
+            $model->NAMA_FILE_JUDUL = UploadedFile::getInstance($model, 'NAMA_FILE_JUDUL');
+
+            if($model->NAMA_FILE_JUDUL != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Halaman_Judul.' . $model->NAMA_FILE_JUDUL->extension;
+
+                $model->NAMA_FILE_JUDUL->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->NAMA_FILE_JUDUL = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($nama_file_judul == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
+        
         return $this->render('halamanjudul', [
             'model' => $model,
+            'id' => $id,
+            'nama_file_judul' => $nama_file_judul,
         ]);
     }
 
