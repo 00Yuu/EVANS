@@ -7,6 +7,7 @@ use app\models\Proposal;
 use app\models\HalamanPengesahanProposal;
 use app\models\HalamanJudulProposal;
 use app\models\BabI;
+use app\models\SusunanPanitia;
 
 use app\models\TransaksiKategori;
 
@@ -458,7 +459,26 @@ class MonitoringProposalController extends Controller
     }
 
     public function actionSusunanKepanitian($id){
+        $model = new SusunanKepanitian();
 
+        $query = SusunanKepanitian::find()->where(['ID_BAB_2' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_SUSUNAN' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        return $this->render('susunanpanitia', [
+            'model' => $model,
+            'id' => $id,
+        ]);
     }
 
     public function actionDeleteAnggaran($id){
@@ -469,6 +489,18 @@ class MonitoringProposalController extends Controller
         Yii::$app->db->createCommand($sql,[':1' => $id])->execute();
 
         Yii::$app->session->setFlash('success','Anggaran berhasil dihapus');
+
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionDeleteSusunan($id){
+        $sql = "DELETE FROM EVANS_SUSUNAN_PANITIA_TBL
+                WHERE ID_SUSUNAN = :1
+                ";
+
+        Yii::$app->db->createCommand($sql,[':1' => $id])->execute();
+
+        Yii::$app->session->setFlash('success','Panitia berhasil dihapus');
 
         return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }

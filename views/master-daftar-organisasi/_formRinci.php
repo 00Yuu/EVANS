@@ -60,7 +60,7 @@ use kartik\file\FileInput;
                 'templateSelection' => new JsExpression('function (nik) { return nik.id; }'),
             ],
         ])->label(
-                'NIK:',
+                'NIM:',
                 ['style' => 'text-align:left;'],
             ) 
         ?>

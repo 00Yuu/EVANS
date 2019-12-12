@@ -47,7 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
 
                 <div style="margin: 5% 0 5% 0">
-                    <?=Html::a('Input Susunan Kepanitian', ['create'], [
+                    <?php
+                        
+                        Html::a('Input Susunan Kepanitian', ['susunanpanitia'], [
                         'class' => 'btn btn-success',
                         'style' => ''
                     ]) ?>

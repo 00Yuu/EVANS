@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'BAB IV Rencana Anggaran';
-$this->params['breadcrumbs'][] = ['label' => 'Proposals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Proposal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="master-daftar-organisasi-index">
@@ -16,12 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-sm-7">
                 <h1 style="margin-bottom: 2%"><?= Html::encode($this->title) ?></h1>
-                <?php
-                    $form = ActiveForm::begin([
-                        'id' => 'daftar-update-form',
-                        'action' => ['master-daftar-organisasi/update'],
-                    ]);
-                 ?>
+               
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'summary' => '',
@@ -59,7 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             
                         ],
                     ]); ?>
-                    <?php ActiveForm::end(); ?>
             </div>
 
         <div class="col-sm-5">
