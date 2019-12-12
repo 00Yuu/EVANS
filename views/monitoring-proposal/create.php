@@ -172,7 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'ID_PROPOSAL')->hiddenInput(['value' => 99])->label(false) ?>
         <?= $form->field($model, 'ID_TENGGAT_WAKTU')->hiddenInput(['value' => '00001'])->label(false) ?>
         <?= $form->field($model, 'CREATE_DATE')->hiddenInput(['value'=> date("d-M-y")])->label(false) ?>
-        <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => '00008'])->label(false) ?>
+        <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => $model->getIdRinci()])->label(false) ?>
 
         <div class="form-group" style="float: right;margin-top: 8%">
             <?= Html::a('Back', ['index'], array(
