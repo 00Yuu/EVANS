@@ -306,12 +306,107 @@ class MonitoringProposalController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if(Yii::$app->request->post('submit1')==='save'){
                 $model->STATUS_DRAFT = '1';
+
+                $model->save();
+                Yii::$app->session->setFlash('success','Simpan data berhasil');
             }
             else{
+                $sql_judul = "SELECT * FROM EVANS_HAL_JUDUL_PROPOSAL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_judul = Yii::$app->db->createCommand($sql_judul)->queryAll();
+
+                if($result_judul == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Halaman Judul');
+
+                    return $this->refresh();
+                }
+
+                $sql_pengesahan = "SELECT * FROM EVANS_HAL_PENGESAHAN_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_pengensahan = Yii::$app->db->createCommand($sql_pengesahan)->queryAll();
+
+                if($result_pengensahan == null){
+                    Yii::$app->session->setFlash('error','Mohon pastikan data di halaman pengesahan dan tekan tombol Save');
+
+                    return $this->refresh();
+                }
+
+                $sql_pengantar = "SELECT * FROM EVANS_HAL_PENGANTAR_PRPRSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_pengantar = Yii::$app->db->createCommand($sql_pengantar)->queryAll();
+
+                if($result_pengantar == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Kata Pengantar');
+
+                    return $this->refresh();
+                }
+
+                $sql_bab1 = "SELECT * FROM EVANS_HAL_PENDHLUAN_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_bab1 = Yii::$app->db->createCommand($sql_bab1)->queryAll();
+
+                if($result_bab1 == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Bab 1');
+
+                    return $this->refresh();
+                }
+
+                $sql_bab2 = "SELECT * FROM EVANS_HAL_DESKRIPSI_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_bab2 = Yii::$app->db->createCommand($sql_bab2)->queryAll();
+
+                if($result_bab2 == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Bab 2');
+
+                    return $this->refresh();
+                }
+
+                $sql_bab3 = "SELECT * FROM EVANS_HAL_RENCANA_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_bab3 = Yii::$app->db->createCommand($sql_bab3)->queryAll();
+
+                if($result_bab3 == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Bab 3');
+
+                    return $this->refresh();
+                }
+
+                $sql_bab4 = "SELECT * FROM EVANS_TRANS_KATEGORI_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_bab4 = Yii::$app->db->createCommand($sql_bab4)->queryAll();
+
+                if($result_bab4 == null){
+                    Yii::$app->session->setFlash('error','Tidak ada data di Bab 4');
+
+                    return $this->refresh();
+                }
+
+                $sql_bab5 = "SELECT * FROM EVANS_HAL_PENUTUP_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_bab5 = Yii::$app->db->createCommand($sql_bab5)->queryAll();
+
+                if($result_bab5 == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Bab 5');
+
+                    return $this->refresh();
+                }
+
+                $sql_lampiran = "SELECT * FROM EVANS_HAL_LAMPIRAN_PRPSL_TBL WHERE ID_PROPOSAL = '$id'";
+
+                $result_lampiran = Yii::$app->db->createCommand($sql_lampiran)->queryAll();
+
+                if($result_lampiran == null){
+                    Yii::$app->session->setFlash('error','Tidak ada file Lampiran');
+
+                    return $this->refresh();
+                }
+
                 $model->STATUS_DRAFT = '0'; 
+
+                $model->save();
+                Yii::$app->session->setFlash('success','Suubmit proposal berhasil');
             }
-            $model->save();
-            Yii::$app->session->setFlash('success','Simpan data berhasil');
+            
 
             return $this->refresh();
         }

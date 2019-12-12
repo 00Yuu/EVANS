@@ -8,7 +8,7 @@ use yii\web\JsExpression;
 /* @var $this yii\web\View */
 /* @var $model app\models\Proposal */
 
-$this->title = 'BAB I Pendahuluan';
+$this->title = 'BAB II Deskripsi Acara';
 $this->params['breadcrumbs'][] = ['label' => 'Proposals', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -45,8 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     ])->label('',['class' => ''])->hint($hint, ['class' => 'help-block'])
                     ?>
                 </div>
+
+                <div style="margin: 5% 0 5% 0">
+                    <?=Html::a('Input Susunan Kepanitian', ['create'], [
+                        'class' => 'btn btn-success',
+                        'style' => ''
+                    ]) ?>
+                </div>
+
             </div>
         </div>
+        
+        
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 <div class="form-group" style="float: right;margin-top: 2%">
