@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "EVANS_HAL_JUDUL_PROPOSAL_TBL".
+ * This is the model class for table "EVANS_HAL_RENCANA_PRPSL_TBL".
  *
- * @property string $ID_HAL_JUDUL
+ * @property string $ID_BAB_3
  * @property string $ID_PROPOSAL
- * @property string $NAMA_FILE_JUDUL
+ * @property string $FILE_BAB_3
  * @property string|null $FEEDBACK
  *
  * @property EVANSPROPOSALTBL $pROPOSAL
  */
-class HalamanJudulProposal extends \yii\db\ActiveRecord
+class BabIII extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'EVANS_HAL_JUDUL_PROPOSAL_TBL';
+        return 'EVANS_HAL_RENCANA_PRPSL_TBL';
     }
 
     /**
@@ -30,11 +30,12 @@ class HalamanJudulProposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_HAL_JUDUL', 'ID_PROPOSAL', 'NAMA_FILE_JUDUL'], 'required'],
-            [['ID_HAL_JUDUL', 'ID_PROPOSAL'], 'string', 'max' => 5],
-            // [['NAMA_FILE_JUDUL'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['ID_BAB_3', 'ID_PROPOSAL', 'FILE_BAB_3'], 'required'],
+            [['ID_BAB_3', 'ID_PROPOSAL'], 'string', 'max' => 5],
+            // [['FILE_BAB_3'], 'string', 'max' => 100],
             [['FEEDBACK'], 'string', 'max' => 4000],
-            [['ID_HAL_JUDUL'], 'unique'],
+            [['ID_BAB_3'], 'unique'],
+            // [['ID_PROPOSAL'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSPROPOSALTBL::className(), 'targetAttribute' => ['ID_PROPOSAL' => 'ID_PROPOSAL']],
         ];
     }
 
@@ -44,9 +45,9 @@ class HalamanJudulProposal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID_HAL_JUDUL' => 'Id Hal Judul',
+            'ID_BAB_3' => 'Id Bab 3',
             'ID_PROPOSAL' => 'Id Proposal',
-            'NAMA_FILE_JUDUL' => 'Nama File Judul',
+            'FILE_BAB_3' => 'File Bab 3',
             'FEEDBACK' => 'Feedback',
         ];
     }

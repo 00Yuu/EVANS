@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "EVANS_HAL_JUDUL_PROPOSAL_TBL".
+ * This is the model class for table "EVANS_HAL_LAMPIRAN_PRPSL_TBL".
  *
- * @property string $ID_HAL_JUDUL
+ * @property string $ID_HAL_LAMPIRAN
  * @property string $ID_PROPOSAL
- * @property string $NAMA_FILE_JUDUL
+ * @property string $FILE_LAMPIRAN
  * @property string|null $FEEDBACK
  *
  * @property EVANSPROPOSALTBL $pROPOSAL
  */
-class HalamanJudulProposal extends \yii\db\ActiveRecord
+class HalamanLampiranProposal extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'EVANS_HAL_JUDUL_PROPOSAL_TBL';
+        return 'EVANS_HAL_LAMPIRAN_PRPSL_TBL';
     }
 
     /**
@@ -30,11 +30,12 @@ class HalamanJudulProposal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_HAL_JUDUL', 'ID_PROPOSAL', 'NAMA_FILE_JUDUL'], 'required'],
-            [['ID_HAL_JUDUL', 'ID_PROPOSAL'], 'string', 'max' => 5],
-            // [['NAMA_FILE_JUDUL'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
+            [['ID_HAL_LAMPIRAN', 'ID_PROPOSAL', 'FILE_LAMPIRAN'], 'required'],
+            [['ID_HAL_LAMPIRAN', 'ID_PROPOSAL'], 'string', 'max' => 5],
+            // [['FILE_LAMPIRAN'], 'string', 'max' => 100],
             [['FEEDBACK'], 'string', 'max' => 4000],
-            [['ID_HAL_JUDUL'], 'unique'],
+            [['ID_HAL_LAMPIRAN'], 'unique'],
+            // [['ID_PROPOSAL'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSPROPOSALTBL::className(), 'targetAttribute' => ['ID_PROPOSAL' => 'ID_PROPOSAL']],
         ];
     }
 
@@ -44,9 +45,9 @@ class HalamanJudulProposal extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'ID_HAL_JUDUL' => 'Id Hal Judul',
+            'ID_HAL_LAMPIRAN' => 'Id Hal Lampiran',
             'ID_PROPOSAL' => 'Id Proposal',
-            'NAMA_FILE_JUDUL' => 'Nama File Judul',
+            'FILE_LAMPIRAN' => 'File Lampiran',
             'FEEDBACK' => 'Feedback',
         ];
     }

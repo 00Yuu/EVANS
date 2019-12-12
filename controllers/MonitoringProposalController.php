@@ -5,12 +5,15 @@ namespace app\controllers;
 use Yii;
 use app\models\Proposal;
 use app\models\HalamanPengesahanProposal;
+use app\models\HalamanPengantarProposal;
 use app\models\HalamanJudulProposal;
 use app\models\BabI;
-use app\models\SusunanPanitia;
-
+use app\models\BabII;
+use app\models\BabIII;
+use app\models\BabV;
+use app\models\HalamanLampiranProposal;
 use app\models\TransaksiKategori;
-
+use app\models\SusunanPanitia;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -150,9 +153,55 @@ class MonitoringProposalController extends Controller
 
     public function actionJudul($id){
         $model = new HalamanJudulProposal();
+        
+        $sql = "SELECT NAMA_FILE_JUDUL FROM EVANS_HAL_JUDUL_PROPOSAL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $nama_file_judul = $result['NAMA_FILE_JUDUL'];
+        }
+        else{//gak ada file nya
+            $nama_file_judul = '';
+        }
 
+        if($model->load(Yii::$app->request->post())  ){
+            $model->NAMA_FILE_JUDUL = UploadedFile::getInstance($model, 'NAMA_FILE_JUDUL');
+
+            if($model->NAMA_FILE_JUDUL != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Halaman_Judul.' . $model->NAMA_FILE_JUDUL->extension;
+
+                $model->NAMA_FILE_JUDUL->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->NAMA_FILE_JUDUL = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($nama_file_judul == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
+        
         return $this->render('halamanjudul', [
             'model' => $model,
+            'id' => $id,
+            'nama_file_judul' => $nama_file_judul,
         ]);
     }
 
@@ -165,10 +214,56 @@ class MonitoringProposalController extends Controller
     }
 
     public function actionPengantar($id){
-        $model = new Proposal();
+        $model = new HalamanPengantarProposal();
+
+        $sql = "SELECT FILE_HAL_PENGANTAR FROM EVANS_HAL_PENGANTAR_PRPRSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_hal_pengantar = $result['FILE_HAL_PENGANTAR'];
+        }
+        else{//gak ada file nya
+            $file_hal_pengantar = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_HAL_PENGANTAR = UploadedFile::getInstance($model, 'FILE_HAL_PENGANTAR');
+
+            if($model->FILE_HAL_PENGANTAR != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Halaman_Pengantar.' . $model->FILE_HAL_PENGANTAR->extension;
+
+                $model->FILE_HAL_PENGANTAR->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_HAL_PENGANTAR = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_hal_pengantar == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
 
         return $this->render('katapengantar', [
             'model' => $model,
+            'id' => $id,
+            'file_hal_pengantar' => $file_hal_pengantar,
         ]);
     }
 
@@ -228,18 +323,109 @@ class MonitoringProposalController extends Controller
     }
 
     public function actionBab2($id){
-        $model = new Proposal();
+        $model = new BabII();
 
+        $sql = "SELECT FILE_BAB_2 FROM EVANS_HAL_DESKRIPSI_PRPSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_bab_2 = $result['FILE_BAB_2'];
+        }
+        else{//gak ada file nya
+            $file_bab_2 = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_BAB_2 = UploadedFile::getInstance($model, 'FILE_BAB_2');
+
+            if($model->FILE_BAB_2 != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Bab_2.' . $model->FILE_BAB_2->extension;
+
+                $model->FILE_BAB_2->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_BAB_2 = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_bab_2 == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
         return $this->render('bab2', [
             'model' => $model,
+            'id' => $id,
+            'file_bab_2' => $file_bab_2,
         ]);
     }
 
     public function actionBab3($id){
-        $model = new Proposal();
+        $model = new BabIII();
+
+        $sql = "SELECT FILE_BAB_3 FROM EVANS_HAL_RENCANA_PRPSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_bab_3 = $result['FILE_BAB_3'];
+        }
+        else{//gak ada file nya
+            $file_bab_3 = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_BAB_3 = UploadedFile::getInstance($model, 'FILE_BAB_3');
+
+            if($model->FILE_BAB_3 != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Bab_3.' . $model->FILE_BAB_3->extension;
+
+                $model->FILE_BAB_3->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_BAB_3 = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_bab_3 == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
 
         return $this->render('bab3', [
             'model' => $model,
+            'id' => $id,
+            'file_bab_3' => $file_bab_3,
         ]);
     }
 
@@ -282,17 +468,110 @@ class MonitoringProposalController extends Controller
     }
 
     public function actionBab5($id){
-        $model = new Proposal();
+        $model = new BabV();
+
+        $sql = "SELECT FILE_BAB_5 FROM EVANS_HAL_PENUTUP_PRPSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_bab_5 = $result['FILE_BAB_5'];
+        }
+        else{//gak ada file nya
+            $file_bab_5 = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_BAB_5 = UploadedFile::getInstance($model, 'FILE_BAB_5');
+
+            if($model->FILE_BAB_5 != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Bab_5.' . $model->FILE_BAB_5->extension;
+
+                $model->FILE_BAB_5->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_BAB_5 = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_bab_5 == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
 
         return $this->render('bab5', [
             'model' => $model,
+            'id' => $id,
+            'file_bab_5' => $file_bab_5,
         ]);
     }
+
     public function actionLampiran($id){
-        $model = new Proposal();
+        $model = new HalamanLampiranProposal();
+
+        $sql = "SELECT FILE_LAMPIRAN FROM EVANS_HAL_LAMPIRAN_PRPSL_TBL
+                WHERE ID_PROPOSAL = '$id'";
+        
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        
+        // ada file nya
+        if($result != false){
+            $file_lampiran = $result['FILE_LAMPIRAN'];
+        }
+        else{//gak ada file nya
+            $file_lampiran = '';
+        }
+
+        if($model->load(Yii::$app->request->post())  ){
+            $model->FILE_LAMPIRAN = UploadedFile::getInstance($model, 'FILE_LAMPIRAN');
+
+            if($model->FILE_LAMPIRAN != null){
+                $FILE_URL = 'Proposal_' . $model->ID_PROPOSAL  . '_Halaman_Lampiran.' . $model->FILE_LAMPIRAN->extension;
+
+                $model->FILE_LAMPIRAN->saveAs('uploads/proposal/' . $FILE_URL );
+
+                $model->FILE_LAMPIRAN = $FILE_URL;
+                //jika file nya belom ada, maka insert ke database. jika sudah hanya ganti file nya di folder proposal
+                if($file_lampiran == ''){
+                    if ($model->validate()) {
+                  
+                        $model->save();
+                        
+                        Yii::$app->session->setFlash('success','File berhasil disimpan');
+                    }
+                    else{
+                        Yii::$app->session->setFlash('error','File gagal disimpan');
+                    }
+                }else{
+                    Yii::$app->session->setFlash('success','File berhasil disimpan');
+                }
+                
+            }
+            else{
+                Yii::$app->session->setFlash('error','File gagal disimpan');
+            }
+            return $this->refresh();
+        }
 
         return $this->render('lampiran', [
             'model' => $model,
+            'id' => $id,
+            'file_lampiran' => $file_lampiran,
         ]);
     }
 
