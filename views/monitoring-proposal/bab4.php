@@ -34,8 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'columns' => [
                             [
-                                'attribute' => 'masterKategori.masterJenisPendapatan.DESKRIPSI',
-                                'label' => 'Jenis Anggaran'
+                                'attribute' => 'masterKategori.masterJenisPendapatan.JENIS',
+                                'label' => 'Jenis Anggaran',
+                                'value' => function($model){
+                                    return $model->getNamaJenis($model->ID_KATEGORI);
+                                }
                             ],
                             'masterKategori.KATEGORI',
                             'masterKategori.DESKRIPSI',
@@ -43,6 +46,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute' => 'VALUE',
                                 'label' => 'Jumlah'
                             ],
+                            [
+                                'class' => 'yii\grid\ActionColumn',
+                                'template' => '{delete}',
+                                'header' => 'Delete',
+                                'buttons' => [
+                                    'delete' => function($url, $model, $key){
+                                        return Html::a('Delete',['monitoring-proposal/delete-anggaran','id' => $model->ID_TRANS_KATEGORI], ['alt' => 'delete']);
+                                    }
+                                ]
+                            ], 
                             
                         ],
                     ]); ?>
@@ -53,6 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <h4 style="margin: 10% 5% 5% 5%"><b>Input Anggaran<b></h4>
             <?= $this->render('_formbab4', [
                 'model_kategori' => $model_kategori,
+                'placeholder' => $placeholder,
+                'id' => $id,
             ]) ?>
         </div>
     </div>

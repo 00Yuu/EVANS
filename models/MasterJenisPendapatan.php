@@ -28,9 +28,9 @@ class MasterJenisPendapatan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID_JENIS', 'DESKRIPSI'], 'required'],
+            [['ID_JENIS', 'JENIS'], 'required'],
             [['ID_JENIS'], 'string', 'max' => 5],
-            [['DESKRIPSI'], 'string', 'max' => 100],
+            [['JENIS'], 'string', 'max' => 100],
             [['ID_JENIS'], 'unique'],
         ];
     }
@@ -42,7 +42,7 @@ class MasterJenisPendapatan extends \yii\db\ActiveRecord
     {
         return [
             'ID_JENIS' => 'Id Jenis',
-            'DESKRIPSI' => 'Deskripsi',
+            'JENIS' => 'Jenis',
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "EVANS_TRANS_KATEGORI_TBL".
@@ -34,7 +35,6 @@ class TransaksiKategori extends \yii\db\ActiveRecord
             [['ID_TRANS_KATEGORI', 'ID_KATEGORI', 'ID_PROPOSAL'], 'string', 'max' => 5],
             [['VALUE'], 'number'],
             [['ID_TRANS_KATEGORI'], 'unique'],
-            [['ID_KATEGORI'], 'exist', 'skipOnError' => true, 'targetClass' => EVANSMSTRKATEGORITBL::className(), 'targetAttribute' => ['ID_KATEGORI' => 'ID_KATEGORI']],
         ];
     }
 
@@ -45,10 +45,30 @@ class TransaksiKategori extends \yii\db\ActiveRecord
     {
         return [
             'ID_TRANS_KATEGORI' => 'Id Trans Kategori',
-            'ID_KATEGORI' => 'Id Kategori',
+            'ID_KATEGORI' => 'Sumber',
             'ID_PROPOSAL' => 'Id Proposal',
             'VALUE' => 'Value',
         ];
+    }
+
+    public function getDataJenis(){
+        $sql = "SELECT ID_JENIS, JENIS FROM EVANS_MSTR_JNS_PENDAPATAN_TBL";
+
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return ArrayHelper::map($result,'ID_JENIS','JENIS');
+    }   
+
+    public function getNamaJenis($id){
+        $sql = "SELECT JENIS 
+                FROM EVANS_MSTR_JNS_PENDAPATAN_TBL jp
+                JOIN EVANS_MSTR_KATEGORI_TBL mk ON (mk.ID_JENIS = jp.ID_JENIS)
+                WHERE ID_KATEGORI = '$id'
+                ";
+
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+
+        return $result['JENIS'];
     }
 
     /**
