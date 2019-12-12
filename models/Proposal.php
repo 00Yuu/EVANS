@@ -60,7 +60,21 @@ class Proposal extends \yii\db\ActiveRecord
     }
 
     public function dataProgramKerja(){
-        $sql = "SELECT * FROM EVANS_PROGRAM_KERJA_TBL";
+        $id_rinci = $this->getIdRinci();
+
+        $sql = "SELECT pr.ID_PROKER, NAMA_KEGIATAN 
+                FROM EVANS_PROGRAM_KERJA_TBL pr, 
+                    (
+                    select id_proker, max(insert_date) insert_date
+                    from EVANS_TRANS_ALUR_PROKER_TBL ta, EVANS_DETAIL_ALUR_TBL da
+                    where DESKRIPSI = 'Approved'
+                    and ta.id_detail = da.id_detail
+                    GROUP BY id_proker
+                    ) taa
+                WHERE ID_RINCI = '$id_rinci' 
+                AND pr.ID_PROKER = taa.ID_PROKER  
+                ";
+
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return ArrayHelper::map($result,'ID_PROKER','NAMA_KEGIATAN');
     }
@@ -215,5 +229,13 @@ class Proposal extends \yii\db\ActiveRecord
         $result = Yii::$app->db->createCommand($sql)->queryOne();
         
         return $result['DESKRIPSI'];
+    }
+
+    public function getIdRinci(){
+        $session = Yii::$app->session;
+
+        $rinci = $session->get('id_rinci');
+
+        return "$rinci";
     }
 }

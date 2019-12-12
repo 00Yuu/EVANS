@@ -7,6 +7,9 @@ use app\models\Proposal;
 use app\models\HalamanPengesahanProposal;
 use app\models\HalamanJudulProposal;
 use app\models\BabI;
+
+use app\models\TransaksiKategori;
+
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -234,6 +237,30 @@ class MonitoringProposalController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionBab4($id){
+        $model_kategori = new TransaksiKategori();
+
+        $query = TransaksiKategori::find()->where(['ID_PROPOSAL' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'ID_PROPOSAL' => SORT_ASC,
+                ]
+            ]
+        ]);
+
+        return $this->render('bab4', [
+            'dataProvider' => $dataProvider,
+            'model_kategori' => $model_kategori,
+        ]);
+    }
+
     public function actionBab5($id){
         $model = new Proposal();
 
@@ -267,8 +294,9 @@ class MonitoringProposalController extends Controller
             else{
                 $model->STATUS_DRAFT = '0'; 
             }
-            
             $model->save();
+            Yii::$app->session->setFlash('success','Simpan data berhasil');
+
             return $this->refresh();
         }
 

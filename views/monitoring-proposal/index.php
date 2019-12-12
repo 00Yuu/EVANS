@@ -7,7 +7,7 @@ use kartik\tabs\TabsX;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Proposals';
+$this->title = 'Proposal';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="proposal-index">

@@ -7,8 +7,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Proposal */
 
-$this->title = 'Create Proposal';
-$this->params['breadcrumbs'][] = ['label' => 'Proposals', 'url' => ['index']];
+$this->title = 'Update Proposal';
+$this->params['breadcrumbs'][] = ['label' => 'Proposal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h4><b>BAB IV Rencana Anggaran</b></h4>
                 </div>
                 <div class="col-sm-2" style="padding-top: 4%;">
-                    <a href="">Open</a>
+                    <?= Html::a('Open', ['monitoring-proposal/bab4','id' => $model->ID_PROPOSAL], ['class' => 'profile-link']) ?>
                 </div>
             </div>
         </div>
@@ -169,17 +169,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
         </div>
 
-        <?= $form->field($model, 'ID_PROPOSAL')->hiddenInput(['value' => 99])->label(false) ?>
+        <?= $form->field($model, 'ID_PROPOSAL')->hiddenInput(['value' => "$model->ID_PROPOSAL"])->label(false) ?>
         <?= $form->field($model, 'ID_TENGGAT_WAKTU')->hiddenInput(['value' => '00001'])->label(false) ?>
-        <?= $form->field($model, 'CREATE_DATE')->hiddenInput(['value'=> date("d-M-y")])->label(false) ?>
-        <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => '00008'])->label(false) ?>
+        
+        <?= $form->field($model, 'ID_RINCI')->hiddenInput(['value' => $model->getIdRinci()])->label(false) ?>
 
         <div class="form-group" style="float: right;margin-top: 8%">
-            <?= Html::Button('Back', array(
-                    'class' => 'btn btn-primary',
-                    'style' => 'width: 100px'
-                )
-            ) ?>
+                
+            <?= Html::a('Back', ['index'], [
+                'class' => 'btn btn-primary',
+                'style' => 'width: 100px']) 
+            ?>
             <?= Html::submitButton('Save', array(
                     'class' => 'btn btn-primary',
                     'style' => 'width: 100px',

@@ -69,10 +69,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 <div class="form-group" style="float: right;margin-top: 2%">
-                    <?=Html::a('Back', ['create'], [
+                    <?= Html::a('Back', ['update' , 'id'=> $id ], [
                         'class' => 'btn btn-primary',
-                        'style' => 'width: 100px'
-                    ]) ?>
+                        'style' => 'width: 100px']) 
+                    ?>
                     <?= Html::submitButton('Save', array(
                             'class' => 'btn btn-primary',
                             'style' => 'width: 100px'
